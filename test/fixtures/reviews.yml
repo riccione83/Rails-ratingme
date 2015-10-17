@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  let: 
+  lon: 
+  title: MyString
+  description: MyText
+  question1: MyString
+  question2: MyString
+  question3: MyString
+  isAdvertisement: 
+  adImageLink: MyString
+
+two:
+  user_id: 1
+  let: 
+  lon: 
+  title: MyString
+  description: MyText
+  question1: MyString
+  question2: MyString
+  question3: MyString
+  isAdvertisement: 
+  adImageLink: MyString

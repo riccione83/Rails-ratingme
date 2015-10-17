@@ -1,0 +1,44 @@
+<%= form_for(@review) do |f| %>
+
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left">Latitude</span>
+    <%= f.text_field :lat, class: "form-control" %>
+  </div>
+
+  <div class="input-group">
+   <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left">Longitude</span>
+    <%= f.text_field :lon, class: "form-control" %>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :title %></span>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :description %></span>
+    <%= f.text_area :description, class: "form-control" %>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :question1 %></span>
+    <%= f.text_field :question1, class: "form-control" %>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :question2 %></span>
+    <%= f.text_field :question2, class: "form-control" %>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :question3 %></span>
+    <%= f.text_field :question3, class: "form-control" %>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :isAdvertisement %></span>
+    <%= f.text_field :isAdvertisement, class: "form-control" %>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :adImageLink %></span>
+    <%= f.text_field :adImageLink, class: "form-control" %>
+  </div>
+  <br>
+  <div class: "btn btn-default btn-sm">
+    <%= f.submit %>
+  </div>
+<% end %>

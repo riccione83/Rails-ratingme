@@ -1,0 +1,33 @@
+<p>
+  <strong>User name:</strong>
+  <%= @user.user_name %>
+</p>
+
+<p>
+  <strong>User password hash:</strong>
+  <%= @user.user_password_hash %>
+</p>
+
+<p>
+  <strong>User email:</strong>
+  <%= @user.user_email %>
+</p>
+
+<p>
+  <strong>User city:</strong>
+  <%= @user.user_city %>
+</p>
+
+
+<h1>Your rate</h1>
+<table>
+  <% @ratings.each do |rating| %>
+    <tr>
+      <td><%= rating.description %> <%= link_to 'Edit',edit_user_rating_path(@user,rating) %>  </td>
+    </tr>
+  <% end %>
+</table>
+
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>

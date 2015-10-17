@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Review:</strong>
+  <%= @rating.review_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @rating.user_id %>
+</p>
+
+<p>
+  <strong>User name:</strong>
+  <%= @rating.user.user_name %>
+</p>
+
+<p>
+  <strong>Point:</strong>
+  <%= @rating.point %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @rating.description %>
+</p>
+
+<p>
+  <strong>Rate question1:</strong>
+  <%= @rating.rate_question1 %>
+</p>
+
+<p>
+  <strong>Rate question2:</strong>
+  <%= @rating.rate_question2 %>
+</p>
+
+<p>
+  <strong>Rate question3:</strong>
+  <%= @rating.rate_question3 %>
+</p>
+
+<%= link_to 'Edit', edit_rating_path(@rating) %> |
+
+<% if @review %>
+  <%= link_to 'Back', reviews_path %>
+<% else %>
+  <%= link_to 'Back', users_path %>
+<% end %>

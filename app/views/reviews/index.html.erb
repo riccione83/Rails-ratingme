@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<div class="page-header">
+  <h1>Listing Reviews</h1>
+</div>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">List of reviews added</div>
+  <div class="panel-body">
+    <p>Please check those review</p>
+  </div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Question1</th>
+      <th>Question2</th>
+      <th>Question3</th>
+      <th>Isadvertisement</th>
+      <th>Adimagelink</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reviews.each do |review| %>
+      <tr>
+        <td><%= review.lat %></td>
+        <td><%= review.lon %></td>
+        <td><%= review.title %></td>
+        <td><%= review.description %></td>
+        <td><%= review.question1 %></td>
+        <td><%= review.question2 %></td>
+        <td><%= review.question3 %></td>
+        <td><%= review.isAdvertisement %></td>
+        <td><%= review.adImageLink %></td>
+        <div class="btn-group" role="group">
+         <td><%= link_to 'Show', review, class: "btn btn-default btn-sm" %></td>
+         <td><%= link_to 'Edit', edit_review_path(review), class: "btn btn-default btn-sm" %></td>
+          <td><%= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-default btn-sm" %></td>
+        </div>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<br>
+
+<%= link_to 'New Review', new_review_path, class: "btn btn-default" %> |
+<%= link_to 'Show User', users_path, class: "btn btn-default" %>
