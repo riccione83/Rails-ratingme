@@ -1,14 +1,14 @@
 class ApiController < ApplicationController
 
 	def show_reviews
-		@reviews = Review.all
+		@reviews = Review.near([40.71, 100.23], 2000000) #Review.all
 		render :json => @reviews
 	end
 
 	def show_ratings
 		@review = Review.find(params[:id])
 		@ratings = @review.ratings
-		
+
 		@ratings.each do |rating|
 			@listofratings ||= []
 			@listofratings << [point: rating.point, description: rating.description, rate1: rating.rate_question1, rate2: rating.rate_question2, rate3: rating.rate_question3, user_name: rating.user.user_name]

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151013135014) do
+ActiveRecord::Schema.define(version: 20151017091959) do
 
   create_table "ratings", force: :cascade do |t|
     t.integer  "review_id"
@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(version: 20151013135014) do
 
   create_table "reviews", force: :cascade do |t|
     t.integer  "user_id"
-    t.decimal  "lat",             precision: 64, scale: 12
-    t.decimal  "lon",             precision: 64, scale: 12
+    t.decimal  "latitude",        precision: 64, scale: 12
+    t.decimal  "longitude",       precision: 64, scale: 12
     t.string   "title"
     t.text     "description"
     t.string   "question1"
