@@ -61,15 +61,35 @@
 <script>
 
   var handler = Gmaps.build('Google');
+  
   handler.buildMap({ internal: {id: 'map'} }, function(){
       if(navigator.geolocation)
           navigator.geolocation.getCurrentPosition(displayOnMap);
     
     markers = handler.addMarkers(<%=raw @hash.to_json %>);
+    
+    for (var i=0;i < markers.length; i++){
+      var marker = markers[i];
+      google.maps.event.addListener(marker.getServiceObject(), "click", function(evt) {
+       saluta(i)
+    });
+  }
+  
     handler.bounds.extendWith(markers);
     handler.fitMapToBounds();  
     
+    
+    google.maps.event.addListener(handler.getMap(), 'bounds_changed', function(e){
+     console.log(handler.getMap().getBounds().getNorthEast().toString())
+    });
+    
+    
+    
   });
+
+function saluta(evt) {
+         console.log("Clicked: " + evt.toString())
+  }
 
 function displayOnMap(position){
   var marker = handler.addMarker({
@@ -77,6 +97,10 @@ function displayOnMap(position){
     lng: position.coords.longitude
   });
   handler.map.centerOn(marker);
-};
   
+  google.maps.event.addListener(marker.getServiceObject(), "click", function(evt) {
+        saluta("Main point")
+  });
+};
+
 </script>
