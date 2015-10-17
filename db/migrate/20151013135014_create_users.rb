@@ -3,7 +3,7 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.belongs_to :rating, index: true
       t.string :user_name
-      t.string :
+      t.string :user_password_hash
       t.string :user_email
       t.string :user_city
 

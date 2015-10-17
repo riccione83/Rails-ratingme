@@ -16,4 +16,14 @@ class ApplicationController < ActionController::Base
   	return session[:current_user_id]
   end
 
+	def getInformation(infos)	
+		 	if infos
+		   	#	request.location.city
+		   	# or request.remote_ip
+			    returnedData = Geocoder.search(infos)[0]
+		   	else
+		   		returnedData = "No params"
+		   	end
+	end
+
 end

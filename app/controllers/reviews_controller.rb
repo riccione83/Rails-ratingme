@@ -1,11 +1,19 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: [:show, :edit, :update, :destroy]
 
+  #binding.pry
 
   # GET /reviews
   # GET /reviews.json
   def index
-    @reviews = Review.all
+    city = request.remote_ip
+    @reviews = Review.near(getInformation(city).coordinates)
+   
+    @hash = Gmaps4rails.build_markers(@reviews) do |review, marker|
+      marker.lat review.latitude
+      marker.lng review.longitude
+    end
+    
   end
 
   # GET /reviews/1
@@ -78,6 +86,6 @@ class ReviewsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def review_params
-      params.require(:review).permit(:user_id, :lat, :lon, :title, :description, :question1, :question2, :question3, :isAdvertisement, :adImageLink)
+      params.require(:review).permit(:user_id, :latitude, :longitude, :title, :description, :question1, :question2, :question3, :isAdvertisement, :adImageLink)
     end
 end

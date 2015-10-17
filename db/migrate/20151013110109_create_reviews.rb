@@ -2,8 +2,8 @@ class CreateReviews < ActiveRecord::Migration
   def change
     create_table :reviews do |t|
       t.integer :user_id
-      t.double :lat, :precision=>64, :scale=>12
-      t.double :lon, :precision=>64, :scale=>12
+      t.float :latitude
+      t.float :longitude
       t.string :title
       t.text :description
       t.string :question1

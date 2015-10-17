@@ -1,8 +1,29 @@
 class ApiController < ApplicationController
-
+	require 'json'
+	
 	def show_reviews
-		@reviews = Review.near([40.71, 100.23], 2000000) #Review.all
-		render :json => @reviews
+		if params[:radius] == nil ||
+		   params[:lat] == nil ||
+		   params[:lon] == nil
+		   render :text => "No params"
+	    else
+			@reviews = Review.near([40.71, 100.23], 2000000) #Review.all
+			render :json => @reviews
+		end
+	end
+
+	
+	def upload_image_for_reviews
+		if params[:image] == nil &&
+		   params[:id] == nil
+		   
+		   render :text => "No image input or name"
+		 else
+		 	#upload the image in AWS, then save the name on reviews
+		 	review = Review.find(params[:id])
+		 	review.adImageLink = "AWS_LINK_IMAGE"
+		 	review.save
+		 end
 	end
 
 	def show_ratings
