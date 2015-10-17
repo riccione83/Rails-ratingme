@@ -67,11 +67,11 @@
           navigator.geolocation.getCurrentPosition(displayOnMap);
     
     markers = handler.addMarkers(<%=raw @hash.to_json %>);
-    
+
     for (var i=0;i < markers.length; i++){
       var marker = markers[i];
       google.maps.event.addListener(marker.getServiceObject(), "click", function(evt) {
-       saluta(i)
+       saluta(this)
     });
   }
   
@@ -83,12 +83,10 @@
      console.log(handler.getMap().getBounds().getNorthEast().toString())
     });
     
-    
-    
   });
 
-function saluta(evt) {
-         console.log("Clicked: " + evt.toString())
+function saluta(i) {
+         console.log(i)
   }
 
 function displayOnMap(position){

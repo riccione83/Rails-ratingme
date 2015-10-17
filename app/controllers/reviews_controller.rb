@@ -12,6 +12,14 @@ class ReviewsController < ApplicationController
     @hash = Gmaps4rails.build_markers(@reviews) do |review, marker|
       marker.lat review.latitude
       marker.lng review.longitude
+    #  marker.infowindow render_to_string(:partial => "/users/my_template", :locals => review)
+    #  marker.picture({
+    #              :url    => "https://www.google.it/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0CAcQjRxqFQoTCJ7tnt-NysgCFYKCGgoda9QI5A&url=http%3A%2F%2Fwww.softicons.com%2Fsocial-media-icons%2Fsocial-media-icons-by-denis-abdullin%2Fgithub-icon&psig=AFQjCNEbUdGyTk-LVE5Pf73NlHr5-ktV3Q&ust=1445191961015269",
+    #              :width  => "32",
+    #              :height => "32"
+    #             })
+      marker.title   review.title
+      marker.json({:id => review.id })
     end
     
   end
