@@ -1,0 +1,15 @@
+Sat, 17 Oct 2015 10:50:51 +0200
+README.rdoc	Tue, 13 Oct 2015 12:56:37 +0200
+app/controllers/api_controller.rb	Sat, 17 Oct 2015 10:31:40 +0200
+app/controllers/application_controller.rb	Sat, 17 Oct 2015 10:16:19 +0200
+app/controllers/ratings_controller.rb	Fri, 16 Oct 2015 17:37:39 +0200
+app/controllers/reviews_controller.rb	Sat, 17 Oct 2015 10:14:20 +0200
+app/controllers/users_controller.rb	Fri, 16 Oct 2015 08:54:14 +0200
+app/helpers/api_helper.rb	Sat, 17 Oct 2015 09:58:28 +0200
+app/helpers/application_helper.rb	Fri, 16 Oct 2015 08:55:39 +0200
+app/helpers/ratings_helper.rb	Tue, 13 Oct 2015 15:48:32 +0200
+app/helpers/reviews_helper.rb	Tue, 13 Oct 2015 13:01:10 +0200
+app/helpers/users_helper.rb	Thu, 15 Oct 2015 10:52:22 +0200
+app/models/rating.rb	Thu, 15 Oct 2015 08:14:18 +0200
+app/models/review.rb	Tue, 13 Oct 2015 15:55:31 +0200
+app/models/user.rb	Thu, 15 Oct 2015 12:23:53 +0200
