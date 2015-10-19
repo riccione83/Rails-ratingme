@@ -24,8 +24,6 @@
       <th>Question1</th>
       <th>Question2</th>
       <th>Question3</th>
-      <th>Isadvertisement</th>
-      <th>Adimagelink</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -37,11 +35,9 @@
         <td><%= review.longitude %></td>
         <td><%= review.title %></td>
         <td><%= review.description %></td>
-        <td><%= review.question1 %></td>
-        <td><%= review.question2 %></td>
-        <td><%= review.question3 %></td>
-        <td><%= review.isAdvertisement %></td>
-        <td><%= review.adImageLink %></td>
+        <td><%= review.question1 %> <br> (<%= get_point_question1(review) %> point)</td>
+        <td><%= review.question2 %> <br> (<%= get_point_question2(review) %> point)</td>
+        <td><%= review.question3 %> <br> (<%= get_point_question3(review) %> point)</td>
         <div class="btn-group" role="group">
          <td><%= link_to 'Show', review, class: "btn btn-default btn-sm" %></td>
          <td><%= link_to 'Edit', edit_review_path(review), class: "btn btn-default btn-sm" %></td>
@@ -61,32 +57,71 @@
 <script>
 
   var handler = Gmaps.build('Google');
-  
+
   handler.buildMap({ internal: {id: 'map'} }, function(){
       if(navigator.geolocation)
           navigator.geolocation.getCurrentPosition(displayOnMap);
     
-    markers = handler.addMarkers(<%=raw @hash.to_json %>);
+    //markers = handler.addMarkers(<%=raw @hash.to_json %>);
 
+    markers_json = <%=raw @hash.to_json %>;
+    markers = _.map(markers_json, function(marker_json){
+            marker = handler.addMarker(marker_json);
+            _.extend(marker, marker_json);
+            return marker;
+      });
+      
+      
+      
     for (var i=0;i < markers.length; i++){
-      var marker = markers[i];
-      google.maps.event.addListener(marker.getServiceObject(), "click", function(evt) {
-       saluta(this)
-    });
-  }
+        var marker = markers[i];
+        google.maps.event.addListener(marker.getServiceObject(), "click", function(evt) {
+           saluta("My ID: " + marker.id)    });
+    }
   
     handler.bounds.extendWith(markers);
     handler.fitMapToBounds();  
-    
+    handler.getMap().setZoom(12);  
     
     google.maps.event.addListener(handler.getMap(), 'bounds_changed', function(e){
-     console.log(handler.getMap().getBounds().getNorthEast().toString())
+      
+    var $map = $('#map');
+    var mapDim = {
+      height: $map.height(),
+      width: $map.width()
+    }
+
+    //console.log(handler.getMap().getBounds().getNorthEast().toString())
+    var radius = (getBoundsZoomLevel(handler.getMap().getBounds(),mapDim));
+    console.log(radius);
+   
     });
     
   });
 
+function getBoundsZoomLevel(bounds, mapDim) {
+   //var bounds = map.getBounds();
+
+    var center = bounds.getCenter();
+    var ne = bounds.getNorthEast();
+
+    // r = radius of the earth in statute miles
+    var r = 3963.0;  
+
+    // Convert lat or lng from decimal degrees into radians (divide by 57.2958)
+    var lat1 = center.lat() / 57.2958; 
+    var lon1 = center.lng() / 57.2958;
+    var lat2 = ne.lat() / 57.2958;
+    var lon2 = ne.lng() / 57.2958;
+
+    // distance = circle radius from center to Northeast corner of bounds
+    var dis = r * Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1));
+    return dis;
+}
+
 function saluta(i) {
-         console.log(i)
+       //  console.log(i)
+       //  alert(i)
   }
 
 function displayOnMap(position){
@@ -94,11 +129,7 @@ function displayOnMap(position){
     lat: position.coords.latitude,
     lng: position.coords.longitude
   });
-  handler.map.centerOn(marker);
-  
-  google.maps.event.addListener(marker.getServiceObject(), "click", function(evt) {
-        saluta("Main point")
-  });
+  //handler.map.centerOn(marker);
 };
 
 </script>

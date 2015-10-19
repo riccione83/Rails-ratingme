@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
- http_basic_authenticate_with name: "r", password: "r", except: [:new, :update]
+ http_basic_authenticate_with name: "r", password: "r", except: [:new, :update, :login, :login_attempt, :logout, :set_user, :index]
  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
@@ -25,7 +25,7 @@ class UsersController < ApplicationController
       flash[:success] = "Welcome, you logged in as #{authorized_user.user_name}"
       session[:current_user_id] = authorized_user.id
       session[:current_user_name] = authorized_user.user_name
-      redirect_to(:action => 'index')
+      redirect_to reviews_path
     else
       flash[:error] = "Invalid Username or Password"
       redirect_to(:action => 'login') #render "login"  

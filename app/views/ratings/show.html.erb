@@ -40,10 +40,12 @@
   <%= @rating.rate_question3 %>
 </p>
 
-<%= link_to 'Edit', edit_rating_path(@rating) %> |
+<% if isLoggedIn? and @rating.user_id == get_current_user_id %>
+  <%= link_to 'Edit', edit_rating_path(@rating) %> |
+<% end %>
 
 <% if @review %>
   <%= link_to 'Back', reviews_path %>
 <% else %>
-  <%= link_to 'Back', users_path %>
+  <%= link_to 'Back', :back %>
 <% end %>
