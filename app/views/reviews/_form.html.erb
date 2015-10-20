@@ -1,14 +1,17 @@
 <%= form_for(@review) do |f| %>
 
+<hr>
   <div class="input-group">
     <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left">Latitude</span>
-    <%= f.text_field :latitude, class: "form-control" %>
+    <%= f.text_field :latitude, class: "form-control", :value => request.location.latitude %>
   </div>
 
   <div class="input-group">
    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left">Longitude</span>
-    <%= f.text_field :longitude, class: "form-control" %>
+    <%= f.text_field :longitude, class: "form-control", :value => request.location.longitude %>
   </div>
+<hr>
+
   <div class="input-group">
     <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :title %></span>
     <%= f.text_field :title, class: "form-control" %>
@@ -29,16 +32,10 @@
     <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :question3 %></span>
     <%= f.text_field :question3, class: "form-control" %>
   </div>
-  <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :isAdvertisement %></span>
-    <%= f.text_field :isAdvertisement, class: "form-control" %>
-  </div>
-  <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :adImageLink %></span>
-    <%= f.text_field :adImageLink, class: "form-control" %>
-  </div>
   <br>
-  <div class: "btn btn-default btn-sm">
-    <%= f.submit %>
-  </div>
+  <% if @review.user_id == session[:current_user_id] %>
+    <div class: "btn btn-default btn-sm">
+      <%= f.submit %>
+    </div>
+  <% end %>
 <% end %>

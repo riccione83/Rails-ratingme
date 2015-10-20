@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-
- http_basic_authenticate_with name: "r", password: "r", except: [:new, :update, :login, :login_attempt, :logout, :set_user, :index]
+  
+ http_basic_authenticate_with name: "r", password: "r", except: [:new, :update, :login, :login_attempt, :logout, :set_user, :index, :create]
  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
@@ -51,12 +51,13 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+    
     @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
-        #format.html { redirect_to @user, notice: 'User was successfully created.' }
         session[:current_user_id] = @user.id
+        session[:current_user_name] = @user.user_name
         format.html { redirect_to reviews_path, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -98,6 +99,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:id, :user_name, :user_password_hash, :user_email, :user_city)
+      params.require(:user).permit(:id, :user_name, :user_password_hash, :user_email, :user_city, :user_password_hash_confirmation)
     end
 end

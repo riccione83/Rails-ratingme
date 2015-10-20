@@ -2,6 +2,11 @@ module ReviewsHelper
 
     public
     
+      def search_by_place
+          session[:search_by_place] = 1
+      end
+
+
       def get_total_count_for_question1(rev)
             rev.ratings.count(:rate_question1)
       end

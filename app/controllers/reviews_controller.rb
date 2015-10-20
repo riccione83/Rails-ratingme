@@ -7,7 +7,7 @@ class ReviewsController < ApplicationController
   # GET /reviews.json
   def index
     city = request.remote_ip
-    @reviews = Review.near(getInformation(city).coordinates,2000)
+    @reviews = Review.near(getInformation(city).coordinates, 2000, :units => :km)
    
     @hash = Gmaps4rails.build_markers(@reviews) do |review, marker|
       marker.lat review.latitude
@@ -35,7 +35,7 @@ class ReviewsController < ApplicationController
   def gmaps4rails_infowindow
     @reviews = Gmaps.map.markers 
   end
-
+  
   # GET /reviews/1
   # GET /reviews/1.json
   def show
@@ -108,10 +108,4 @@ class ReviewsController < ApplicationController
     def review_params
       params.require(:review).permit(:user_id, :latitude, :longitude, :title, :description, :question1, :question2, :question3, :isAdvertisement, :adImageLink)
     end
-    
-    
-  public 
-  	def get_point_for_review(rev)
-		  rev.ratings.sum(:rate_question1)
-	  end
 end
