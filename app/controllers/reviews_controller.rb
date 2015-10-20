@@ -9,7 +9,9 @@ class ReviewsController < ApplicationController
   def index
     #city = request.remote_ip
     city = get_user_city
-    
+    if city == nil
+      city = request.remote_ip
+    end
     @reviews = Review.near(getInformation(city).coordinates, 20, :units => :km)
    
     @hash = Gmaps4rails.build_markers(@reviews) do |review, marker|

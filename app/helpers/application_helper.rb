@@ -13,8 +13,12 @@ end
 
 
 def get_user_city
-     @user = User.find(session[:current_user_id])
-     return @user.user_city
+    if session[:current_user_id] != nil
+        @user = User.find(session[:current_user_id])
+        return @user.user_city
+    else
+        return nil
+    end
 end
 
 def flash_class(level)
