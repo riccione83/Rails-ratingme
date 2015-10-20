@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get "login_attempt", :to => "users#login_attempt"
   post "login_attempt", :to => "users#login_attempt"
   post 'reviews/search_by_place'
+  
+  get 'update_user_location', :to => 'users#update_user_location'
 
   get 'api/show_reviews'
   get 'api/show_ratings'

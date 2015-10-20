@@ -1,13 +1,16 @@
 class ReviewsController < ApplicationController
+  include ApplicationHelper
+  
+  
   before_action :set_review, only: [:show, :edit, :update, :destroy]
-
-  #binding.pry
 
   # GET /reviews
   # GET /reviews.json
   def index
-    city = request.remote_ip
-    @reviews = Review.near(getInformation(city).coordinates, 2000, :units => :km)
+    #city = request.remote_ip
+    city = get_user_city
+    
+    @reviews = Review.near(getInformation(city).coordinates, 20, :units => :km)
    
     @hash = Gmaps4rails.build_markers(@reviews) do |review, marker|
       marker.lat review.latitude
