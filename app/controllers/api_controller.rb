@@ -76,9 +76,9 @@ class ApiController < ApplicationController
 		   user.user_email = params[:user_email]
 		   user.user_city = params[:user_city]
 		   if user.save
-		   	render :json => '{"message":"success"]}'
+		   	render :json => '{"message":"success"}'
 		   else
-		   	render :json => '{"message": #{user.errors}'
+		   	render :json => '{"message": #{user.errors}}'
 		   end
 		else
 		   render :json => '{"message":"error in params"}'
