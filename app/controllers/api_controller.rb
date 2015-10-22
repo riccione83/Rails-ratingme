@@ -95,7 +95,7 @@ class ApiController < ApplicationController
 		      session[:current_user_name] = authorized_user.user_name
 		      render :json => ["user:#{authorized_user.id}"]
 		    else
-		     render :json => [{"message":"Invalid Username or Password"}]
+		     render :json => ["message:Invalid Username or Password"]
 		   end
 		else
 			render :json => ["message:Error on login"]
