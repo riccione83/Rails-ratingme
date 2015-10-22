@@ -57,9 +57,9 @@ class ApiController < ApplicationController
   		  @uploader.store!(params[:picture])
   		  @review.picture = "#{@uploader.url}"
   		  @review.save
-  		  render :json => ["message":"success"]
+  		  render :json => ["message:success"]
   		else
-  		  render :json => ["message":"error in params"]
+  		  render :json => ["message:error in params"]
   		end
  	end
 	
@@ -76,12 +76,12 @@ class ApiController < ApplicationController
 		   user.user_email = params[:user_email]
 		   user.user_city = params[:user_city]
 		   if user.save
-		   	render :json => ["message":"success"]
+		   	render :json => ["message:success"]
 		   else
-		   	render :json => ["message": user.errors]
+		   	render :json => ["message: #{user.errors}"]
 		   end
 		else
-		   render :json => ["message":"error in params"]
+		   render :json => ["message:error in params"]
 		end
 	end
 
@@ -93,12 +93,12 @@ class ApiController < ApplicationController
 		    if authorized_user
 		      session[:current_user_id] = authorized_user.id
 		      session[:current_user_name] = authorized_user.user_name
-		      render :json => ["user":authorized_user.id]
+		      render :json => ["user:#{authorized_user.id}"]
 		    else
-		     render :json => ["message":"Invalid Username or Password"]
+		     render :json => ["message:Invalid Username or Password"]
 		   end
 		else
-			render :json => ["message":"Error on login"]
+			render :json => ["message:Error on login"]
 		end
 	end
 	
@@ -107,7 +107,7 @@ class ApiController < ApplicationController
 		if params[:radius] == nil ||
 		   params[:lat] == nil ||
 		   params[:lon] == nil
-		   render :json => ["error":"No params"]
+		   render :json => ["error:No params"]
 	    else
 			@reviews = Review.near([ params[:lat],  params[:lon]], params[:radius], :units => :km)
 			
@@ -144,7 +144,7 @@ class ApiController < ApplicationController
 			end
 			render :json => @listofratings
 		else
-			render :json => ["error":"no params"]
+			render :json => ["error:no params"]
 		end
 	end
 
