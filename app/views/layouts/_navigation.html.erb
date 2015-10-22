@@ -2,7 +2,7 @@
     <div class="container">
       <%= link_to "RatingMe", reviews_path, class: "btn btn-success", id: "logo"%>
       <% if isLoggedIn? %>
-          <p class="navbar-text">Hi, <%= session[:current_user_name] %> |  
+          <p class="navbar-text">Hi, <%= link_to session[:current_user_name], user_path(session[:current_user_id]) %> |  
           <%= link_to 'Logout', logout_path %></p>
        <% else %>
           <p class="navbar-text">Your are not logged in, please

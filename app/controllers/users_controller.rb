@@ -1,16 +1,24 @@
 class UsersController < ApplicationController
   
- http_basic_authenticate_with name: "r", password: "r", except: [:new, :update, :login, :login_attempt, :logout, :set_user, :index, :create, :update_user_location]
+ http_basic_authenticate_with name: "r", password: "r", except: [:new, :update, :login, :login_attempt, :logout, :set_user, :index, :create, :update_user_location, :show]
 
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    if session[:current_user_id] == 1
+      @users = User.all
+    else
+      redirect_to(user_path(session[:current_user_id]))
+    end
   end
 
   def logout
     @_curr_user_id =  session[:current_user_id] = nil
     session[:current_user_name] = nil
+    session.delete(:current_user_name)
+    session.delete(:current_user_id)
+    session.delete(:current_user_lat)
+    session.delete(:current_user_lon)
     redirect_to login_path
   end
 
@@ -19,8 +27,6 @@ class UsersController < ApplicationController
   end
   
   def update_user_location
-   # binding.pry
-    
     if params[:lat] != nil and
        params[:lon] != nil
        
@@ -38,6 +44,7 @@ class UsersController < ApplicationController
       flash[:success] = "Welcome, you logged in as #{authorized_user.user_name}"
       session[:current_user_id] = authorized_user.id
       session[:current_user_name] = authorized_user.user_name
+      RatingmeMailer.register_email(authorized_user).deliver
       redirect_to reviews_path
     else
       flash[:error] = "Invalid Username or Password"
@@ -48,8 +55,13 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.find(params[:id])
+    if session[:current_user_id] == params[:id]
+      @user = User.find(params[:id])
+    else
+      @user = User.find(session[:current_user_id])
+    end
     @ratings = @user.ratings.all
+    @reviews = Review.all.where(:user_id => @user.id)
   end
 
   # GET /users/new

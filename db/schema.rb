@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151013135014) do
+ActiveRecord::Schema.define(version: 20151020141750) do
 
   create_table "ratings", force: :cascade do |t|
     t.integer  "review_id"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20151013135014) do
     t.string   "adImageLink"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "picture"
   end
 
   create_table "users", force: :cascade do |t|

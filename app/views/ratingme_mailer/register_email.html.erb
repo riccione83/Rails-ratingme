@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hi <%= @user.user_name %></h1>
+    <h3>Your password is <%= @user.user_password_hash %> </h3>
+    <p>
+      Sample mail sent using smtp.
+    </p>
+    <p>
+      You can login <%= link_to "here", reviews_url %>
+    </p>
+  </body>
+</html>

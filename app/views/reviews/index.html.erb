@@ -5,21 +5,51 @@
 
 <div class="page-header">
   <h1>Listing Reviews</h1>
+  <script>
+      console.log("Main page");
+      if(navigator.geolocation)
+          navigator.geolocation.getCurrentPosition(displayOnMap);
+    
+    var handler = Gmaps.build('Google');
+
+  handler.buildMap({ internal: {id: 'map'} }, function(){
+     
+    //markers = handler.addMarkers(<%=raw @hash.to_json %>);
+
+    markers_json = <%=raw @hash.to_json %>;
+    markers = _.map(markers_json, function(marker_json){
+            marker = handler.addMarker(marker_json);
+            _.extend(marker, marker_json);
+            return marker;
+      });
+      
+      
+      
+    for (var i=0;i < markers.length; i++){
+        var marker = markers[i];
+        google.maps.event.addListener(marker.getServiceObject(), "click", function(evt) {
+           saluta("My ID: " + marker.id)    });
+    }
+  
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();  
+    handler.getMap().setZoom(12);  
+  </script>
 </div>
 
 <div class="panel panel-default">
-  <div id="map"> </div>
+      <div id="map"> </div>
+</div>
+<div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">List of reviews added</div>
+  <div class="panel-heading">List of reviews near you</div>
   <div class="panel-body">
-    <p>Please check those review</p>
+    <p>New near you</p>
   </div>
 
 <table class="table">
   <thead>
     <tr>
-      <th>Latitude</th>
-      <th>Longitude</th>
       <th>Title</th>
       <th>Description</th>
       <th>Question1</th>
@@ -32,17 +62,16 @@
   <tbody>
     <% @reviews.each do |review| %>
       <tr>
-        <td><%= review.latitude %></td>
-        <td><%= review.longitude %></td>
-        <td><%= review.title %></td>
-        <td><%= review.description %></td>
+        <td><%= link_to review.title, review %></td>
+        <td><%= link_to review.description, review %></td>
         <td><%= review.question1 %> <br> (<%= get_point_question1(review) %> point)</td>
         <td><%= review.question2 %> <br> (<%= get_point_question2(review) %> point)</td>
         <td><%= review.question3 %> <br> (<%= get_point_question3(review) %> point)</td>
         <div class="btn-group" role="group">
          <td><%= link_to 'Show', review, class: "btn btn-default btn-sm" %></td>
-         <td><%= link_to 'Edit', edit_review_path(review), class: "btn btn-default btn-sm" %></td>
+      <!--   <td><%= link_to 'Edit', edit_review_path(review), class: "btn btn-default btn-sm" %></td>
           <td><%= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-default btn-sm" %></td>
+      -->
         </div>
       </tr>
     <% end %>
@@ -51,24 +80,21 @@
 </div>
 <br>
 
-<%= link_to 'New Review', new_review_path, class: "btn btn-default" %> |
-<!-- <%= link_to 'Show User', users_path, class: "btn btn-default" %>
--->
+<% if isLoggedIn? %>
+    <%= link_to 'New Review', new_review_path, class: "btn btn-default" %>
+<% end %>
 
 
 <script>
   window.onload = function () { 
-    
      if(navigator.geolocation)
           navigator.geolocation.getCurrentPosition(displayOnMap);
-    
   }
   
   var handler = Gmaps.build('Google');
 
   handler.buildMap({ internal: {id: 'map'} }, function(){
      
-    
     //markers = handler.addMarkers(<%=raw @hash.to_json %>);
 
     markers_json = <%=raw @hash.to_json %>;

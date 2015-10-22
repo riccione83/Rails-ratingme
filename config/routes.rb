@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   get 'api/show_reviews'
   get 'api/show_ratings'
   get 'api/get_user_by_rating'
+  post 'api/new_review'
+  get 'api/login_user'
+  get 'api/register_new_user'
 
   root 'reviews#index'
 end

@@ -2,6 +2,9 @@
 <script src='//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js' type='text/javascript'></script>
 
 <div class="page-header">
+  <script>
+    console.log("updating page");
+  </script>
    <h1> <%= @review.title %>
     <br>
     <small>
@@ -13,31 +16,27 @@
 <div id="map"> </div>
 
 <p>
-  <strong>Lat:</strong>
-  <%= @review.latitude %>
+  Posted by: <%= User.find(@review.user_id).user_name %>
 </p>
-
 <p>
-  <strong>Lon:</strong>
-  <%= @review.longitude %>
+  This user has some question for you. Can you reply?
 </p>
-
 <p>
-  <strong>Question1:</strong>
+  <strong>First Question:</strong>
   <%= @review.question1 %> | Point: <%= get_point_question1(@review) %> over <%= get_total_count_for_question1(@review) %> ratings
 </p>
 
 <p>
-  <strong>Question2:</strong>
+  <strong>Second Question:</strong>
   <%= @review.question2 %> | Point: <%= get_point_question2(@review) %> over <%= get_total_count_for_question2(@review) %> ratings
 </p>
 
 <p>
-  <strong>Question3:</strong>
+  <strong>Thirth Question:</strong>
   <%= @review.question3 %> | Point: <%= get_point_question3(@review) %> over <%= get_total_count_for_question3(@review) %> ratings
 </p>
 
-<% if isLoggedIn? %>
+<% if @review.user_id == session[:current_user_id] %>
   <%= link_to 'Edit', edit_review_path(@review) %> |
 <% end %>
 <%= link_to 'Back', reviews_path %>
@@ -51,7 +50,7 @@
 <table>
   <% @ratings.each do |rating| %>
     <tr>
-      <td><%= rating.description %>   </td>
+      <td><%= rating.description %> &nbsp; &nbsp; </td>
        <td><%= link_to 'Show', review_rating_path(@review,rating) %></td>      
         <% if isLoggedIn? and rating.user_id == get_current_user_id %>
           <td> |  <%= link_to 'Edit', edit_review_rating_path(@review,rating) %> </td>
@@ -91,8 +90,9 @@
 
 <% end %>
 
-
 <script>
+    if(navigator.geolocation)
+          navigator.geolocation.getCurrentPosition(displayOnMap);
 
   var handler = Gmaps.build('Google');
 
@@ -128,4 +128,4 @@
     });
   //handler.map.centerOn(marker);
   };
-  </script>
+</script>

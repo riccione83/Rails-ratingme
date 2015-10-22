@@ -3,39 +3,59 @@
 <hr>
   <div class="input-group">
     <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left">Latitude</span>
-    <%= f.text_field :latitude, class: "form-control", :value => session[:current_user_lat] %>
+    <%= f.text_field :latitude, class: "form-control", :value => session[:current_user_lat], :readonly => true %>
   </div>
 
   <div class="input-group">
    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left">Longitude</span>
-    <%= f.text_field :longitude, class: "form-control", :value => session[:current_user_lon] %>
+    <%= f.text_field :longitude, class: "form-control", :value => session[:current_user_lon],:readonly => true %>
   </div>
 <hr>
 
-  <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :title %></span>
-    <%= f.text_field :title, class: "form-control" %>
-  </div>
-  <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :description %></span>
-    <%= f.text_area :description, class: "form-control" %>
-  </div>
-  <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :question1 %></span>
-    <%= f.text_field :question1, class: "form-control" %>
-  </div>
-  <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :question2 %></span>
-    <%= f.text_field :question2, class: "form-control" %>
-  </div>
-  <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left"><%= f.label :question3 %></span>
-    <%= f.text_field :question3, class: "form-control" %>
-  </div>
+  <% if @review.picture != nil %>
+   <div class="panel panel-default">
+     <%= image_tag( @review.picture.url,:size => '300x200') %>
+   </div>
   <br>
-  <% if @review.user_id == session[:current_user_id] %>
+  <%end%>
+    
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 20%; text-align: left"><%= f.label :title %>
+    <%= f.text_field :title, class: "form-control" %>
+    </span>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= f.label :description %>
+    <%= f.text_area :description, class: "form-control" %>
+    </span>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= f.label :question1 %>
+    <%= f.text_field :question1, class: "form-control" %>
+    </span>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= f.label :question2 %>
+    <%= f.text_field :question2, class: "form-control" %>
+    </span>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= f.label :question3 %>
+    <%= f.text_field :question3, class: "form-control" %>
+    </span>
+  </div>
+  
+  <div class="input-group">
+     <span class="input-group-addon" id="basic-addon1" style="text-align: left"> <strong>Image</strong>
+    <%= f.file_field :picture, class: "form-control" %>
+    </span>
+  </div>
+  
+    <%= f.hidden_field :user_id,:value => session[:current_user_id] %>
+  
+  <br>
     <div class: "btn btn-default btn-sm">
       <%= f.submit %>
     </div>
-  <% end %>
+    
 <% end %>

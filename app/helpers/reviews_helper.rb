@@ -6,6 +6,9 @@ module ReviewsHelper
           session[:search_by_place] = 1
       end
 
+      def get_avg_for_review(rev)
+        return (get_point_question1(rev) + get_point_question2(rev) + get_point_question3(rev)) / 3
+      end
 
       def get_total_count_for_question1(rev)
             rev.ratings.count(:rate_question1)

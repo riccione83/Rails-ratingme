@@ -1,10 +1,11 @@
+<h1>Your account settings</h1>
 <p>
   <strong>User name:</strong>
   <%= @user.user_name %>
 </p>
 
 <p>
-  <strong>User password hash:</strong>
+  <strong>Password:</strong>
   <%= @user.user_password_hash %>
 </p>
 
@@ -18,16 +19,30 @@
   <%= @user.user_city %>
 </p>
 
+<%= link_to 'Back', users_path, class: "btn btn-default btn-sm" %> | 
+<%= link_to 'Edit', edit_user_path(@user), class: "btn btn-default btn-sm" %>
 
-<h1>Your rate</h1>
+<hr>
+<h3>Your rates</h3>
 <table>
   <% @ratings.each do |rating| %>
     <tr>
-      <td><%= rating.description %> <%= link_to 'Edit',edit_user_rating_path(@user,rating) %>  </td>
+      <td><%= link_to rating.description, review_path(rating.review) %> &nbsp; &nbsp; </td>
+      <td><%= link_to 'Edit',edit_user_rating_path(@user,rating), class: "btn btn-default btn-xs" %> &nbsp;|&nbsp; </td>
+      <td><%= link_to 'Destroy', rating , method: :delete , data: { confirm: 'Are you sure?' }, class: "btn btn-default btn-xs" %></td>
     </tr>
   <% end %>
 </table>
 
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<hr>
+<h3>Your reviews</h3>
+<table>
+  <% @reviews.each do |review| %>
+    <tr>
+      <td><%= link_to review.description, review_path(review) %> &nbsp; &nbsp; </td>
+      <td><%= link_to 'Edit',edit_review_path(review), class: "btn btn-default btn-xs" %> &nbsp;|&nbsp; </td>
+      <td><%= link_to 'Destroy', review , method: :delete , data: { confirm: 'Are you sure?' }, class: "btn btn-default btn-xs" %></td>
+      
+    </tr>
+  <% end %>
+</table>

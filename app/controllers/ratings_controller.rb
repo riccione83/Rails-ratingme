@@ -59,7 +59,7 @@ class RatingsController < ApplicationController
   def destroy
     @rating.destroy
     respond_to do |format|
-      format.html { redirect_to ratings_url, notice: 'Rating was successfully destroyed.' }
+      format.html { redirect_to :back, notice: 'Rating was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
