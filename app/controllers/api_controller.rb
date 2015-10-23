@@ -9,7 +9,6 @@
 # Returned:
 # Json of reviews inside the radius
 
-
 # api/show_ratings
 #
 # Params:
@@ -25,7 +24,9 @@
 # Returned:
 # Json model of user that have created the rate
 
-
+# api/new_review
+# api/register_new_user
+# api/login_user
 
 class ApiController < ApplicationController
 	require 'json'
@@ -121,18 +122,6 @@ class ApiController < ApplicationController
 		end
 	end
 
-	def upload_image_for_reviews
-		if params[:image] == nil &&
-		   params[:id] == nil
-		   render :text => "No image input or name"
-		else
-		 	#upload the image in AWS, then save the name on reviews
-		 	review = Review.find(params[:id])
-		 	review.picture = "AWS_LINK_IMAGE"
-		 	review.save
-		end
-	end
-
 	def show_ratings
 		if params[:id] != nil
 			@review = Review.find(params[:id])
@@ -153,6 +142,5 @@ class ApiController < ApplicationController
 		@user = @rating.user
 		render :json => [user_name: @user.user_name, user_email: @user.user_email]
 	end
-
 
 end
