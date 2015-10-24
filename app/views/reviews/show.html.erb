@@ -12,8 +12,16 @@
     </small>
    </h1>
 </div>
-
-<div id="map"> </div>
+<div class="container-fluid">
+<div class="row">
+  <div class="col-md-8">
+      <div id="map"></div>
+  </div>
+    <div class="col-md-4">
+      <%= image_tag( @review.picture.url,:size => '300x200') %>
+    </div>
+</div>
+</div>
 
 <p>
   Posted by: <%= User.find(@review.user_id).user_name %>
