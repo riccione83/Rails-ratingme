@@ -1,4 +1,8 @@
-Hi <%= @user.user_name %>
-Your password is <%= @user.user_password_hash %>
-Sample mail sent using smtp.
-You can login <%= link_to "here", reviews_url %>
+=====================================================================================================
+Hi <%= @user.user_name %> and welcome to RatingMe
+=====================================================================================================
+Welcome to RatingMe. The first social-rating website
+Your password is: <%= @user.user_password_hash %>, please save it carefully.
+_____________________________________________________________________________________________________
+You have received this email because you or someone else has done a registration in RatingMe website.
+You can login <%= link_to "here", root_url %>

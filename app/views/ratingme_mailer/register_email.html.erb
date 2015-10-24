@@ -2,15 +2,26 @@
 <html>
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <!-- Bootstrap core CSS -->
   </head>
   <body>
-    <h1>Hi <%= @user.user_name %></h1>
-    <h3>Your password is <%= @user.user_password_hash %> </h3>
-    <p>
-      Sample mail sent using smtp.
-    </p>
-    <p>
-      You can login <%= link_to "here", reviews_url %>
-    </p>
+    <div>
+      <div>
+        <h2>Hi <%= @user.user_name %> and welcome to RatingMe</h2>
+      </div>
+      <div>
+        <p>Welcome to RatingMe. The first social-rating website</p>
+        <p>Your password is: <%= @user.user_password_hash %>, please save it carefully.</p>
+      </div>
+  
+      <hr>
+    
+      <p>
+        You have received this email because you or someone else has done a registration in RatingMe website.
+      </p>
+      <p>
+        You can login <%= link_to "here", root_url %>
+      </p>
+    </div>
   </body>
 </html>

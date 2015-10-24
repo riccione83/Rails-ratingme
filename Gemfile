@@ -31,6 +31,7 @@ gem 'prototype-rails', github: 'rails/prototype-rails', branch: '4.2'
 gem 'carrierwave'
 gem 'mini_magick'
 
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

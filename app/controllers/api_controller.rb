@@ -36,29 +36,38 @@ class ApiController < ApplicationController
 	#:user_id, :latitude, :longitude, :title, :description, :question1, :question2, :question3, :isAdvertisement, :adImageLink, :file, :picture
 	
 	def new_review
-		if params[:title] != nil and
+		if params[:user_id] != nil and
+		   params[:title] != nil and
 		   params[:description] != nil and
 		   params[:latitude] != nil and
 		   params[:longitude] != nil and
 		   params[:question1] != nil
 		   
-		  @review = Review.new 						#Review.find(params[:id])
-		  @review.latitude = params[:latitude]
-		  @review.longitude = params[:longitude]
-		  @review.title = params[:title]
-		  @review.description = params[:description]
-		  @review.question1 = params[:question1]
-		  @review.question2 = params[:question2]
-		  @review.question3 = params[:question3]
-		  @review.isAdvertisement = "0"
-		  @review.adImageLink = ""
-  		  @uploader = PictureUploader.new(@review, params[:picture])
-  		  @review.picture = params[:picture]
+		  
+		  if User.exists?(:id => params[:user_id])
+		  	  @review = Review.new 						#Review.find(params[:id])
+		  	  @review.latitude = params[:latitude]
+			  @review.longitude = params[:longitude]
+			  @review.title = params[:title]
+			  @review.description = params[:description]
+			  @review.question1 = params[:question1]
+			  @review.question2 = params[:question2]
+			  @review.question3 = params[:question3]
+			  @review.user_id = params[:user_id]
+			  @review.isAdvertisement = "0"
+			  @review.adImageLink = ""
+			  if  params[:picture] != nil
+	  		  	@uploader = PictureUploader.new(@review, params[:picture])
+	  		  	@review.picture = params[:picture]
 
-  		  @uploader.store!(params[:picture])
-  		  @review.picture = "#{@uploader.url}"
-  		  @review.save
-  		  render :json => '{"message":"success"}'
+	  		  	@uploader.store!(params[:picture])
+	  		  	@review.picture = "#{@uploader.url}"
+	  		  end
+	  		  @review.save
+	  		  render :json => '{"message":"success"}'
+	  	  else
+	  	  	render :json => '{"message":"user not exist"}'
+	  	  end
   		else
   		  render :json => '{"message":"error in params"}'
   		end
@@ -77,12 +86,35 @@ class ApiController < ApplicationController
 		   user.user_email = params[:user_email]
 		   user.user_city = params[:user_city]
 		   if user.save
+		   	RatingmeMailer.register_email(user).deliver_now
 		   	render :json => '{"message":"success"}'
 		   else
 		   	render :json => '{"message": #{user.errors}}'
 		   end
 		else
 		   render :json => '{"message":"error in params"}'
+		end
+	end
+	
+	def login_with_social
+		if params[:user_id] != nil
+			 if User.exists?(:user_name => params[:user_id])
+			 	render :json => '{"message":"success"}'
+			 else
+			   user = User.new
+		   	   user.user_name = params[:user_id]
+		       user.user_password_hash = "password_di_fantasia"
+		       user.user_password_hash_confirmation = "password_di_fantasia"
+		       user.user_email = "noemail@ratingme.com"
+		       user.user_city = "World"
+		   		if user.save	
+		   			render :json => '{"message":"success"}'
+		   		else
+		   			render :json => '{"message": "error on register user"}'
+				end
+			 end
+		else
+			render :json => '{"message":"parameter error"}'
 		end
 	end
 
@@ -122,6 +154,9 @@ class ApiController < ApplicationController
 		end
 	end
 
+	def new_rating
+	
+	end
 	def show_ratings
 		if params[:id] != nil
 			@review = Review.find(params[:id])
