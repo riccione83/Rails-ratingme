@@ -29,6 +29,7 @@ gem 'gmaps4rails'
 gem 'underscore-rails'
 gem 'prototype-rails', github: 'rails/prototype-rails', branch: '4.2'
 gem 'carrierwave'
+gem "fog"
 gem 'mini_magick'
 
 
