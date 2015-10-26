@@ -18,12 +18,12 @@ module ReviewsHelper
           num_of_ratings = get_total_count_for_question1(rev)
           if num_of_ratings > 0
 		        return rev.ratings.sum(:rate_question1) / num_of_ratings
-		  else
+		      else
 		        return 0
-		  end
-	  end
+		      end
+	    end
 	  
-	  def get_total_count_for_question2(rev)
+	    def get_total_count_for_question2(rev)
             rev.ratings.count(:rate_question2)
       end
       
@@ -31,12 +31,12 @@ module ReviewsHelper
           num_of_ratings = get_total_count_for_question2(rev)
           if num_of_ratings > 0
 		        return rev.ratings.sum(:rate_question2) / num_of_ratings
-		  else
+		      else
 		        return 0
-		  end
-	  end
+		      end
+	    end
 	  
-	  def get_total_count_for_question3(rev)
+	    def get_total_count_for_question3(rev)
             rev.ratings.count(:rate_question3)
       end
 	  
@@ -44,8 +44,66 @@ module ReviewsHelper
           num_of_ratings = get_total_count_for_question3(rev)
           if num_of_ratings > 0
 		        return rev.ratings.sum(:rate_question3) / num_of_ratings
-		  else
+		      else
 		        return 0
-		  end
-	  end
+		      end
+	    end
+	  
+	    def current_user
+        return session[:current_user_id]
+      end
+      
+      
+      #TODO -  NOT ELEGANT - FIX IT!!
+      def star_rating(point)
+        if point == 0
+          raw [
+            image_tag('star-off.png'),
+            image_tag('star-off.png'),
+            image_tag('star-off.png'),
+            image_tag('star-off.png'),
+            image_tag('star-off.png')
+          ].join()
+        elsif point == 1
+          raw [
+            image_tag('star-on.png'),
+            image_tag('star-off.png'),
+            image_tag('star-off.png'),
+            image_tag('star-off.png'),
+            image_tag('star-off.png')
+          ].join()
+         elsif point == 2
+          raw [
+            image_tag('star-on.png'),
+            image_tag('star-on.png'),
+            image_tag('star-off.png'),
+            image_tag('star-off.png'),
+            image_tag('star-off.png')
+          ].join()
+         elsif point == 3
+          raw [
+            image_tag('star-on.png'),
+            image_tag('star-on.png'),
+            image_tag('star-on.png'),
+            image_tag('star-off.png'),
+            image_tag('star-off.png')
+          ].join()
+         elsif point == 4
+          raw [
+            image_tag('star-on.png'),
+            image_tag('star-on.png'),
+            image_tag('star-on.png'),
+            image_tag('star-on.png'),
+            image_tag('star-off.png')
+          ].join()
+         elsif point == 5
+          raw [
+            image_tag('star-on.png'),
+            image_tag('star-on.png'),
+            image_tag('star-on.png'),
+            image_tag('star-on.png'),
+            image_tag('star-on.png')
+          ].join()
+        end
+      end
 end

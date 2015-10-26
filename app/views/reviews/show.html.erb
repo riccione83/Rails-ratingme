@@ -17,9 +17,11 @@
   <div class="col-md-8">
       <div id="map"></div>
   </div>
+  <% if @review.picture != nil %>
     <div class="col-md-4">
       <%= image_tag( @review.picture.url,:size => '300x200') %>
     </div>
+  <% end %>
 </div>
 </div>
 
@@ -31,17 +33,17 @@
 </p>
 <p>
   <strong>First Question:</strong>
-  <%= @review.question1 %> | Point: <%= get_point_question1(@review) %> over <%= get_total_count_for_question1(@review) %> ratings
+  <%= @review.question1 %> | <%= star_rating(get_point_question1(@review)) %> over <%= get_total_count_for_question1(@review) %> ratings
 </p>
 
 <p>
   <strong>Second Question:</strong>
-  <%= @review.question2 %> | Point: <%= get_point_question2(@review) %> over <%= get_total_count_for_question2(@review) %> ratings
+  <%= @review.question2 %> | <%= star_rating(get_point_question2(@review)) %> over <%= get_total_count_for_question2(@review) %> ratings
 </p>
 
 <p>
   <strong>Thirth Question:</strong>
-  <%= @review.question3 %> | Point: <%= get_point_question3(@review) %> over <%= get_total_count_for_question3(@review) %> ratings
+  <%= @review.question3 %> | <%= star_rating(get_point_question3(@review)) %> over <%= get_total_count_for_question3(@review) %> ratings
 </p>
 
 <% if @review.user_id == session[:current_user_id] %>
@@ -51,52 +53,98 @@
 
 <hr>
 
-<h2>Ratings</h2>
-<% if !isLoggedIn? %>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>Ratings</strong></div>
+  <div class="panel-body">
+    <% if !isLoggedIn? %>
     Please <%= link_to 'Login', login_path %> to post a rate <br>
-<%end%>
-<table>
+    <%end%>
+  </div>
+
+<table class="table">
+  
+  <thead>
+    <tr>
+      <th>Note</th>
+      <th>Created</th>
+      <th><%= @review.question1 %></th>
+      <th><%= @review.question2 %></th>
+      <th><%= @review.question3 %></th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+  <tbody>
   <% @ratings.each do |rating| %>
     <tr>
-      <td><%= rating.description %> &nbsp; &nbsp; </td>
+      <td><%= rating.description %></td>
+      <td><%= time_ago_in_words(rating.created_at) %> ago</td>
+      <td><%=star_rating(rating.rate_question1)%> </td>
+      <td><%=star_rating(rating.rate_question2)%></td>
+      <td><%=star_rating(rating.rate_question3)%></td>
        <td><%= link_to 'Show', review_rating_path(@review,rating) %></td>      
         <% if isLoggedIn? and rating.user_id == get_current_user_id %>
           <td> |  <%= link_to 'Edit', edit_review_rating_path(@review,rating) %> </td>
         <% end %>
     </tr>
   <% end %>
+  </tbody>
+  
 </table>
-
+</div>
 
 <% if isLoggedIn? %>
 
 <hr>
 
-<h2>Add a rate:</h2>
-<%= form_for([@review, @review.ratings.build]) do |f| %>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label @review.question1 %><br>
-    <%= f.number_field :rate_question1 %>
-  </div>
-  <div class="field">
-    <%= f.label @review.question2 %><br>
-    <%= f.number_field :rate_question2 %>
-  </div>
-  <div class="field">
-    <%= f.label @review.question3 %><br>
-    <%= f.number_field :rate_question3 %>
-  </div>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>Add a rate</strong></div>
+  <table class="table">
+      <thead>
+    <tr>
+      <th>Description</th>
+      <th><%= @review.question1 %></th>
+      <th><%= @review.question2 %></th>
+      <th><%= @review.question3 %></th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+  
+  <tbody>
+   <tr>
+    <%= form_for([@review, @review.ratings.build]) do |f| %>
+       <td>
+            <%= f.text_area :description %>
+       </td>
+       <td>
+        <div class="field">
+          <%= f.number_field :rate_question1 %>
+        </div>
+      </td>
+      <td>
+        <div class="field">
+            <%= f.number_field :rate_question2 %>
+        </div>
+      </td>
+      <td>
+        <div class="field">
+          <%= f.number_field :rate_question3 %>
+        </div>
+      </td>
+      <td>
+        <p>
+          <%= f.submit %>
+        </p>
+      </td>
+  <% end %>
+   </tr>
+</tbody>
+</table>
+</div>
 
-  <p>
-    <%= f.submit %>
-  </p>
 <% end %>
 
-<% end %>
 
 <script>
     if(navigator.geolocation)
