@@ -16,6 +16,5 @@
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require underscore
-//= require jquery.raty
 //= require gmaps/google
 //= require_tree .
