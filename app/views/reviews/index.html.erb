@@ -18,7 +18,13 @@
   <!-- Default panel contents -->
   <div class="panel-heading">List of reviews near you</div>
   <div class="panel-body">
-    <p>New near you</p>
+    <p>
+    or search what you need
+    <%= form_tag(reviews_path, :method => "get", id: "search-form") do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search Reviews" %>
+    <%= submit_tag "Search" %>
+    <% end %>
+    </p>
   </div>
 
 <table class="table">

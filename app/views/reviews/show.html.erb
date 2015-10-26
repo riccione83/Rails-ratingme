@@ -11,26 +11,15 @@
       <%= @review.description %>
     </small>
    </h1>
-</div>
-<div class="container-fluid">
-<div class="row">
-  <div class="col-md-8">
-      <div id="map"></div>
-  </div>
-  <% if @review.picture != nil %>
-    <div class="col-md-4">
-      <%= image_tag( @review.picture.url,:size => '300x200') %>
-    </div>
-  <% end %>
-</div>
+   <p>
+    Posted by: <%= User.find(@review.user_id).user_name %>
+   </p>
 </div>
 
 <p>
-  Posted by: <%= User.find(@review.user_id).user_name %>
-</p>
-<p>
   This user has some question for you. Can you reply?
 </p>
+
 <p>
   <strong>First Question:</strong>
   <%= @review.question1 %> | <%= star_rating(get_point_question1(@review)) %> over <%= get_total_count_for_question1(@review) %> ratings
@@ -46,10 +35,27 @@
   <%= @review.question3 %> | <%= star_rating(get_point_question3(@review)) %> over <%= get_total_count_for_question3(@review) %> ratings
 </p>
 
+<hr>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8">
+      <div id="map"></div>
+    </div>
+    <% if @review.picture != nil %>
+      <div class="col-md-4">
+        <%= image_tag( @review.picture.url,:size => '300x200') %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<hr>
+
 <% if @review.user_id == session[:current_user_id] %>
-  <%= link_to 'Edit', edit_review_path(@review) %> |
+  <%= link_to 'Edit', edit_review_path(@review), class: "btn btn-default btn-sm" %> |
 <% end %>
-<%= link_to 'Back', reviews_path %>
+<%= link_to 'Back', reviews_path, class: "btn btn-default btn-sm" %>
 
 <hr>
 
@@ -82,9 +88,9 @@
       <td><%=star_rating(rating.rate_question1)%> </td>
       <td><%=star_rating(rating.rate_question2)%></td>
       <td><%=star_rating(rating.rate_question3)%></td>
-       <td><%= link_to 'Show', review_rating_path(@review,rating) %></td>      
+       <td><%= link_to 'Show', review_rating_path(@review,rating), class: "btn btn-default btn-sm" %></td>      
         <% if isLoggedIn? and rating.user_id == get_current_user_id %>
-          <td> |  <%= link_to 'Edit', edit_review_rating_path(@review,rating) %> </td>
+          <td> |  <%= link_to 'Edit', edit_review_rating_path(@review,rating), class: "btn btn-default btn-sm" %> </td>
         <% end %>
     </tr>
   <% end %>

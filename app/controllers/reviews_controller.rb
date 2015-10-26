@@ -6,10 +6,10 @@ class ReviewsController < ApplicationController
   # GET /reviews
   # GET /reviews.json
   def index
-    #city = request.remote_ip
-    #getInformation(city)
-    #city = get_user_city
     
+ if params[:search]
+   @reviews = Review.search(params[:search]).order("created_at DESC")
+  else
     if session[:current_user_lat] != nil
        city = [session[:current_user_lat],session[:current_user_lon]]
        @reviews = Review.near(city, 40, :units => :km)
@@ -37,7 +37,7 @@ class ReviewsController < ApplicationController
       marker.infowindow render_to_string(partial: "/layouts/partial", locals: {info: review})
       marker.json({ :id => review.id, :foo => "bar" })
     end
-    
+  end
   end
 
   def gmaps4rails_infowindow
