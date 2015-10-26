@@ -1,20 +1,21 @@
 <h2><%= info.title %></h2>
 <h3><%= info.description %></h3>
-
+Posted by: <%= User.find(info.user_id).user_name %> | <%= time_ago_in_words(info.created_at) %> ago
+<hr>
 <li>
-    <p>
-        <%= info.question1 %>
-    </p>
+<p>
+  <%= info.question2 %> | <%= star_rating(get_point_question2(info)) %> over <%= get_total_count_for_question2(info) %> ratings
+</p>
 </li>
 <li>
-    <p>
-        <%= info.question2 %>
-    </p>
+<p>
+  <%= info.question2 %> | <%= star_rating(get_point_question2(info)) %> over <%= get_total_count_for_question2(info) %> ratings
+</p>
 </li>
 <li>
-    <p>
-        <%= info.question3 %>
-    </p>
+<p>
+  <%= info.question3 %> | <%= star_rating(get_point_question3(info)) %> over <%= get_total_count_for_question3(info) %> ratings
+</p>
 </li>
 
 <%= link_to "Visualizza il post", info %>

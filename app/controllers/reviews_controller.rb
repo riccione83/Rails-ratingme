@@ -1,5 +1,6 @@
 class ReviewsController < ApplicationController
   include ApplicationHelper
+  include ReviewsHelper
   skip_before_filter  :verify_authenticity_token
   before_action :set_review, only: [:show, :edit, :update, :destroy]
 
@@ -7,9 +8,9 @@ class ReviewsController < ApplicationController
   # GET /reviews.json
   def index
     
- if params[:search]
-   @reviews = Review.search(params[:search]).order("created_at DESC")
-  else
+   if params[:search]
+     @reviews = Review.search(params[:search]).order("created_at DESC")
+   else
     if session[:current_user_lat] != nil
        city = [session[:current_user_lat],session[:current_user_lon]]
        @reviews = Review.near(city, 40, :units => :km)
@@ -21,19 +22,46 @@ class ReviewsController < ApplicationController
       marker.lat review.latitude
       marker.lng review.longitude
       marker.title   review.title
-      if review.title.include? "secondo"
+      
+      point =  self.get_avg_for_review(review)
+      if point == 0
          marker.picture({
-            :url     => 'assets/star.png',
+            :url     => 'assets/baloon_no_star.png',
             :width   => 32,
             :height  => 32
             })
-      else
+      elsif point == 1
         marker.picture({
-            :url     => 'assets/star_red.png',
+            :url     => 'assets/baloon_1_star.png',
             :width   => 32,
             :height  => 32
             })
+      elsif point == 2
+        marker.picture({
+            :url     => 'assets/baloon_2_star.png',
+            :width   => 32,
+            :height  => 32
+            })
+      elsif point == 3
+        marker.picture({
+            :url     => 'assets/baloon_3_star.png',
+            :width   => 32,
+            :height  => 32
+            })
+      elsif point == 4
+        marker.picture({
+            :url     => 'assets/baloon_4_star.png',
+            :width   => 32,
+            :height  => 32
+            })
+     elsif point == 5
+        marker.picture({
+            :url     => 'assets/baloon_5_star.png',
+            :width   => 32,
+            :height  => 32
+            })            
       end
+      
       marker.infowindow render_to_string(partial: "/layouts/partial", locals: {info: review})
       marker.json({ :id => review.id, :foo => "bar" })
     end

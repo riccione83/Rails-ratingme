@@ -4,6 +4,7 @@
 
 <script type="text/javascript" src="assets/prototype.js"></script>
 
+
 <div class="page-header">
   <script>
     console.log("updating page");
@@ -65,8 +66,10 @@
 <% end %>
 
 <script>
+function init() {
      if(navigator.geolocation)
           navigator.geolocation.getCurrentPosition(displayOnMap);
+  
   
   var handler = Gmaps.build('Google');
 
@@ -102,6 +105,9 @@
     });
     
   });
+}
+
+init();
 
 function getBoundsZoomLevel(bounds, mapDim) {
    //var bounds = map.getBounds();
