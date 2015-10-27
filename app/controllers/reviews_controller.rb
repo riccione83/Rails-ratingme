@@ -7,66 +7,63 @@ class ReviewsController < ApplicationController
   # GET /reviews
   # GET /reviews.json
   def index
-    
-   if params[:search]
+   if params[:search] and params[:search] != ""
      @reviews = Review.search(params[:search]).order("created_at DESC")
    else
     if session[:current_user_lat] != nil
        city = [session[:current_user_lat],session[:current_user_lon]]
-       @reviews = Review.near(city, 40, :units => :km)
+       @reviews = Review.near(city, 30, :units => :km)
     else
        @reviews = Review.last(5)
     end
-   
-    @hash = Gmaps4rails.build_markers(@reviews) do |review, marker|
+   end
+   buildMaker(@reviews)
+  end
+
+  def buildMaker(rev)
+    @hash = Gmaps4rails.build_markers(rev) do |review, marker|
       marker.lat review.latitude
       marker.lng review.longitude
       marker.title   review.title
       
       point =  self.get_avg_for_review(review)
-      if point == 0
-         marker.picture({
-            :url     => 'assets/baloon_no_star.png',
-            :width   => 32,
-            :height  => 32
-            })
-      elsif point == 1
+      
         marker.picture({
-            :url     => 'assets/baloon_1_star.png',
+            :url     => '/assets/baloon_no_star.png',
             :width   => 32,
             :height  => 32
-            })
-      elsif point == 2
+            }) if point == 0
         marker.picture({
-            :url     => 'assets/baloon_2_star.png',
+            :url     => '/assets/baloon_1_star.png',
             :width   => 32,
             :height  => 32
-            })
-      elsif point == 3
+            }) if point == 1
         marker.picture({
-            :url     => 'assets/baloon_3_star.png',
+            :url     => '/assets/baloon_2_star.png',
             :width   => 32,
             :height  => 32
-            })
-      elsif point == 4
+            }) if point == 2
         marker.picture({
-            :url     => 'assets/baloon_4_star.png',
+            :url     => '/assets/baloon_3_star.png',
             :width   => 32,
             :height  => 32
-            })
-     elsif point == 5
+            }) if point == 3
         marker.picture({
-            :url     => 'assets/baloon_5_star.png',
+            :url     => '/assets/baloon_4_star.png',
             :width   => 32,
             :height  => 32
-            })            
-      end
+            }) if point == 4
+        marker.picture({
+            :url     => '/assets/baloon_5_star.png',
+            :width   => 32,
+            :height  => 32
+            }) if point == 5
       
       marker.infowindow render_to_string(partial: "/layouts/partial", locals: {info: review})
       marker.json({ :id => review.id, :foo => "bar" })
     end
   end
-  end
+
 
   def gmaps4rails_infowindow
     @reviews = Gmaps.map.markers 
@@ -77,6 +74,7 @@ class ReviewsController < ApplicationController
   def show
     @review = Review.find(params[:id])
     @ratings = @review.ratings.all
+    buildMaker(@review)
   end
 
   # GET /reviews/new

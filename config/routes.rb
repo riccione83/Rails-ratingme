@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   post 'reviews/search_by_place'
   
   get 'update_user_location', :to => 'users#update_user_location'
+  get 'update_user_radius', :to => 'users#update_user_radius'
 
   get 'api/show_reviews'
   post 'api/new_review'

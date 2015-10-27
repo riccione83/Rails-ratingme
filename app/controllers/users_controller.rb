@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
- http_basic_authenticate_with name: "r", password: "r", except: [:new, :update, :login, :login_attempt, :logout, :set_user, :index, :create, :update_user_location, :show]
+ http_basic_authenticate_with name: "r", password: "r", except: [:new, :update, :login, :login_attempt, :logout, :set_user, :index, :create, :update_user_location, :update_user_radius, :show]
 
   # GET /users
   # GET /users.json
@@ -24,6 +24,13 @@ class UsersController < ApplicationController
 
   def login
     #Login Form
+  end
+  
+  def update_user_radius
+    if params[:rad] != nil
+      session[:user_radius] = params[:rad]
+      render :text => "View for radius: " + params[:rad]
+    end
   end
   
   def update_user_location
