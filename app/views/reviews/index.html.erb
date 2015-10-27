@@ -52,11 +52,16 @@
   });
 
 function displayOnMap(position){
+    try {
       var marker = handler.addMarker({
         lat: position.coords.latitude,
         lng: position.coords.longitude
       });
       handler.map.centerOn(marker);
+    }
+    catch(err) {
+        console.log('Errore mentre aggiungo i marker');
+    }
       console.log('lat=' + position.coords.latitude + '&lon=' + position.coords.longitude);
       getOutput(position);
 };
@@ -222,10 +227,9 @@ function getRequest(url, success, error) {
     
     google.maps.event.addListener(handler.getMap(), 'bounds_changed', function(e){
       
-    //console.log(handler.getMap().getBounds().getNorthEast().toString())
+    console.log(handler.getMap().getBounds().getNorthEast().toString())
     //var radius = (getBoundsZoomLevel(handler.getMap().getBounds(),mapDim));
     //console.log(radius);
-   
     });
     
   });
@@ -234,11 +238,16 @@ function getRequest(url, success, error) {
 
 
 function displayOnMap(position){
+    try {
       var marker = handler.addMarker({
         lat: position.coords.latitude,
         lng: position.coords.longitude
       });
       handler.map.centerOn(marker);
+    }
+    catch(err) {
+        console.log('Errore mentre aggiungo i marker');
+    }
       console.log('lat=' + position.coords.latitude + '&lon=' + position.coords.longitude);
       getOutput(position);
 };
@@ -269,10 +278,8 @@ function saluta(i) {
        //  alert(i)
   }
 
-
 function getOutput(position) {
-  getRequest(
-      'update_user_location?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude, // URL for the PHP file
+  getRequest('update_user_location?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude, // URL for the PHP file
        drawOutput,  // handle successful request
        drawError    // handle error
   );
