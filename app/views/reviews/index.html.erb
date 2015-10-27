@@ -4,16 +4,141 @@
 
 <script type="text/javascript" src="assets/prototype.js"></script>
 
-
 <div class="page-header">
-  <script>
-    console.log("updating page");
-  </script>
   <h1>Listing Reviews</h1>
 </div>
 
 <div class="panel panel-default">
       <div id="map"> </div>
+      
+<script>
+     if(navigator.geolocation)
+          navigator.geolocation.getCurrentPosition(displayOnMap);
+  
+  
+  var handler = Gmaps.build('Google');
+
+  handler.buildMap({ internal: {id: 'map'} }, function(){
+     
+    //markers = handler.addMarkers(<%=raw @hash.to_json %>);
+
+    markers_json = <%=raw @hash.to_json %>;
+    markers = _.map(markers_json, function(marker_json){
+            marker = handler.addMarker(marker_json);
+            _.extend(marker, marker_json);
+            return marker;
+      });
+      
+      
+      
+    for (var i=0;i < markers.length; i++){
+        var marker = markers[i];
+        google.maps.event.addListener(marker.getServiceObject(), "click", function(evt) {
+           saluta("My ID: " + marker.id)    });
+    }
+  
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();  
+    handler.getMap().setZoom(12);  
+    
+    google.maps.event.addListener(handler.getMap(), 'bounds_changed', function(e){
+      
+    //console.log(handler.getMap().getBounds().getNorthEast().toString())
+    //var radius = (getBoundsZoomLevel(handler.getMap().getBounds(),mapDim));
+    //console.log(radius);
+   
+    });
+    
+  });
+
+function displayOnMap(position){
+      var marker = handler.addMarker({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      });
+      handler.map.centerOn(marker);
+      console.log('lat=' + position.coords.latitude + '&lon=' + position.coords.longitude);
+      getOutput(position);
+};
+
+
+function getBoundsZoomLevel(bounds, mapDim) {
+   //var bounds = map.getBounds();
+
+    var center = bounds.getCenter();
+    var ne = bounds.getNorthEast();
+
+    // r = radius of the earth in statute miles
+    var r = 3963.0;  
+
+    // Convert lat or lng from decimal degrees into radians (divide by 57.2958)
+    var lat1 = center.lat() / 57.2958; 
+    var lon1 = center.lng() / 57.2958;
+    var lat2 = ne.lat() / 57.2958;
+    var lon2 = ne.lng() / 57.2958;
+
+    // distance = circle radius from center to Northeast corner of bounds
+    var dis = r * Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1));
+    return dis;
+}
+
+function saluta(i) {
+       //  console.log(i)
+       //  alert(i)
+  }
+
+
+function getOutput(position) {
+  getRequest(
+      'update_user_location?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude, // URL for the PHP file
+       drawOutput,  // handle successful request
+       drawError    // handle error
+  );
+  return false;
+}  
+// handles drawing an error message
+function drawError() {
+     console.log('Bummer: there was an error!');
+}
+// handles the response, adds the html
+function drawOutput(responseText) {
+     console.log(responseText);
+}
+// helper function for cross-browser request object
+function getRequest(url, success, error) {
+    var req = false;
+    try{
+        // most browsers
+        req = new XMLHttpRequest();
+    } catch (e){
+        // IE
+        try{
+            req = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch(e) {
+            // try an older version
+            try{
+                req = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch(e) {
+                return false;
+            }
+        }
+    }
+    if (!req) return false;
+    if (typeof success != 'function') success = function () {};
+    if (typeof error!= 'function') error = function () {};
+    req.onreadystatechange = function(){
+        if(req.readyState == 4) {
+            return req.status === 200 ? 
+                success(req.responseText) : error(req.status);
+        }
+    }
+    req.open("GET", url, true);
+    req.send(null);
+    return req;
+}
+
+</script>
+
 </div>
 <div class="panel panel-default">
   <!-- Default panel contents -->
@@ -66,7 +191,6 @@
 <% end %>
 
 <script>
-function init() {
      if(navigator.geolocation)
           navigator.geolocation.getCurrentPosition(displayOnMap);
   
@@ -105,9 +229,20 @@ function init() {
     });
     
   });
-}
 
-init();
+//init();
+
+
+function displayOnMap(position){
+      var marker = handler.addMarker({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      });
+      handler.map.centerOn(marker);
+      console.log('lat=' + position.coords.latitude + '&lon=' + position.coords.longitude);
+      getOutput(position);
+};
+
 
 function getBoundsZoomLevel(bounds, mapDim) {
    //var bounds = map.getBounds();
@@ -133,16 +268,6 @@ function saluta(i) {
        //  console.log(i)
        //  alert(i)
   }
-
-function displayOnMap(position){
-  var marker = handler.addMarker({
-    lat: position.coords.latitude,
-    lng: position.coords.longitude
-  });
-  handler.map.centerOn(marker);
-//  console.log('lat=' + position.coords.latitude + '&lon=' + position.coords.longitude);
-  getOutput(position);
-};
 
 
 function getOutput(position) {
