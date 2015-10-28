@@ -89,7 +89,7 @@ class ApiController < ApplicationController
 		   	RatingmeMailer.register_email(user).deliver_now
 		   	render :json => '{"message":"success"}'
 		   else
-		   	render :json => '{"message": #{user.errors}}'
+		   	render :json => "{\"message\":\"#{user.errors}\"}"
 		   end
 		else
 		   render :json => '{"message":"error in params"}'
@@ -99,7 +99,8 @@ class ApiController < ApplicationController
 	def login_with_social
 		if params[:user_id] != nil
 			 if User.exists?(:user_name => params[:user_id])
-			 	render :json => '{"message":"success"}'
+			 	user = User.find_by(:user_name => params[:user_id])
+			 	render :json => "{\"message\":\"#{user.id}\"}"
 			 else
 			   user = User.new
 		   	   user.user_name = params[:user_id]
@@ -108,13 +109,13 @@ class ApiController < ApplicationController
 		       user.user_email = "noemail@ratingme.com"
 		       user.user_city = "World"
 		   		if user.save	
-		   			render :json => '{"message":"success"}'
+		   			render :json => "{\"message\":\"#{user.id}\"}"
 		   		else
-		   			render :json => '{"message": "error on register user"}'
+		   			render :json => '{"error": "error on register user"}'
 				end
 			 end
 		else
-			render :json => '{"message":"parameter error"}'
+			render :json => '{"error":"parameter error"}'
 		end
 	end
 
@@ -126,7 +127,7 @@ class ApiController < ApplicationController
 		    if authorized_user
 		      session[:current_user_id] = authorized_user.id
 		      session[:current_user_name] = authorized_user.user_name
-		      render :json => '{"user":#{authorized_user.id}}'
+		      render :json => "{\"user\":\"#{authorized_user.id}\"}"
 		    else
 		     render :json => '{"message":"Invalid Username or Password"}'
 		   end
