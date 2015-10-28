@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   post 'api/new_review'
   
   get 'api/show_ratings'
-  post 'api/new_rating'
+  get 'api/new_rating'
   
   get 'api/get_user_by_rating'
   get 'api/login_user'

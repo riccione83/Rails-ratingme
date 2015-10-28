@@ -36,11 +36,11 @@ class ApiController < ApplicationController
 	#:user_id, :latitude, :longitude, :title, :description, :question1, :question2, :question3, :isAdvertisement, :adImageLink, :file, :picture
 	
 	def new_review
-		if params[:user_id] != nil and
-		   params[:title] != nil and
-		   params[:description] != nil and
-		   params[:latitude] != nil and
-		   params[:longitude] != nil and
+		if params[:user_id] != nil or
+		   params[:title] != nil or
+		   params[:description] != nil or
+		   params[:latitude] != nil or
+		   params[:longitude] != nil or
 		   params[:question1] != nil
 		   
 		  
@@ -75,9 +75,9 @@ class ApiController < ApplicationController
 	
 	def register_new_user
 		#:user_name, :user_password_hash, :user_email, :user_city
-		if params[:user_name] != nil and
-		   params[:user_password_hash] != nil and
-		   params[:user_email] != nil and
+		if params[:user_name] != nil or
+		   params[:user_password_hash] != nil or
+		   params[:user_email] != nil or
 
 		   user = User.new
 		   user.user_name = params[:user_name]
@@ -119,7 +119,7 @@ class ApiController < ApplicationController
 	end
 
 	def login_user
-		if params[:user_id] != nil and
+		if params[:user_id] != nil or
 		   params[:user_password] != nil
 		
 		    authorized_user = User.authenticate(params[:user_id],params[:user_password])
@@ -137,8 +137,8 @@ class ApiController < ApplicationController
 	
 	
 	def show_reviews
-		if params[:radius] == nil ||
-		   params[:lat] == nil ||
+		if params[:radius] == nil or
+		   params[:lat] == nil or
 		   params[:lon] == nil
 		   render :json => '{"error":"No params"}'
 	    else
@@ -154,9 +154,37 @@ class ApiController < ApplicationController
 		end
 	end
 
-	def new_rating
-	
+    #:review_id, :user_name, :point, :description, :rate_question1, :rate_question2, :rate_question3
+	def new_rating 
+		if params[:review_id] == nil or
+		   params[:user_id] == nil or
+		   params[:description] == nil or
+		   params[:rate_question1] == nil or
+		   params[:rate_question2] == nil or
+		   params[:rate_question3] == nil
+		   	render :json => '{"error":"No params"}'
+	    else
+	    	if User.exists?(:id => params[:user_id])
+	    		@user = User.find(params[:user_id])
+	    		if Review.exists?(:id => params[:review_id])
+	        		@review = Review.find(params[:review_id])
+       				@rating = @review.ratings.new
+       				@rating.description = params[:description]
+       				@rating.rate_question1 = params[:rate_question1]
+       				@rating.rate_question2 = params[:rate_question2]
+       				@rating.rate_question3 = params[:rate_question3]
+       				@rating.user = @user
+       				@rating.save
+       				render :json => '{"message":"success"}'
+       			else
+	       			render :json => '{"error":"No review found"}'
+        		end
+        	else
+        		render :json => '{"error":"No user found"}'
+        	end
+       	end
 	end
+	
 	def show_ratings
 		if params[:id] != nil
 			@review = Review.find(params[:id])
