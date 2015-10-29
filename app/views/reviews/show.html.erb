@@ -109,7 +109,7 @@
   <!-- Default panel contents -->
   <div class="panel-heading"><strong>Add a rate</strong></div>
   <table class="table">
-      <thead>
+   <thead>
     <tr>
       <th>Description</th>
       <th><%= @review.question1 %></th>
@@ -117,35 +117,30 @@
       <th><%= @review.question3 %></th>
       <th colspan="1"></th>
     </tr>
-  </thead>
+   </thead>
   
   <tbody>
-   <tr>
+
     <%= form_for([@review, @review.ratings.build]) do |f| %>
+      <tr>
        <td>
             <%= f.text_area :description %>
        </td>
        <td>
-        <div class="field">
           <%= f.number_field :rate_question1 %>
-        </div>
       </td>
       <td>
-        <div class="field">
             <%= f.number_field :rate_question2 %>
-        </div>
       </td>
       <td>
-        <div class="field">
           <%= f.number_field :rate_question3 %>
-        </div>
       </td>
       <td>
-          <%= f.submit %>
+          <%= f.submit "Send" %>
       </td>
-  <% end %>
-   </tr>
-</tbody>
+     </tr>
+    <% end %>
+  </tbody>
 </table>
 </div>
 
