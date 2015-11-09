@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'welcome/home'
+
   post '/rate' => 'rater#create', :as => 'rate'
   resources :users
   resources :ratings

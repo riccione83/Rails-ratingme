@@ -21,3 +21,9 @@
 
 en:
   hello: "Hello world"
+
+  activerecord:
+    attributes:
+      user:
+        user_password_hash: "Password"
+        user_password_hash_confirmation: "Passwor5d Confirmation"

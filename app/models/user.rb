@@ -3,19 +3,12 @@ class User < ActiveRecord::Base
 	
     attr_accessor:user_password_hash_confirmation
 	
-	validates :user_name, presence: true, length: { minimum: 4 }
+	validates :user_name, presence: true,:uniqueness => true, length: { minimum: 4 }
 	validates :user_password_hash, :presence => true, 
 								   :confirmation => true, 
 								   length: { minimum: 6 }
-#	validates :user_email_confirmation, :presence => true
 	validates :user_password_hash_confirmation, :presence => true
-	
-#	validates :user_email, :presence => true, 
-#						   :confirmation => true,
-#						   :format => { :with => EMAIL_REGEX },
- #       				   :uniqueness => { :case_sensitive => false }
-	
-	validates :user_city, presence: true, length: { minimum: 2 }
+	validates :user_email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
 
 	has_many :ratings
 	
@@ -36,6 +29,5 @@ class User < ActiveRecord::Base
 	def match_password(login_password="")
   		encrypted_password == BCrypt::Engine.hash_secret(login_password, salt)
 	end
-
 
 end

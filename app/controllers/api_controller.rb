@@ -74,11 +74,13 @@ class ApiController < ApplicationController
  	end
 	
 	def register_new_user
-		#:user_name, :user_password_hash, :user_email, :user_city
-		if params[:user_name] != nil or
+     if params[:user_name] != nil or
 		   params[:user_password_hash] != nil or
-		   params[:user_email] != nil or
+		   params[:user_email] != nil
 
+		  if User.exists?(user_name: params[:user_name])
+		  	 render :json => '{"message":"User name already exist"}'
+		  else
 		   user = User.new
 		   user.user_name = params[:user_name]
 		   user.user_password_hash = params[:user_password_hash]
@@ -87,12 +89,13 @@ class ApiController < ApplicationController
 		   user.user_city = params[:user_city]
 		   if user.save
 		   	RatingmeMailer.register_email(user).deliver_now
-		   	render :json => '{"message":"success"}'
+		   	render :json => "{\"user\":\"#{user.id}\"}"
 		   else
-		   	render :json => "{\"message\":\"#{user.errors}\"}"
+		   	render :json => "{\"message\":\"#{user.errors.full_messages[0]}\"}"
 		   end
+		  end
 		else
-		   render :json => '{"message":"error in params"}'
+		   render :json => '{"message":"Error in params"}'
 		end
 	end
 	
