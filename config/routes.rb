@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get "login", :to => "users#login"
   get '/register', :to => "users#new"
   get "login_attempt", :to => "users#login_attempt"
+  get 'forgot_password', :to => "application#forgot_password"
   post "login_attempt", :to => "users#login_attempt"
   post 'reviews/search_by_place'
   

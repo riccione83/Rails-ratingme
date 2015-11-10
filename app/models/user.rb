@@ -8,9 +8,23 @@ class User < ActiveRecord::Base
 								   :confirmation => true, 
 								   length: { minimum: 6 }
 	validates :user_password_hash_confirmation, :presence => true
-	validates :user_email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
+	validates :user_email, :presence => true, :uniqueness => true , :format => EMAIL_REGEX, :on => [ :create ]
 
 	has_many :ratings
+	
+	def self.user_exist(username_or_email="")
+	 	if  EMAIL_REGEX.match(username_or_email)    
+ 		 	user = User.find_by user_email: username_or_email
+  		else
+   			user = User.find_by user_name: username_or_email
+ 		end
+
+  		if user
+    		return user
+  		else
+   		    return nil
+  		end
+	end
 	
 	def self.authenticate(username_or_email="", login_password="")
  		 if  EMAIL_REGEX.match(username_or_email)    

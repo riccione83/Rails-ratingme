@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
- http_basic_authenticate_with name: "r", password: "r", except: [:new, :update, :login, :login_attempt, :logout, :set_user, :index, :create, :update_user_location, :update_user_radius, :show]
+ http_basic_authenticate_with name: "r", password: "r", except: [:new,:edit, :update, :login, :login_attempt, :logout, :set_user, :index, :create, :update_user_location, :update_user_radius, :show]
 
   # GET /users
   # GET /users.json
