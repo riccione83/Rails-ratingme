@@ -44,7 +44,7 @@
     </div>
     <% if @review.picture != nil %>
       <div class="col-md-4">
-        <%= image_tag( @review.picture.url,:size => '300x200') %>
+        <%= link_to image_tag( @review.picture.url,:size => '300x200'),@review.picture.url,:target => "_blank" %>
       </div>
     <% end %>
   </div>
