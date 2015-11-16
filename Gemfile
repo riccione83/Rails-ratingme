@@ -31,6 +31,7 @@ gem 'prototype-rails', github: 'rails/prototype-rails', branch: '4.2'
 gem 'carrierwave'
 gem 'fog', '1.23.0'
 gem 'mini_magick'
+gem 'net-ssh'
 
 
 # Use ActiveModel has_secure_password
