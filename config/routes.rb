@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   
   get 'api/get_user_by_rating'
   get 'api/login_user'
-  get 'api/register_new_user'
+  get 'api/register_new_user' 
   
   get 'api/login_with_social'
 
