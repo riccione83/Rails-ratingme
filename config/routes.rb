@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   
   get 'api/login_with_social'
 
-  root 'reviews#index'
+  root 'welcome#home' #'reviews#index'
   
   get '*path' => redirect('/')
 end
