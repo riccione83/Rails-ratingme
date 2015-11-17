@@ -6,7 +6,7 @@
 	<!-- Bootstrap -->
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" />
-
+	<link href='https://fonts.googleapis.com/css?family=Indie+Flower|Josefin+Sans' rel='stylesheet' type='text/css'>
 	<link href="http://fonts.googleapis.com/css?family=Abel|Open+Sans:400,600" rel="stylesheet" />
 
 	<style>
@@ -40,6 +40,7 @@
 
 		.margin-base-vertical {
 			margin: 40px 0;
+			font-family: 'Indie Flower', cursive;
 		}
 
 	</style>
@@ -50,23 +51,23 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3 panel panel-default">
-
-				<h1 class="margin-base-vertical">Welcome to RatingMe</h1>
-
-				<p>
+				<div class="container">
+					<h1 class="margin-base-vertical text-center">Welcome to RatingMe</h1>
+				</div>
+				<p style="font-family: 'Josefin Sans', sans-serif;">
 					RatingMe, the social rating app in 3 question. Rate what you want and discover the best places around you. 
 				</p>
 
 				<form class="margin-base-vertical">
 					<p class="text-center">
-					  <%= link_to "Register", register_path, class:"btn btn-success btn-lg" %>
+					  <%= link_to "Register", register_path, class:"btn btn-success btn-lg", style:"font-family: 'Josefin Sans', sans-serif;" %>
 					  or
-					  <%= link_to "Login", login_path, class:"btn btn-info btn-lg" %>
+					  <%= link_to "Login", login_path, class:"btn btn-info btn-lg", style:"font-family: 'Josefin Sans', sans-serif;" %>
 					</p>
 				</form>
 				<hr>
 	            <p class="text-center">
-	                <%= link_to "Let me to see", reviews_path, class:"btn btn-warning btn-lg" %>
+	                <%= link_to "Let me to see", reviews_path, class:"btn btn-warning btn-lg", style:"font-family: 'Josefin Sans', sans-serif;" %>
 	            </p>
 			</div><!-- //main content -->
 		</div><!-- //row -->
