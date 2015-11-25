@@ -7,16 +7,16 @@ class ReviewsController < ApplicationController
   # GET /reviews
   # GET /reviews.json
   def index
-   if params[:search] and params[:search] != ""
-     @reviews = Review.search(params[:search]).order("created_at DESC")
-   else
-    if session[:current_user_lat] != nil
-       city = [session[:current_user_lat],session[:current_user_lon]]
-       @reviews = Review.near(city, 30, :units => :km)
+    if params[:search] and params[:search] != ""
+        @reviews = Review.search(params[:search]).order("created_at DESC").paginate(page: params[:page], per_page: 10)
     else
-       @reviews = Review.last(5)
+      if session[:current_user_lat] != nil
+         city = [session[:current_user_lat],session[:current_user_lon]]
+         @reviews = Review.near(city, 30, :units => :km).paginate(page: params[:page], per_page: 10)
+      else
+         @reviews = Review.last(10)
+      end
     end
-   end
    buildMaker(@reviews)
   end
 

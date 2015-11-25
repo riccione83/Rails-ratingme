@@ -39,7 +39,7 @@
 <table>
   <% @reviews.each do |review| %>
     <tr>
-      <td><%= link_to review.description, review_path(review) %> &nbsp; &nbsp; </td>
+      <td><%= link_to review.title, review_path(review) %> &nbsp; &nbsp; </td>
       <td><%= link_to 'Edit',edit_review_path(review), class: "btn btn-default btn-xs" %> &nbsp;|&nbsp; </td>
       <td><%= link_to 'Destroy', review , method: :delete , data: { confirm: 'Are you sure?' }, class: "btn btn-default btn-xs" %></td>
       

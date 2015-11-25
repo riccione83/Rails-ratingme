@@ -17,14 +17,13 @@
 
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">List of reviews near you</div>
+  <div class="panel-heading">List of reviews near you
+   <%= form_tag(reviews_path, :method => "get", id: "search-form") do %>
+    <%= text_field_tag :search, params[:search], placeholder: "or Search Reviews" %>
+    <%= submit_tag "Search" %>
+    <% end %></div>
   <div class="panel-body">
     <p>
-    or search what you need
-    <%= form_tag(reviews_path, :method => "get", id: "search-form") do %>
-    <%= text_field_tag :search, params[:search], placeholder: "Search Reviews" %>
-    <%= submit_tag "Search" %>
-    <% end %>
     </p>
   </div>
 
@@ -33,9 +32,9 @@
     <tr>
       <th>Title</th>
       <th>Description</th>
-      <th>Question1</th>
-      <th>Question2</th>
-      <th>Question3</th>
+      <th></th>
+      <th></th>
+      <th></th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -46,8 +45,20 @@
         <td><%= link_to review.title, review %></td>
         <td><%= link_to review.description, review %></td>
         <td><%= review.question1 %> <br> (<%= star_rating(get_point_question1(review)) %>)</td>
-        <td><%= review.question2 %> <br> (<%= star_rating(get_point_question2(review)) %>)</td>
-        <td><%= review.question3 %> <br> (<%= star_rating(get_point_question3(review)) %>)</td>
+        
+        <% if review.question2 != "" %>  
+            <td><%= review.question2 %> <br> (<%= star_rating(get_point_question2(review)) %>)</td>
+        <% else %>
+            <td> </td>
+        <% end %>
+        
+        <% if review.question3 != "" %>
+            <td><%= review.question3 %> <br> (<%= star_rating(get_point_question3(review)) %>)</td>
+        <% else %>
+            <td> </td>            
+        <% end %>
+        
+        
         <div class="btn-group" role="group">
          <td><%= link_to 'Show', review, class: "btn btn-default btn-sm" %></td>
       <!--   <td><%= link_to 'Edit', edit_review_path(review), class: "btn btn-default btn-sm" %></td>
@@ -59,6 +70,7 @@
   </tbody>
 </table>
 </div>
+  <%= will_paginate %>
 <br>
 
 <% if isLoggedIn? %>
