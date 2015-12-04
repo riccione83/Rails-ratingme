@@ -1,6 +1,6 @@
 <%= form_for(@review) do |f| %>
 
-<% @review.persisted? == false %>
+<% @review.new_record? %>
 <hr>
   <div class="input-group">
     <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left">Latitude</span>
@@ -12,7 +12,7 @@
     <%= f.text_field :longitude, class: "form-control", :value => session[:current_user_lon],:readonly => true %>
   </div>
 <hr>
-<%end%>
+<% end %>
 
   <% if @review.picture != nil %>
    <div class="panel panel-default">
