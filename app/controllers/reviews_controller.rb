@@ -72,9 +72,11 @@ class ReviewsController < ApplicationController
   # GET /reviews/1
   # GET /reviews/1.json
   def show
-    @review = Review.find(params[:id])
-    @ratings = @review.ratings.all
-    buildMaker(@review)
+    if params[:id] != nil
+      @review = Review.find(params[:id])
+      @ratings = @review.ratings.all
+      buildMaker(@review)
+    end
   end
 
   # GET /reviews/new
