@@ -172,14 +172,18 @@ class ApiController < ApplicationController
 	    		@user = User.find(params[:user_id])
 	    		if Review.exists?(:id => params[:review_id])
 	        		@review = Review.find(params[:review_id])
-       				@rating = @review.ratings.new
-       				@rating.description = params[:description]
-       				@rating.rate_question1 = params[:rate_question1]
-       				@rating.rate_question2 = params[:rate_question2]
-       				@rating.rate_question3 = params[:rate_question3]
-       				@rating.user = @user
-       				@rating.save
-       				render :json => '{"message":"success"}'
+	        		if !@review.ratings.exists?(:user_id => params[:user_id])
+       					@rating = @review.ratings.new
+       					@rating.description = params[:description]
+       					@rating.rate_question1 = params[:rate_question1]
+       					@rating.rate_question2 = params[:rate_question2]
+       					@rating.rate_question3 = params[:rate_question3]
+       					@rating.user = @user
+       					@rating.save
+       					render :json => '{"message":"success"}'
+       				else
+       					render :json => '{"error":"You can rate only one time."}'
+       				end
        			else
 	       			render :json => '{"error":"No review found"}'
         		end
