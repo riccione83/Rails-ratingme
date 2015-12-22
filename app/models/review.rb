@@ -5,7 +5,8 @@ class Review < ActiveRecord::Base
 	
 	
 	def self.search(search)
-  		where("description LIKE ?", "%#{search}%") 
-  		where("title LIKE ?", "%#{search}%")
+			where("description LIKE '%#{search}%' OR title LIKE '%#{search}%'")
+	  	#	where("description LIKE ?", "%#{search}%")
+  		#	where("title LIKE ?", "%#{search}%")
 	end
 end

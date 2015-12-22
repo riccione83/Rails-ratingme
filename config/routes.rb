@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   
   get 'api/show_ratings'
   get 'api/new_rating'
+  get 'api/search_reviews'
   
   get 'api/get_user_by_rating'
   get 'api/login_user'

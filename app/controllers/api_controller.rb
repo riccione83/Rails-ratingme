@@ -149,14 +149,28 @@ class ApiController < ApplicationController
 			@reviews = Review.near([ params[:lat],  params[:lon]], params[:radius], :units => :km)
 			
 			@reviews.each do |review|
-			@user = User.find(review.user_id)
-			@listofratings ||= []
-			@listofratings << [id: review.id, title: review.title, description: review.description,latitude: review.latitude, longitude: review.longitude, question1: review.question1, question2: review.question2, question3: review.question3,user: @user.user_name,avg_point1: get_point_question1(review),avg_point2: get_point_question2(review),avg_point3: get_point_question1(review),is_advertisement: review.isAdvertisement, ad_image_link: review.adImageLink, point: get_avg_for_review(review),picture: review.picture.url]
-		end
-		
+				@user = User.find(review.user_id)
+				@listofratings ||= []
+				@listofratings << [id: review.id, title: review.title, description: review.description,latitude: review.latitude, longitude: review.longitude, question1: review.question1, question2: review.question2, question3: review.question3,user: @user.user_name,avg_point1: get_point_question1(review),avg_point2: get_point_question2(review),avg_point3: get_point_question1(review),is_advertisement: review.isAdvertisement, ad_image_link: review.adImageLink, point: get_avg_for_review(review),picture: review.picture.url]
+			end
 			render :json => @listofratings
 		end
 	end
+	
+	def search_reviews
+		 if params[:search] == nil or params[:search] == ""
+		 	render :json => '{"error":"No params"}'
+		 else
+        	@reviews = Review.search(params[:search]).order("created_at DESC")
+        	@reviews.each do |review|
+				@user = User.find(review.user_id)
+				@listofratings ||= []
+				@listofratings << [id: review.id, title: review.title, description: review.description,latitude: review.latitude, longitude: review.longitude, question1: review.question1, question2: review.question2, question3: review.question3,user: @user.user_name,avg_point1: get_point_question1(review),avg_point2: get_point_question2(review),avg_point3: get_point_question1(review),is_advertisement: review.isAdvertisement, ad_image_link: review.adImageLink, point: get_avg_for_review(review),picture: review.picture.url]
+			end
+			render :json => @listofratings
+         end
+	end
+	
 
     #:review_id, :user_name, :point, :description, :rate_question1, :rate_question2, :rate_question3
 	def new_rating 
