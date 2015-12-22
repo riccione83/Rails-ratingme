@@ -5,7 +5,7 @@ class Review < ActiveRecord::Base
 	
 	
 	def self.search(search)
-			where("description LIKE '%#{search}%' OR title LIKE '%#{search}%'")
+			where("lower(description) LIKE '%#{search.downcase}%' OR lower(title) LIKE '%#{search.downcase}%'")
 	  	#	where("description LIKE ?", "%#{search}%")
   		#	where("title LIKE ?", "%#{search}%")
 	end
