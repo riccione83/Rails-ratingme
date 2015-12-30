@@ -92,8 +92,19 @@ class ReviewsController < ApplicationController
   # POST /reviews.json
   def create
     @review = Review.new(review_params)
-
-    respond_to do |format|
+    
+    city = [session[:current_user_lat],session[:current_user_lon]]
+    @near_reviews = Review.near(city, 0.10, :units => :km)
+    if @near_reviews.any?
+       respond_to do |format|
+         format.html { 
+                        flash[:error] = "There is another review at this point"
+                        redirect_to @review 
+                     }
+         format.json { render :json => '{"error":"There is another review at this point."}' }
+      end
+    else
+     respond_to do |format|
       if @review.save
         format.html { redirect_to @review, notice: 'Review was successfully created.' }
         format.json { render :json => '{"message":"created"}' } #render :show, status: :created, location: @review }
@@ -101,6 +112,7 @@ class ReviewsController < ApplicationController
         format.html { render :new }
         format.json { render :json => '{"message":"error"}' } #render json: @review.errors, status: :unprocessable_entity }
       end
+     end  
     end
   end
 

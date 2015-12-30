@@ -43,7 +43,11 @@ class ApiController < ApplicationController
 		   params[:longitude] != nil or
 		   params[:question1] != nil
 		   
-		  
+		   city = [params[:latitude],params[:longitude]]
+    	   @near_reviews = Review.near(city, 0.10, :units => :km)
+		  if @near_reviews.any?
+    			 render :json => '{"message":"There is another review at this point"}'
+    	 else
 		  if User.exists?(:id => params[:user_id])
 		  	  @review = Review.new 						#Review.find(params[:id])
 		  	  @review.latitude = params[:latitude]
@@ -68,6 +72,8 @@ class ApiController < ApplicationController
 	  	  else
 	  	  	render :json => '{"message":"user not exist"}'
 	  	  end
+	  	 end
+	  	  
   		else
   		  render :json => '{"message":"error in params"}'
   		end
