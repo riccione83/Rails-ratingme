@@ -46,7 +46,7 @@ class ApiController < ApplicationController
 		   city = [params[:latitude],params[:longitude]]
     	   @near_reviews = Review.near(city, 0.10, :units => :km)
 		  if @near_reviews.any?
-    			 render :json => '{"message":"There is another review at this point"}'
+    			 render :json => '{"error":"There is another review at this point"}'
     	 else
 		  if User.exists?(:id => params[:user_id])
 		  	  @review = Review.new 						#Review.find(params[:id])
