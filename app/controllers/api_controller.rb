@@ -45,36 +45,35 @@ class ApiController < ApplicationController
 		   
 		   city = [params[:latitude],params[:longitude]]
     	   @near_reviews = Review.near(city, 0.10, :units => :km)
-		  if @near_reviews.any?
-    			 render :json => '{"error":"There is another review at this point"}'
-    	 else
-		  if User.exists?(:id => params[:user_id])
-		  	  @review = Review.new 						#Review.find(params[:id])
-		  	  @review.latitude = params[:latitude]
-			  @review.longitude = params[:longitude]
-			  @review.title = params[:title]
-			  @review.description = params[:description]
-			  @review.question1 = params[:question1]
-			  @review.question2 = params[:question2]
-			  @review.question3 = params[:question3]
-			  @review.user_id = params[:user_id]
-			  @review.isAdvertisement = "0"
-			  @review.adImageLink = ""
-			  if  params[:picture] != nil
-	  		  	@uploader = PictureUploader.new(@review, params[:picture])
-	  		  	@review.picture = params[:picture]
-
-	  		  	@uploader.store!(params[:picture])
-	  		  	@review.picture = "#{@uploader.url}"
-	  		  end
-	  		  @review.save
-	  		  render :json => '{"message":"success"}'
-	  	  else
-	  	  	render :json => '{"message":"user not exist"}'
-	  	  end
-	  	 end
-	  	  
-  		else
+		   if @near_reviews.any?
+    			 render :json => '{"error":"There is another Review at this point. Please try again in another location. Thankyou."}'
+    	   else
+			  if User.exists?(:id => params[:user_id])
+			  	  @review = Review.new 						#Review.find(params[:id])
+			  	  @review.latitude = params[:latitude]
+				  @review.longitude = params[:longitude]
+				  @review.title = params[:title]
+				  @review.description = params[:description]
+				  @review.question1 = params[:question1]
+				  @review.question2 = params[:question2]
+				  @review.question3 = params[:question3]
+				  @review.user_id = params[:user_id]
+				  @review.isAdvertisement = "0"
+				  @review.adImageLink = ""
+				  if  params[:picture] != nil
+		  		  	@uploader = PictureUploader.new(@review, params[:picture])
+		  		  	@review.picture = params[:picture]
+	
+		  		  	@uploader.store!(params[:picture])
+		  		  	@review.picture = "#{@uploader.url}"
+		  		  end
+	  		  	  @review.save
+	  		  	  render :json => '{"message":"success"}'
+	  	  	  else
+	  	  		render :json => '{"message":"user not exist"}'
+	  	  	  end
+	  	 	end
+  		 else
   		  render :json => '{"message":"error in params"}'
   		end
  	end

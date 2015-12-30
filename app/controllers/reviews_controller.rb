@@ -98,10 +98,10 @@ class ReviewsController < ApplicationController
     if @near_reviews.any?
        respond_to do |format|
          format.html { 
-                        flash[:error] = "There is another review at this point"
+                        flash[:error] = "There is another Review at this point. Please try again in another location. Thankyou."
                         redirect_to @review 
                      }
-         format.json { render :json => '{"error":"There is another review at this point."}' }
+         format.json { render :json => '{"error":"There is another Review at this point. Please try again in another location. Thankyou."}' }
       end
     else
      respond_to do |format|
