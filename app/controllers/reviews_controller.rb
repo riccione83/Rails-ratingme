@@ -94,7 +94,7 @@ class ReviewsController < ApplicationController
     @review = Review.new(review_params)
     
     city = [session[:current_user_lat],session[:current_user_lon]]
-    @near_reviews = Review.near(city, 0.10, :units => :km)
+    @near_reviews = Review.near(city, 0.010, :units => :km)
     if @near_reviews.any?
        respond_to do |format|
          format.html { 

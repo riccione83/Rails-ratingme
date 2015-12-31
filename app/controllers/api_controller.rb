@@ -44,7 +44,7 @@ class ApiController < ApplicationController
 		   params[:question1] != nil
 		   
 		   city = [params[:latitude],params[:longitude]]
-    	   @near_reviews = Review.near(city, 0.10, :units => :km)
+    	   @near_reviews = Review.near(city, 0.010, :units => :km)
 		   if @near_reviews.any?
     			 render :json => '{"error":"There is another Review at this point. Please try again in another location. Thankyou."}'
     	   else
