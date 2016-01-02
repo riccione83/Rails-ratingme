@@ -21,9 +21,7 @@ pre {
 a {
   color: #000;
 
-  &:visited {
-    color: #666;
-  }
+
 
   &:hover {
     color: #fff;
@@ -70,4 +68,19 @@ div {
     font-size: 12px;
     list-style: square;
   }
+}
+
+div.pagination {
+  padding: 0px;
+  margin: 0px;
+}
+ul.pagination {
+  padding: 0px;
+  margin: 0px;
+}
+
+div.panel-body {
+  padding-top: 5px;
+  padding-bottom: 2px;
+  //text-align: center;
 }

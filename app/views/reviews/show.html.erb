@@ -44,7 +44,7 @@
     </div>
     <% if @review.picture.url != nil %>
       <div class="col-md-4">
-        <%= link_to image_tag( @review.picture.url,:size => '300x200'),@review.picture.url,:target => "_blank" %>
+        <%= link_to image_tag( @review.picture.url,:size => '300x200',:class => "img-rounded"),@review.picture.url,:target => "_blank" %>
       </div>
     <% end %>
   </div>
@@ -63,12 +63,11 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading"><strong>Ratings</strong></div>
-  <div class="panel-body">
-    <% if !isLoggedIn? %>
-    Please <%= link_to 'Login', login_path %> to post a rate <br>
-    <%end%>
-  </div>
-
+    <div class="panel-body">
+      <% if !isLoggedIn? %>
+        Please <%= link_to 'Login', login_path %> to post a rate <br>
+      <%end%>
+    </div>
 <table class="table">
   
   <thead>
@@ -110,8 +109,10 @@
     </tr>
   <% end %>
   </tbody>
-  
 </table>
+<div class="panel-body">
+      <%= will_paginate @ratings %>
+</div>
 </div>
 <% end %>
 

@@ -14,17 +14,22 @@
           console.log('Page Refresh');
       </script>
 </div>
-
+   
+<% if isLoggedIn? %>
+    <%= link_to 'New Review', new_review_path, class: "btn btn-lg btn-primary btn-block" %>
+<% end %>
+<br>   
+   
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">List of reviews near you
-   <%= form_tag(reviews_path, :method => "get", id: "search-form") do %>
-    <%= text_field_tag :search, params[:search], placeholder: "or Search Reviews" %>
-    <%= submit_tag "Search" %>
-    <% end %></div>
+  <div class="panel-heading">
+      List of reviews near you
+      <%= form_tag(reviews_path, :method => "get", id: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "or Search Reviews" %>
+      <%= submit_tag "Search" %>
+      <% end %>
+  </div>
   <div class="panel-body">
-    <p>
-    </p>
   </div>
 
 <table class="table">
@@ -69,13 +74,14 @@
     <% end %>
   </tbody>
 </table>
+  <div class="panel-body">
+    <%= will_paginate %>
+  </div>
 </div>
-  <%= will_paginate %>
+
 <br>
 
-<% if isLoggedIn? %>
-    <%= link_to 'New Review', new_review_path, class: "btn btn-default" %>
-<% end %>
+
 
 <script>
     var doneTheStuff;
