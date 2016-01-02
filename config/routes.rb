@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   get '/register', :to => "users#new"
   get "login_attempt", :to => "users#login_attempt"
   get 'forgot_password', :to => "application#forgot_password"
+  get 'cookies_policy', :to => "application#cookies_policy"
+  get 'privacy_policy', :to => "application#privacy_policy"
+  get 'user_agreement', :to => "application#user_agreement"
   post "login_attempt", :to => "users#login_attempt"
   post 'reviews/search_by_place'
   
@@ -38,7 +41,7 @@ Rails.application.routes.draw do
   
   get 'api/login_with_social'
 
-  root 'welcome#home' #'reviews#index'
+  root 'welcome#home'
   
   get '*path' => redirect('/')
 end
