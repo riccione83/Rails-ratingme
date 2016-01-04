@@ -1,5 +1,5 @@
-  <header class="navbar navbar-fixed-top navbar-default">
-    <div class="container">
+  <header class="navbar navbar-fixed-top navbar-default ">
+    <div class="container container_top_bottom">
       <%= link_to "RatingMe", reviews_path, class: "btn btn-success", id: "logo"%>
       <% if isLoggedIn? %>
           <p class="navbar-text">Hi, <%= link_to session[:current_user_name], user_path(session[:current_user_id]) %> |  
