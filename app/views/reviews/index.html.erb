@@ -5,20 +5,19 @@
 <script type="text/javascript" src="assets/prototype.js"></script>
 
 <div class="page-header">
-  <h1>What's near you?</h1>
+  <h1 style="font-family: 'Pacifico', cursive;">What's near you?</h1>
 </div>
 
+<% if isLoggedIn? %>
+    <%= link_to 'I have something to ask!', new_review_path, class: "btn btn-lg btn-primary btn-block" %>
+<% end %>
+<br>   
 <div class="panel panel-default">
       <div id="map"> </div>
       <script>
           console.log('Page Refresh');
       </script>
 </div>
-   
-<% if isLoggedIn? %>
-    <%= link_to 'New Review', new_review_path, class: "btn btn-lg btn-primary btn-block" %>
-<% end %>
-<br>   
    
 <div class="panel panel-default">
   <!-- Default panel contents -->
@@ -105,9 +104,9 @@
            saluta("My ID: " + marker.id)    });
     }
   
-    handler.bounds.extendWith(markers);
-    handler.fitMapToBounds();  
-    handler.getMap().setZoom(12);  
+   // handler.bounds.extendWith(markers);
+    //handler.fitMapToBounds();  
+    handler.getMap().setZoom(17);  
     
     if(navigator.geolocation)
           navigator.geolocation.getCurrentPosition(displayOnMap);
