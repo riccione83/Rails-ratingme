@@ -12,9 +12,9 @@ class ReviewsController < ApplicationController
     else
       if session[:current_user_lat] != nil
          city = [session[:current_user_lat],session[:current_user_lon]]
-         @reviews = Review.near(city, 30, :units => :km).paginate(page: params[:page], per_page: 10)
+         @reviews = Review.near(city, 30, :units => :km).order("created_at DESC").paginate(page: params[:page], per_page: 10)
       else
-         @reviews = Review.all.paginate(page: params[:page], per_page: 10)
+         @reviews = Review.all.order("created_at DESC").paginate(page: params[:page], per_page: 10)
       end
     end
    buildMaker(@reviews)
