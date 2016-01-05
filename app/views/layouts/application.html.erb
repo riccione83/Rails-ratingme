@@ -19,6 +19,15 @@
 <%= render 'layouts/navigation' %>
 <%= render 'layouts/messages' %>
 
+<% if @near_you != nil %>
+  <div class="pull-left">
+    <b>New near you:</b><br>
+    <% @near_you.each do |review| %>
+        <%= link_to review.title, review %><br>
+    <%end%>
+  </div>
+<%end%>
+
 <div class="container">
 	<%= yield %>
 	<%= render 'layouts/footer' %>

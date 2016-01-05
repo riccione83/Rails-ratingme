@@ -1,6 +1,19 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+// Classes
+.pull-left {
+  float: left !important;
+  margin-top: 120px;
+  margin-left: 10px;
+  border-radius: 6px;
+  width: 150px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.pull-right {
+  float: right !important;
+}
+
 #logo {
     margin-top: 10px;
     margin-bottom: 10px;
