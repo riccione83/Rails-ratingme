@@ -2,14 +2,43 @@
 @import "bootstrap";
 
 // Classes
+
+@media (min-width: 768px) {
 .pull-left {
   float: left !important;
-  margin-top: 120px;
+  margin-top: 100px;
   margin-left: 10px;
   border-radius: 6px;
-  width: 150px;
+  width: 90px;
   background-color: rgba(255, 255, 255, 0.5);
 }
+}
+@media (min-width: 992px) {
+.pull-left {
+  float: left !important;
+  margin-top: 100px;
+  margin-left: 10px;
+  border-radius: 6px;
+  width: 100px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+}
+@media (min-width: 1200px) {
+.pull-left {
+  float: left !important;
+  margin-top: 100px;
+  margin-left: 10px;
+  border-radius: 6px;
+  width: 120px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+}
+
+
+div.page-header {
+  margin-top: 0px;
+}
+
 .pull-right {
   float: right !important;
 }
