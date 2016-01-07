@@ -1,0 +1,96 @@
+<script type="text/javascript" src="assets/prototype.js"></script>
+
+<style type="text/css">
+#loading_screen
+{  
+  display: none;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  color: black;  
+  text-align: center;
+  padding-top: 100px;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+</style>
+
+<div class="panel" style="text-align: center;" id='loadPanel'>
+  <h1 id='loadText'>Loading...</h1> 
+  <p>Please wait</p>
+</div>
+
+<script>
+
+  if(navigator.geolocation) 
+         navigator.geolocation.getCurrentPosition(displayOnMap,noLocation);
+  else
+  {
+        console.log('No position support');
+        window.location="/reviews";
+  }
+  
+ function noLocation() {
+     console.log('No position data');
+     document.getElementById('loadText').innerHTML += '<br>No position allowed';
+     window.location="/reviews";
+  }
+  
+function displayOnMap(position){
+      document.getElementById('loadText').innerHTML += '<br>Great! Done.';
+      getOutput(position);
+};
+
+function getOutput(position) {
+  getRequest('update_user_location?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude, // URL for the PHP or Rails file
+       drawOutput,  // handle successful request
+       drawError    // handle error
+  );
+  return false;
+}  
+// handles drawing an error message
+function drawError() {
+     console.log('Bummer: there was an error!');
+}
+// handles the response, adds the html
+function drawOutput(responseText) {
+    // console.log(responseText);
+     window.location="/reviews";
+}
+
+// helper function for cross-browser request object
+function getRequest(url, success, error) {
+    var req = false;
+    try{
+        // most browsers
+        req = new XMLHttpRequest();
+    } catch (e){
+        // IE
+        try{
+            req = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch(e) {
+            // try an older version
+            try{
+                req = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch(e) {
+                return false;
+            }
+        }
+    }
+    if (!req) return false;
+    if (typeof success != 'function') success = function () {};
+    if (typeof error!= 'function') error = function () {};
+    req.onreadystatechange = function(){
+        if(req.readyState == 4) {
+            return req.status === 200 ? success(req.responseText) : error(req.status);
+        }
+    }
+    req.open("GET", url, true);
+    req.send(null);
+    return req;
+}
+
+</script>

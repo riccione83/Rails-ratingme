@@ -39,7 +39,8 @@ class UsersController < ApplicationController
        
        session[:current_user_lat] = params[:lat]
        session[:current_user_lon] = params[:lon]
-       render :text => "Current user position: " + session[:current_user_lat] + " - " + session[:current_user_lon]
+      # render :text => "Current user position: " + session[:current_user_lat] + " - " + session[:current_user_lon]
+       redirect_to reviews_path
     else
       render :text => "No params"
     end

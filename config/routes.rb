@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   
   get 'api/login_with_social'
 
+  get 'start', :to => 'application#start'
   root 'welcome#home'
   
   get '*path' => redirect('/')
