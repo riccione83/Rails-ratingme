@@ -39,8 +39,8 @@ class UsersController < ApplicationController
        
        session[:current_user_lat] = params[:lat]
        session[:current_user_lon] = params[:lon]
-      # render :text => "Current user position: " + session[:current_user_lat] + " - " + session[:current_user_lon]
-       redirect_to reviews_path
+       render :text => "Current user position: " + session[:current_user_lat] + " - " + session[:current_user_lon]
+      # redirect_to reviews_path
     else
       render :text => "No params"
     end
@@ -53,7 +53,7 @@ class UsersController < ApplicationController
       session[:current_user_id] = authorized_user.id
       session[:current_user_name] = authorized_user.user_name
      # RatingmeMailer.register_email(authorized_user).deliver_now
-      redirect_to reviews_path 
+      redirect_to start_path 
     else
       flash[:error] = "Invalid Username or Password"
       redirect_to(:action => 'login') #render "login"  
@@ -93,7 +93,7 @@ class UsersController < ApplicationController
         session[:current_user_id] = @user.id
         session[:current_user_name] = @user.user_name
         RatingmeMailer.register_email(@user).deliver_now
-        format.html { redirect_to reviews_path, notice: 'User was successfully created.' }
+        format.html { redirect_to start_path, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
