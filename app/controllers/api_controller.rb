@@ -156,7 +156,7 @@ class ApiController < ApplicationController
 			@reviews.each do |review|
 				@user = User.find(review.user_id)
 				@listofratings ||= []
-				@listofratings << [id: review.id, title: review.title, description: review.description,latitude: review.latitude, longitude: review.longitude, question1: review.question1, question2: review.question2, question3: review.question3,user: @user.user_name,avg_point1: get_point_question1(review),avg_point2: get_point_question2(review),avg_point3: get_point_question1(review),is_advertisement: review.isAdvertisement, ad_image_link: review.adImageLink, point: get_avg_for_review(review),picture: review.picture.url]
+				@listofratings << [id: review.id, title: review.title, description: review.description,latitude: review.latitude, longitude: review.longitude, question1: review.question1, question2: review.question2, question3: review.question3,user: @user.user_name,avg_point1: get_point_question1(review),avg_point2: get_point_question2(review),avg_point3: get_point_question3(review),is_advertisement: review.isAdvertisement, ad_image_link: review.adImageLink, point: get_avg_for_review(review),picture: review.picture.url]
 			end
 			render :json => @listofratings
 		end
@@ -170,7 +170,7 @@ class ApiController < ApplicationController
         	@reviews.each do |review|
 				@user = User.find(review.user_id)
 				@listofratings ||= []
-				@listofratings << [id: review.id, title: review.title, description: review.description,latitude: review.latitude, longitude: review.longitude, question1: review.question1, question2: review.question2, question3: review.question3,user: @user.user_name,avg_point1: get_point_question1(review),avg_point2: get_point_question2(review),avg_point3: get_point_question1(review),is_advertisement: review.isAdvertisement, ad_image_link: review.adImageLink, point: get_avg_for_review(review),picture: review.picture.url]
+				@listofratings << [id: review.id, title: review.title, description: review.description,latitude: review.latitude, longitude: review.longitude, question1: review.question1, question2: review.question2, question3: review.question3,user: @user.user_name,avg_point1: get_point_question1(review),avg_point2: get_point_question2(review),avg_point3: get_point_question3(review),is_advertisement: review.isAdvertisement, ad_image_link: review.adImageLink, point: get_avg_for_review(review),picture: review.picture.url]
 			end
 			render :json => @listofratings
          end
