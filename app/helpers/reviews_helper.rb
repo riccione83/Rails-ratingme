@@ -11,7 +11,7 @@ module ReviewsHelper
         #please fix this. it's horrible!!
         
         if rev.question3 != "" and rev.question2 != ""
-          return (get_point_question1(rev) + get_point_question2(rev) + get_point_question3(rev)) / total
+          return (get_point_question1(rev) + get_point_question2(rev) + get_point_question3(rev)) / 3
         end  
         
         if rev.question3 == "" and rev.question2 != ""
@@ -22,7 +22,11 @@ module ReviewsHelper
          return (get_point_question1(rev) + get_point_question3(rev)) / 2
         end
       
-        #return (get_point_question1(rev) + get_point_question2(rev) + get_point_question3(rev)) / total
+        if rev.question3 == "" and rev.question2 == ""
+         return (get_point_question1(rev))
+        end
+        
+        #return (get_point_question1(rev) + get_point_question2(rev) + get_point_question3(rev)) / 3
       end
 
       def get_total_count_for_question1(rev)
