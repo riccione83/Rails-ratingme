@@ -7,7 +7,25 @@
     <%= password_field_tag :login_password,"",class: 'form-control',placeholder:'Password' %>
     <%= submit_tag("Log In", class:"btn btn-lg btn-primary btn-block") %>
   <% end %>
-  <br>
-  or <%= link_to "Register", register_path %> <br>
   <%= link_to "Forgot password?", forgot_password_path %>
+  <br>
+  <br/>
+  <%= link_to "Register", register_path, class:"btn btn-lg btn-primary btn-block" %> <br>
+
+<div style="text-align:center; padding:1em">
+  <h2 class="form-signin-heading" style="font-family: 'Pacifico', cursive;"><small>Or use social to login.</small></h2>  
+  <div class="btn-group">
+		<a class='btn btn-primary disabled'><i class="fa fa-facebook" style="width:16px; height:17px"></i></a>
+		<a class='btn btn-primary ' href='/auth/facebook' style="width:12em" id="sign_in"> Sign in with Facebook</a>
+	</div>	
+	<br /><br />
+	<div class="btn-group">
+		<a class='btn btn-info disabled'><i class="fa fa-twitter" style="width:16px; height:17px"></i></a>
+		<a class='btn btn-info ' href='/auth/twitter' style="width:12em" id ="sign_in"> Sign in with Twitter</a>
+	</div>	
+</div>	
+
+  <br>
+
+
 </div>

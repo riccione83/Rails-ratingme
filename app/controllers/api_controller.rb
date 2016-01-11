@@ -79,51 +79,76 @@ class ApiController < ApplicationController
  	end
 	
 	def register_new_user
-     if params[:user_name] != nil or
+     	if params[:user_name] != nil or
 		   params[:user_password_hash] != nil or
 		   params[:user_email] != nil
 
-		  if User.exists?(user_name: params[:user_name])
-		  	 render :json => '{"message":"User name already exist"}'
-		  else
-		   user = User.new
-		   user.user_name = params[:user_name]
-		   user.user_password_hash = params[:user_password_hash]
-		   user.user_password_hash_confirmation = params[:user_password_hash]
-		   user.user_email = params[:user_email]
-		   user.user_city = params[:user_city]
-		   if user.save
-		   	RatingmeMailer.register_email(user).deliver_now
-		   	render :json => "{\"user\":\"#{user.id}\"}"
-		   else
-		   	render :json => "{\"message\":\"#{user.errors.full_messages[0]}\"}"
-		   end
-		  end
+		  	if User.exists?(user_name: params[:user_name])
+		  	 	render :json => '{"message":"User name already exist"}'
+		  	else
+		   		user = User.new
+		   		user.user_name = params[:user_name]
+		   		user.user_password_hash = params[:user_password_hash]
+		   		user.user_password_hash_confirmation = params[:user_password_hash]
+		   		user.user_email = params[:user_email]
+		   		user.user_city = params[:user_city]
+		   		if user.save
+		   			RatingmeMailer.register_email(user).deliver_now
+		   			render :json => "{\"user\":\"#{user.id}\"}"
+		   		else
+		   			render :json => "{\"message\":\"#{user.errors.full_messages[0]}\"}"
+		   		end
+		  	end
 		else
 		   render :json => '{"message":"Error in params"}'
 		end
 	end
-	
+
 	def login_with_social
-		if params[:user_id] != nil
-			 if User.exists?(:user_name => params[:user_id])
-			 	user = User.find_by(:user_name => params[:user_id])
-			 	render :json => "{\"message\":\"#{user.id}\"}"
-			 else
-			   user = User.new
-		   	   user.user_name = params[:user_id]
-		       user.user_password_hash = "password_di_fantasia"
-		       user.user_password_hash_confirmation = "password_di_fantasia"
-		       user.user_email = "noemail@ratingme.com"
-		       user.user_city = "World"
-		   		if user.save	
-		   			render :json => "{\"message\":\"#{user.id}\"}"
-		   		else
-		   			render :json => '{"error": "error on register user"}'
-				end
-			 end
+		if params[:user_name] == nil											# For old iOS App compability
+			if params[:user_id] != nil
+			 	if User.exists?(:user_name => params[:user_id])
+				 	user = User.find_by(:user_name => params[:user_id])
+			 		render :json => "{\"message\":\"#{user.id}\"}"
+			 	else
+			   		user = User.new
+		   	   		user.user_name = params[:user_id]
+		       		user.user_password_hash = "changeme"
+		       		user.user_password_hash_confirmation = "changeme"
+		       		user.user_email = params[:user_id] + "@ratingme.eu"
+		       		user.user_city = ""
+		   			if user.save	
+			   			render :json => "{\"message\":\"#{user.id}\"}"
+		   			else
+			   			render :json => '{"error": "error on register user"}'
+					end
+			 	end
+			else
+				render :json => '{"error":"parameter error"}'
+			end
 		else
-			render :json => '{"error":"parameter error"}'
+			if params[:user_id] != nil											# if we pass user_name params we have a new version of iOS app
+				if User.exists?(:uid => params[:user_id])
+				 	user = User.find_by(:uid => params[:user_id])
+			 		render :json => "{\"message\":\"#{user.id}\"}"
+			 	else
+			   		user = User.new
+		   	   		user.user_name = params[:user_name]
+		   	   		user.provider = params[:provider]
+		   	   		user.uid =  params[:user_id]
+		       		user.user_password_hash = "changeme"
+		       		user.user_password_hash_confirmation = "changeme"
+		       		user.user_email =  params[:user_id] + "@ratingme.eu"
+		       		user.user_city = ""
+		   			if user.save	
+		   				render :json => "{\"message\":\"#{user.id}\"}"
+		   			else
+			   			render :json => '{"error": "error on register user"}'
+					end
+			 	end
+			else
+				render :json => '{"error":"parameter error"}'
+			end
 		end
 	end
 

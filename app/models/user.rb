@@ -12,6 +12,34 @@ class User < ActiveRecord::Base
 
 	has_many :ratings
 	
+	def self.from_omniauth(auth)
+		c_user = User.all.where(:user_name => auth.info.name)
+		if c_user.any?
+			return "Username already registered. Please login with your credentials."
+		else
+	 		where(provider: auth.provider, uid: auth.uid).first_or_create.tap do |user|
+      			if user.new_record?
+      				user.provider = auth.provider
+      				if auth.provider == "twitter"
+      					user.user_name = auth.info.nickname
+      				else
+    					user.user_name = auth.info.name
+    				end
+    				user.uid = auth.uid
+    				if auth.info.email != "" and auth.info.email != nil
+    	  				user.user_email =  auth.info.email
+    				else
+    	 				user.user_email = auth.uid + "@ratingme.eu"
+    				end
+    				user.user_password_hash = "changeme"
+    				user.user_password_hash_confirmation = "changeme"
+    				user.user_city = auth.info.location
+      				user.save!
+      			end
+     		end
+     	end
+    end
+    
 	def self.user_exist(username_or_email="")
 	 	if  EMAIL_REGEX.match(username_or_email)    
  		 	user = User.find_by user_email: username_or_email

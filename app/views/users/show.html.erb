@@ -46,3 +46,8 @@
     </tr>
   <% end %>
 </table>
+
+
+
+<br><br>
+<%= link_to 'Close my Account', @user , method: :delete , data: { confirm: 'Are you sure? All your Reviews and Ratings will be lost!' }, class: "btn btn-lg btn-warning" %>

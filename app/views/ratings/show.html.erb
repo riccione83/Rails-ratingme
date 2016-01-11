@@ -25,6 +25,10 @@
   <%= @rating.user.user_name %>, <%= time_ago_in_words(@rating.created_at) %> ago
 </p>
 
+<div class="fb-like" data-href=<%= rating_path(@rating) %> data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+
+<br>
+
 <% if isLoggedIn? and @rating.user_id == get_current_user_id %>
   <%= link_to 'Edit', edit_rating_path(@rating) %> |
 <% end %>

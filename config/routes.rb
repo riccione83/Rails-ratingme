@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   
   get 'welcome/home'
 
+  match 'auth/:provider/callback', to: 'users#login_from_social', via: [:get, :post]
+  match 'auth/failure', to: redirect('/'), via: [:get, :post]
+  match 'signout', to: 'users#logout', as: 'signout', via: [:get, :post]
+  
   post '/rate' => 'rater#create', :as => 'rate'
   resources :users
   resources :ratings

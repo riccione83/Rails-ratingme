@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
- http_basic_authenticate_with name: "r", password: "r", except: [:new,:edit, :update, :login, :login_attempt, :logout, :set_user, :index, :create, :update_user_location, :update_user_radius, :show]
+ http_basic_authenticate_with name: "r", password: "r", except: [:new,:edit, :update, :login, :login_attempt, :login_from_social, :logout, :set_user, :index, :create, :update_user_location, :update_user_radius, :show]
 
   # GET /users
   # GET /users.json
@@ -12,6 +12,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def login_from_social
+    puts "ENVIRONMENT: "
+    puts env["omniauth.auth"]
+    	
+    user = User.from_omniauth(env["omniauth.auth"])
+    if user.is_a? String
+      flash[:alert] = user
+      redirect_to login_path
+    else
+      session[:current_user_id] = user.id
+      session[:current_user_name] = user.user_name
+      redirect_to reviews_path
+    end
+  end
+  
   def logout
     @_curr_user_id =  session[:current_user_id] = nil
     session[:current_user_name] = nil
@@ -121,6 +136,12 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     @user = User.find(params[:id])
+        
+    @ratings = @user.ratings.all
+    @reviews = Review.all.where(:user_id => @user.id)
+    @ratings.delete_all
+    @reviews.delete_all
+  
     @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }

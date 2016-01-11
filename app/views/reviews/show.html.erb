@@ -58,6 +58,8 @@
 <%= link_to 'Back', reviews_path, class: "btn btn-default btn-sm" %>
 
 <hr>
+<div class="fb-like" data-href=<%=review_path(@review)%> data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+<hr>
 
 <% if @ratings.exists? %>
 <div class="panel panel-default">

@@ -34,6 +34,8 @@ gem 'mini_magick'
 gem 'net-ssh'
 gem 'will_paginate', '3.0.7'
 gem 'bootstrap-will_paginate', '0.0.10'
+gem 'omniauth-facebook', '~> 1.4.0'
+gem 'omniauth-twitter'
 
 
 # Use ActiveModel has_secure_password
