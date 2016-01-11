@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     else
       session[:current_user_id] = user.id
       session[:current_user_name] = user.user_name
-      redirect_to reviews_path
+      redirect_to start_path
     end
   end
   
