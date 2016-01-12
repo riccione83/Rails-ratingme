@@ -12,7 +12,7 @@
 		<meta property="og:description" 	 content="<%=@review.description%> - Posted by: <%= User.find(@review.user_id).user_name %>" />
 		
 		<%if @review.picture.url != nil%>
-		  <%if @review.picture.url.include? "http://" %>
+		  <%if @review.picture.url.include? "http://" or @review.picture.url.include? "https://" %>
 		    <meta property="og:image"      content="<%=@review.picture.url%>"/>	
 		  <%else%>
 		    <meta property="og:image"      content="<%=request.base_url + @review.picture.url%>"/>	
@@ -27,7 +27,7 @@
 	  	<meta property="og:title" 			   content="Watch this RatingMe's Rating!!" />
 		  <meta property="og:description" 	 content="<%=@rating.review.title + " - " + @rating.review.description%> - Rated by: <%=@rating.user.user_name%>" />
 		  <%if @rating.review.picture.url != nil%>
-  		  <%if @rating.review.picture.url.include? "http://" %>
+  		  <%if @rating.review.picture.url.include? "http://" or  @rating.review.picture.url.include? "https://" %>
 		      <meta property="og:image"      content="<%=@rating.review.picture.url%>"/>	
 		    <%else%>
   		    <meta property="og:image"      content="<%=request.base_url + @rating.review.picture.url%>"/>	
