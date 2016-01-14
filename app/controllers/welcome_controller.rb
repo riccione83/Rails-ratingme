@@ -6,4 +6,8 @@ class WelcomeController < ApplicationController
   
   def start
   end
+  
+  def eula
+     render :layout => 'eula'
+  end
 end

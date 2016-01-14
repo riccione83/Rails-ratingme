@@ -34,7 +34,8 @@ Rails.application.routes.draw do
   get 'forgot_password', :to => "application#forgot_password"
   get 'cookies_policy', :to => "application#cookies_policy"
   get 'privacy_policy', :to => "application#privacy_policy"
-  get 'user_agreement', :to => "application#user_agreement"
+  get 'user_agreement', :to => "welcome#eula"
+  get 'eula', :to => "welcome#eula"  
   post "login_attempt", :to => "users#login_attempt"
   post 'reviews/search_by_place'
   
@@ -54,6 +55,7 @@ Rails.application.routes.draw do
   
   get 'api/login_with_social'
 
+  get 'eula', :to => 'welcome#eula'
   get 'start', :to => 'application#start'
   root 'welcome#home'
   
