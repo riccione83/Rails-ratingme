@@ -21,7 +21,7 @@
 </p>
 
 <p>
-  Posted by: <%=link_to User.find(@review.user_id).user_name, user_path(@review.user_id) %>, <%= time_ago_in_words(@rating.created_at) %> ago
+  Posted by: <%=link_to User.find(@rating.user_id).user_name, user_path(@rating.user_id) %>, <%= time_ago_in_words(@rating.created_at) %> ago
 </p>
    <a href= '<%=report_rating_path(@rating)%>' class="btn btn-default btn-xs" role="button">
       <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
