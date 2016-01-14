@@ -1,3 +1,5 @@
+<%if isLoggedIn? and session[:current_user_id] == @user.id%>
+
 <h1 style="font-family: 'Pacifico', cursive;">Your account</h1>
 <p>
   <strong>User name:</strong>
@@ -21,33 +23,52 @@
 
 <%= link_to 'Back', users_path, class: "btn btn-default btn-sm" %> | 
 <%= link_to 'Edit', edit_user_path(@user), class: "btn btn-default btn-sm" %>
-
+<%else%>
+  <h1 style="font-family: 'Pacifico', cursive;"><%= @user.user_name %></h1>
+  
+  <a href= '<%=report_user_path(@user)%>' class="btn btn-default btn-xs" role="button">
+      <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+      Report abuse
+  </a>
+  
+<%end%>
 <hr>
-<h3>Your rates</h3>
+<%if session[:current_user_id] == params[:id]%>
+  <h3>Your rates</h3>
+<%else%>
+  <h3>Rates</h3>
+<%end%>
 <table>
   <% @ratings.each do |rating| %>
     <tr>
       <td><%= link_to rating.description, review_path(rating.review) %> &nbsp; &nbsp; </td>
+    <%if session[:current_user_id] == params[:id]%>  
       <td><%= link_to 'Edit',edit_user_rating_path(@user,rating), class: "btn btn-default btn-xs" %> &nbsp;|&nbsp; </td>
       <td><%= link_to 'Destroy', rating , method: :delete , data: { confirm: 'Are you sure?' }, class: "btn btn-default btn-xs" %></td>
+    <%end%>  
     </tr>
   <% end %>
 </table>
 
 <hr>
-<h3>Your reviews</h3>
+<%if session[:current_user_id] == params[:id]%>
+  <h3>Your reviews</h3>
+<%else%>
+  <h3>Reviews</h3>
+<%end%>
 <table>
   <% @reviews.each do |review| %>
     <tr>
       <td><%= link_to review.title, review_path(review) %> &nbsp; &nbsp; </td>
+    <%if session[:current_user_id] == params[:id]%>  
       <td><%= link_to 'Edit',edit_review_path(review), class: "btn btn-default btn-xs" %> &nbsp;|&nbsp; </td>
       <td><%= link_to 'Destroy', review , method: :delete , data: { confirm: 'Are you sure?' }, class: "btn btn-default btn-xs" %></td>
-      
+    <%end%>  
     </tr>
   <% end %>
 </table>
 
-
-
+<%if session[:current_user_id] == params[:id]%>
 <br><br>
 <%= link_to 'Close my Account', @user , method: :delete , data: { confirm: 'Are you sure? All your Reviews and Ratings will be lost!' }, class: "btn btn-lg btn-warning" %>
+<%end%>

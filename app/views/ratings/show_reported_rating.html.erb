@@ -1,0 +1,33 @@
+<% @ratings.each do |rating| %>
+
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 20%; text-align: left"><%= rating.description %>
+    </span>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= rating.rate_question1 %>
+    </span>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= rating.rate_question2 %>
+    </span>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= rating.rate_question3 %>
+    </span>
+  </div>
+ 
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= rating.reported %>
+    </span>
+  </div>
+  
+  <a href= '<%=reset_rating_path(rating)%>' class="btn btn-info btn-xs" role="button">
+      <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+      Reset
+  </a>
+   
+  <br>
+
+<hr/>
+<%end%>

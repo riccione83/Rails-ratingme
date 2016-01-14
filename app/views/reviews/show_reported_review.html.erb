@@ -1,0 +1,44 @@
+<% @reviews.each do |review| %>
+
+ <% if !review.new_record? %>
+   <div class="panel panel-default">
+     <%= image_tag( review.picture.url,:size => '300x200') %>
+   </div>
+  <br>
+  <%end%>
+    
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 20%; text-align: left"><%= review.title %>
+    </span>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= review.description %>
+    </span>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= review.question1 %>
+    </span>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= review.question2 %>
+    </span>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= review.question3 %>
+    </span>
+  </div>
+  
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="text-align: left"><%= review.reported %>
+    </span>
+  </div>
+  
+  <a href= '<%=reset_review_path(review)%>' class="btn btn-info btn-xs" role="button">
+      <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+      Reset
+  </a>
+   
+  <br>
+
+<hr/>
+<%end%>

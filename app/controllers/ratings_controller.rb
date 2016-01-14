@@ -5,10 +5,28 @@ class RatingsController < ApplicationController
   # GET /ratings.json
   def index
     @review = Review.find(params[:review_id])
-    @ratings = @review.ratings.all
+    @ratings = @review.ratings.all.where.not(reported: "1")
     @user = @ratings.first.user
   end
 
+  def show_reported_rating
+     @ratings = Rating.all.paginate(page: params[:page], per_page: 10).order("created_at DESC").where.not(reported: "0")
+  end
+  
+  def report_rating
+    @rating = Rating.find(params[:id])
+    @rating.update_attribute('reported', '1')
+    flash[:notice] = "Rating reported. Thankyou."
+    redirect_to(rating_path(params[:id]))
+  end
+  
+  def reset_rating
+    @rating = Rating.find(params[:id])
+    @rating.update_attribute('reported', '0')
+    flash[:notice] = "Rating resetted."
+    redirect_to(show_reported_rating_path(params[:id]))
+  end
+  
   # GET /ratings/1
   # GET /ratings/1.json
   def show

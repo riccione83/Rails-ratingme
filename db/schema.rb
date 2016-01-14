@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160111161605) do
+ActiveRecord::Schema.define(version: 20160114095406) do
 
   create_table "average_caches", force: :cascade do |t|
     t.integer  "rater_id"
@@ -56,8 +56,9 @@ ActiveRecord::Schema.define(version: 20160111161605) do
     t.integer  "rate_question1"
     t.integer  "rate_question2"
     t.integer  "rate_question3"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "reported",       default: "0"
   end
 
   add_index "ratings", ["review_id"], name: "index_ratings_on_review_id"
@@ -73,9 +74,10 @@ ActiveRecord::Schema.define(version: 20160111161605) do
     t.string   "question3"
     t.integer  "isAdvertisement"
     t.string   "adImageLink"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "picture"
+    t.string   "reported",        default: "0"
   end
 
   create_table "users", force: :cascade do |t|
@@ -84,10 +86,11 @@ ActiveRecord::Schema.define(version: 20160111161605) do
     t.string   "user_password_hash"
     t.string   "user_email"
     t.string   "user_city"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.string   "provider"
     t.string   "uid"
+    t.string   "reported",           default: "0"
   end
 
   add_index "users", ["rating_id"], name: "index_users_on_rating_id"

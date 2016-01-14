@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
- http_basic_authenticate_with name: "r", password: "r", except: [:new,:edit, :update, :login, :login_attempt, :login_from_social, :logout, :set_user, :index, :create, :update_user_location, :update_user_radius, :show]
+ http_basic_authenticate_with name: "r", password: "r", except: [:new,:edit, :update, :login, :login_attempt,:report_user, :login_from_social, :logout, :set_user, :index, :create, :update_user_location, :update_user_radius, :show]
 
   # GET /users
   # GET /users.json
@@ -12,6 +12,20 @@ class UsersController < ApplicationController
     end
   end
 
+  def report_user
+    @user = User.find(params[:id])
+    @user.update_attribute('reported', '1')
+    flash[:notice] = "Utente segnalato. Grazie."
+    redirect_to(user_path(params[:id]))
+  end
+  
+  def unreport_user
+    @user = User.find(params[:id])
+    @user.update_attribute('reported', '0')
+    flash[:notice] = "Utente Ripristinato"
+    redirect_to(user_path(params[:id]))
+  end
+  
   def login_from_social
     puts "ENVIRONMENT: "
     puts env["omniauth.auth"]
@@ -72,19 +86,23 @@ class UsersController < ApplicationController
     else
       flash[:error] = "Invalid Username or Password"
       redirect_to(:action => 'login') #render "login"  
-   end
+    end
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
-    if session[:current_user_id] == params[:id]
-      @user = User.find(params[:id])
-    else
-      @user = User.find(session[:current_user_id])
-    end
+    @user = User.find(params[:id])
     @ratings = @user.ratings.all
     @reviews = Review.all.where(:user_id => @user.id)
+    
+   #if session[:current_user_id] == params[:id]
+   #   @user = User.find(params[:id])
+   # else
+   #   @user = User.find(session[:current_user_id])
+   # end
+   # @ratings = @user.ratings.all
+   # @reviews = Review.all.where(:user_id => @user.id)
   end
 
   # GET /users/new

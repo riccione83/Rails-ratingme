@@ -8,18 +8,36 @@ class ReviewsController < ApplicationController
   # GET /reviews.json
   def index
     if params[:search] and params[:search] != ""
-        @reviews = Review.search(params[:search]).paginate(page: params[:page], per_page: 10).order("created_at DESC")
+        @reviews = Review.search(params[:search]).paginate(page: params[:page], per_page: 10).order("created_at DESC").where.not(reported: "1")
     else
       if session[:current_user_lat] != nil
          city = [session[:current_user_lat],session[:current_user_lon]]
-         @reviews = Review.near(city, 200, :units => :km).paginate(page: params[:page], per_page: 10).order("created_at DESC")
-         @near_you = Review.near(city, 2, :units => :km).limit(5).order("created_at DESC")   
+         @reviews = Review.near(city, 200, :units => :km).paginate(page: params[:page], per_page: 10).order("created_at DESC").where.not(reported: "1")
+         @near_you = Review.near(city, 2, :units => :km).limit(5).order("created_at DESC").where.not(reported: "1")
       else
-         @reviews = Review.all.paginate(page: params[:page], per_page: 10).order("created_at DESC")
+         @reviews = Review.all.paginate(page: params[:page], per_page: 10).order("created_at DESC").where.not(reported: "1")
       end
     end
    buildMaker(@reviews)
   end
+  
+  def show_reported_review
+     @reviews = Review.all.paginate(page: params[:page], per_page: 10).order("created_at DESC").where.not(reported: "0")
+  end
+  
+  def report_review
+    @review = Review.find(params[:id])
+    @review.update_attribute('reported', '1')
+    flash[:notice] = "Review reported. Thankyou."
+    redirect_to(review_path(params[:id]))
+  end
+  
+  def reset_review
+    @review = Review.find(params[:id])
+    @review.update_attribute('reported', '0')
+    flash[:notice] = "Review resetted."
+    redirect_to(show_reported_review_path(params[:id]))
+  end  
 
   def buildMaker(rev)
     @hash = Gmaps4rails.build_markers(rev) do |review, marker|
@@ -75,7 +93,7 @@ class ReviewsController < ApplicationController
   def show
     if params[:id] != nil
       @review = Review.find(params[:id])
-      @ratings = @review.ratings.all.paginate(page: params[:page], per_page: 10)
+      @ratings = @review.ratings.all.paginate(page: params[:page], per_page: 10).where.not(reported: "1")
       buildMaker(@review)
     end
   end
