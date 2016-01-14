@@ -9,7 +9,7 @@
 	<meta name="viewport" 				       content="width=device-width, initial-scale=1.0" />
 	<%if @review != nil %>
 		<meta property="og:title" 			   content="<%=@review.title%>" />
-		<meta property="og:description" 	 content="<%=@review.description%> - Posted by: <%= User.find(@review.user_id).user_name %>" />
+		<meta property="og:description" 	 content="<%=@review.description%> - Posted by: <%= User.find(@review.user_id).user_name %> via RatingMe.eu" />
 		
 		<%if @review.picture.url != nil%>
 		  <%if @review.picture.url.include? "http://" or @review.picture.url.include? "https://" %>
@@ -25,7 +25,7 @@
 	  <%if @rating != nil %>
 	  
 	  	<meta property="og:title" 			   content="Watch this RatingMe's Rating!!" />
-		  <meta property="og:description" 	 content="<%=@rating.review.title + " - " + @rating.review.description%> - Rated by: <%=@rating.user.user_name%>" />
+		  <meta property="og:description" 	 content="<%=@rating.review.title + " - " + @rating.review.description%> - Rated by: <%=@rating.user.user_name%> via RatingMe.eu" />
 		  <%if @rating.review.picture.url != nil%>
   		  <%if @rating.review.picture.url.include? "http://" or  @rating.review.picture.url.include? "https://" %>
 		      <meta property="og:image"      content="<%=@rating.review.picture.url%>"/>	
@@ -50,17 +50,6 @@
   <meta property="og:type"          	 content="website" />
   <meta property="fb:app_id"		  	   content="966242223397117" />
   
-   
-  <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-	<!-- font awesome css -->
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-	
-	
   <link href='https://fonts.googleapis.com/css?family=Indie+Flower|Josefin+Sans|Lobster|Pacifico' rel='stylesheet' type='text/css'>
   <%= csrf_meta_tags %>
 </head>
