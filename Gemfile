@@ -36,6 +36,7 @@ gem 'will_paginate', '3.0.7'
 gem 'bootstrap-will_paginate', '0.0.10'
 gem 'omniauth-facebook', '~> 1.4.0'
 gem 'omniauth-twitter'
+gem 'obscenity'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
