@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
 # Use SCSS for stylesheets
@@ -21,12 +20,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-#gem 'bootstrap-sass', '~> 3.3.6'
-
-gem 'bootstrap', '~> 4.0.0.alpha3'
-source 'https://rails-assets.org' do
-  gem 'rails-assets-tether', '>= 1.1.0'
-end
+gem 'bootstrap-sass', '~> 3.3.5'
 
 gem 'coffee-script-source', '1.8.0'
 gem 'geocoder'

@@ -8,7 +8,6 @@ GIT
 
 GEM
   remote: https://rubygems.org/
-  remote: https://rails-assets.org/
   specs:
     actionmailer (4.2.4)
       actionpack (= 4.2.4)
@@ -51,9 +50,9 @@ GEM
       json
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bootstrap (4.0.0.alpha3)
-      autoprefixer-rails (>= 6.0.3)
-      sass (>= 3.4.19)
+    bootstrap-sass (3.3.5.1)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.3.0)
     bootstrap-will_paginate (0.0.10)
       will_paginate
     builder (3.2.2)
@@ -181,7 +180,6 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.2.4)
       sprockets-rails
-    rails-assets-tether (1.1.1)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.7)
@@ -246,7 +244,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  bootstrap (~> 4.0.0.alpha3)
+  bootstrap-sass (~> 3.3.5)
   bootstrap-will_paginate (= 0.0.10)
   byebug
   carrierwave
@@ -265,7 +263,6 @@ DEPENDENCIES
   prototype-rails!
   pry
   rails (= 4.2.4)
-  rails-assets-tether (>= 1.1.0)!
   rails_12factor
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
