@@ -89,7 +89,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
          address: "smtp.riccardorizzo.eu",
          port: 25,
-         authentication: "login",
+         authentication: "plain",
          enable_starttls_auto: true,
          user_name: 'ratingme@riccardorizzo.eu',
          password: 'Sabrina1009??',
