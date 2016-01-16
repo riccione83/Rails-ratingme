@@ -28,6 +28,8 @@ class ReviewsController < ApplicationController
   def report_review
     @review = Review.find(params[:id])
     @review.update_attribute('reported', '1')
+    @user = User.find(@review.user_id)
+    RatingmeMailer.reported_review(@user,@review).deliver_now
     flash[:notice] = "Review reported. Thankyou."
     redirect_to(review_path(params[:id]))
   end

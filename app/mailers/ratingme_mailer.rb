@@ -14,5 +14,12 @@ class RatingmeMailer < ApplicationMailer
      mail( :to => @user.user_email,
     :subject => 'Your new RatingMe password' )
    end
+   
+   def reported_review(user,review)
+     @user = user
+     @review = review
+     mail( :to => @user.user_email,
+    :subject => 'Your new RatingMe password' )    
+   end
   
 end
