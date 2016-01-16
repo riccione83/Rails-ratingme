@@ -85,27 +85,15 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
   
-  
-   #SMTP settings for gmail
-  config.action_mailer.smtp_settings = {
-         address: "smtps.aruba.it",
-         port: 465,
+ #SMTP settings for gmail
+   config.action_mailer.smtp_settings = {
+         address: "smtp.gmail.com",
+         port: 587,
          authentication: "login",
          enable_starttls_auto: true,
-         user_name: 'ratingme@riccardorizzo.eu',
-         password: 'Sabrina1009??',
+         user_name: ENV['EMAIL_USER_NAME'],
+         password: ENV['EMAIL_PASSWORD'],
         :openssl_verify_mode => 'none'
 }
-
- #SMTP settings for gmail
-#  config.action_mailer.smtp_settings = {
-#         address: "smtp.gmail.com",
-#         port: 587,
-#         authentication: "login",
-#         enable_starttls_auto: true,
-#         user_name: ENV['EMAIL_USER_NAME'],
-#         password: ENV['EMAIL_PASSWORD'],
-#        :openssl_verify_mode => 'none'
-#}
 
 end
