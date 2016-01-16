@@ -1,5 +1,5 @@
 class RatingmeMailer < ApplicationMailer
- default :from => 'noreply@ratingme.com'
+ default :from => 'RatingMe'
 
 # send a signup email to the user, pass in the user object that   contains the user's email address
   
@@ -13,6 +13,6 @@ class RatingmeMailer < ApplicationMailer
     @user = user
      mail( :to => @user.user_email,
     :subject => 'Your new RatingMe password' )
-  end
+   end
   
 end

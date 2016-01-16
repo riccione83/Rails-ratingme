@@ -81,7 +81,7 @@ class UsersController < ApplicationController
       flash[:success] = "Welcome, you logged in as #{authorized_user.user_name}"
       session[:current_user_id] = authorized_user.id
       session[:current_user_name] = authorized_user.user_name
-     # RatingmeMailer.register_email(authorized_user).deliver_now
+     # RatingmeMailer.register_email(authorized_user).deliver_now   #disable then this
       redirect_to start_path 
     else
       flash[:error] = "Invalid Username or Password"
