@@ -35,7 +35,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  config.action_mailer.default_url_options = { :host => 'https://ratingme-riccione83.c9.io' }
+  config.action_mailer.default_url_options = { :host => 'http://www.ratingme.eu' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   # Don't care if the mailer can't send.
@@ -47,8 +47,8 @@ Rails.application.configure do
          port: 587,
          authentication: "login",
          enable_starttls_auto: true,
-         user_name: "riccione83@gmail.com",
-         password: "laura007",
+         user_name: "tesy@gmail.com",
+         password: "test",
         :openssl_verify_mode => 'none'
 }
 end
