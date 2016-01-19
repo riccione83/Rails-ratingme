@@ -77,6 +77,29 @@ class ApiController < ApplicationController
   		  render :json => '{"message":"error in params"}'
   		end
  	end
+ 	
+    def report_review
+     if params[:review_id] != nil
+       @review = Review.find(params[:review_id])
+       @review.update_attribute('reported', '1')
+       @user = User.find(@review.user_id)
+       RatingmeMailer.reported_review(@user,@review).deliver_now
+       render :json => '{"message":"Thankyou. Your help is greatly appreciated. A moderator will check this Review and will delete it if will be necessary."}'
+     else
+     	render :json => '{"error":"Error in params"}'
+     end
+    end
+    
+    
+    def report_user
+	  if params[:user_id] != nil    	
+    	@user = User.find(params[user_id])
+    	@user.update_attribute('reported', '1')
+    	render :json => '{"message":"Thankyou. Your help is greatly appreciated. A moderator will check this User and will ban it if will be necessary."}'
+	  else
+     	render :json => '{"error":"Error in params"}'    	
+      end
+  	end
 	
 	def register_new_user
      	if params[:user_name] != nil or
@@ -176,7 +199,7 @@ class ApiController < ApplicationController
 		   params[:lon] == nil
 		   render :json => '{"error":"No params"}'
 	    else
-			@reviews = Review.near([ params[:lat],  params[:lon]], params[:radius], :units => :km)
+			@reviews = Review.near([ params[:lat],  params[:lon]], params[:radius], :units => :km).where.not(reported: "1")
 			
 			@reviews.each do |review|
 				@user = User.find(review.user_id)
@@ -191,7 +214,7 @@ class ApiController < ApplicationController
 		 if params[:search] == nil or params[:search] == ""
 		 	render :json => '{"error":"No params"}'
 		 else
-        	@reviews = Review.search(params[:search]).order("created_at DESC")
+        	@reviews = Review.search(params[:search]).order("created_at DESC").where.not(reported: "1")
         	@reviews.each do |review|
 				@user = User.find(review.user_id)
 				@listofratings ||= []

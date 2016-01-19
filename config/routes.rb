@@ -44,16 +44,15 @@ Rails.application.routes.draw do
 
   get 'api/show_reviews'
   post 'api/new_review'
-  
   get 'api/show_ratings'
   get 'api/new_rating'
   get 'api/search_reviews'
-  
   get 'api/get_user_by_rating'
   get 'api/login_user'
   get 'api/register_new_user' 
-  
   get 'api/login_with_social'
+  get 'api/report_review'
+  get 'api/report_user'
 
   get 'eula', :to => 'welcome#eula'
   get 'start', :to => 'application#start'
