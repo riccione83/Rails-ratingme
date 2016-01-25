@@ -40,7 +40,7 @@ class UsersController < ApplicationController
       redirect_to login_path
     else
       if user.reported == '1'
-        flash[:alert] = "Hi #{authorized_user.user_name}, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."
+        flash[:alert] = "Hi #{user.user_name}, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."
         session[:user_reported] = "1"
       end
       session[:current_user_id] = user.id
