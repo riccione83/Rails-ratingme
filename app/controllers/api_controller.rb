@@ -49,6 +49,9 @@ class ApiController < ApplicationController
     			 render :json => '{"error":"There is another Review at this point. Please try again in another location. Thankyou."}'
     	   else
 			  if User.exists?(:id => params[:user_id])
+			  	if User.userLocked(User.find(params[:user_id]))
+			  		render :json => '{"error":"Sorry, your account is locked because someone has report you. You cannot create new Review. Please contact us to unlock."}'
+			  	else
 			  	  @review = Review.new 						#Review.find(params[:id])
 			  	  @review.latitude = params[:latitude]
 				  @review.longitude = params[:longitude]
@@ -69,6 +72,7 @@ class ApiController < ApplicationController
 		  		  end
 	  		  	  @review.save
 	  		  	  render :json => '{"message":"success"}'
+	  		  	end
 	  	  	  else
 	  	  		render :json => '{"message":"user not exist"}'
 	  	  	  end
@@ -192,7 +196,7 @@ class ApiController < ApplicationController
 		      session[:current_user_id] = authorized_user.id
 		      session[:current_user_name] = authorized_user.user_name
 		      if authorized_user.reported == '1'
-		      	render :json => '{"info":"Hi, someone has reported that you have some Review that don\'t respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."}'
+		      	render :json => '{\"user\":\"#{authorized_user.id}\","info":"Hi, someone has reported that you have some Review that don\'t respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."}'
 		      else	
 		      	render :json => "{\"user\":\"#{authorized_user.id}\"}"
 		    else
@@ -248,22 +252,26 @@ class ApiController < ApplicationController
 	    else
 	    	if User.exists?(:id => params[:user_id])
 	    		@user = User.find(params[:user_id])
-	    		if Review.exists?(:id => params[:review_id])
-	        		@review = Review.find(params[:review_id])
-	        		if !@review.ratings.exists?(:user_id => params[:user_id])
-       					@rating = @review.ratings.new
-       					@rating.description = params[:description]
-       					@rating.rate_question1 = params[:rate_question1]
-       					@rating.rate_question2 = params[:rate_question2]
-       					@rating.rate_question3 = params[:rate_question3]
-       					@rating.user = @user
-       					@rating.save
-       					render :json => '{"message":"success"}'
+	    		if User.userLocked(User.find(params[:user_id]))
+			  		render :json => '{"error":"Sorry, your account is locked because someone has report you. You cannot create new Review. Please contact us to unlock."}'
+			  	else
+	    			if Review.exists?(:id => params[:review_id])
+		        		@review = Review.find(params[:review_id])
+	        			if !@review.ratings.exists?(:user_id => params[:user_id])
+	       					@rating = @review.ratings.new
+       						@rating.description = params[:description]
+       						@rating.rate_question1 = params[:rate_question1]
+       						@rating.rate_question2 = params[:rate_question2]
+       						@rating.rate_question3 = params[:rate_question3]
+       						@rating.user = @user
+       						@rating.save
+       						render :json => '{"message":"success"}'
+       					else
+	       					render :json => '{"error":"You can rate only one time."}'
+       					end
        				else
-       					render :json => '{"error":"You can rate only one time."}'
-       				end
-       			else
-	       			render :json => '{"error":"No review found"}'
+		       			render :json => '{"error":"No review found"}'
+        			end
         		end
         	else
         		render :json => '{"error":"No user found"}'

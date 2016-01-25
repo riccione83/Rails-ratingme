@@ -40,6 +40,14 @@ class User < ActiveRecord::Base
      		end
     end
     
+    def self.userLocked(user)
+    	if user.reported == "1"
+    		return true
+    	else
+    		return false
+    	end
+    end
+    
 	def self.user_exist(username_or_email="")
 	 	if  EMAIL_REGEX.match(username_or_email)    
  		 	user = User.find_by user_email: username_or_email
