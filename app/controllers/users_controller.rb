@@ -12,6 +12,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def show_reported_user
+     @users = User.all.paginate(page: params[:page], per_page: 10).where.not(reported: "0")
+  end
+  
   def report_user
     @user = User.find(params[:id])
     @user.update_attribute('reported', '1')
@@ -19,7 +23,7 @@ class UsersController < ApplicationController
     redirect_to(user_path(params[:id]))
   end
   
-  def unreport_user
+  def reset_user
     @user = User.find(params[:id])
     @user.update_attribute('reported', '0')
     flash[:notice] = "Utente Ripristinato"
@@ -27,14 +31,18 @@ class UsersController < ApplicationController
   end
   
   def login_from_social
-    puts "ENVIRONMENT: "
-    puts env["omniauth.auth"]
-    	
+    #puts "ENVIRONMENT: "
+    #puts env["omniauth.auth"]
+    session[:user_reported] = 0	
     user = User.from_omniauth(env["omniauth.auth"])
     if user.is_a? String
       flash[:alert] = user
       redirect_to login_path
     else
+      if user.reported == '1'
+        flash[:alert] = "Hi #{authorized_user.user_name}, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."
+        session[:user_reported] = 1 
+      end
       session[:current_user_id] = user.id
       session[:current_user_name] = user.user_name
       redirect_to start_path
@@ -78,10 +86,16 @@ class UsersController < ApplicationController
   def login_attempt
     authorized_user = User.authenticate(params[:username_or_email],params[:login_password])
     if authorized_user
-      flash[:success] = "Welcome, you logged in as #{authorized_user.user_name}"
+      if authorized_user.reported == '1'
+        flash[:alert] = "Hi #{authorized_user.user_name}, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."
+        session[:user_reported] = 1         
+      else
+        flash[:success] = "Welcome, you logged in as #{authorized_user.user_name}"
+        session[:user_reported] = 0
+      end
       session[:current_user_id] = authorized_user.id
       session[:current_user_name] = authorized_user.user_name
-     # RatingmeMailer.register_email(authorized_user).deliver_now   #disable then this
+     # RatingmeMailer.register_email(authorized_user).deliver_now   #disable this
       redirect_to start_path 
     else
       flash[:error] = "Invalid Username or Password"

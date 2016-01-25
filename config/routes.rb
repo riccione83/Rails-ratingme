@@ -19,13 +19,15 @@ Rails.application.routes.draw do
   end
   
   get 'report_user/:id', :to => "users#report_user", :as => 'report_user'
-  get 'reset_user/:id', :to => "users#unreport_user", :as => 'reset_user'
+  get 'reset_user/:id', :to => "users#reset_user", :as => 'reset_user'
+  get 'show_reported_user', :to => "users#show_reported_user"
   get 'report_review/:id', :to => "reviews#report_review", :as => 'report_review'
   get 'reset_review/:id', :to => "reviews#reset_review", :as => 'reset_review'
   get 'show_reported_review', :to => "reviews#show_reported_review"
   get 'report_rating/:id', :to => "ratings#report_rating", :as => 'report_rating'
   get 'reset_rating/:id', :to => "ratings#reset_rating", :as => 'reset_rating'
   get 'show_reported_rating', :to => "ratings#show_reported_rating"
+  
   
   get '/logout' => 'users#logout'
   get "login", :to => "users#login"

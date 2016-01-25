@@ -21,6 +21,14 @@ def get_user_city
     end
 end
 
+def userLocked
+    if session[:user_reported] == 1
+       return true
+    else
+        return false
+    end
+end
+
 def flash_class(level)
     if level == "notice"
     	return "alert alert-info alert-dismissible"

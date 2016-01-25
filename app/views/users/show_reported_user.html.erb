@@ -1,0 +1,22 @@
+<% @users.each do |user| %>
+
+
+<div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 20%; text-align: left"><%= user.user_name %></span>
+</div>
+<div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 20%; text-align: left"><%= user.user_email %></span>
+</div>
+<div class="input-group">
+    <span class="input-group-addon" id="basic-addon1" style="width: 20%; text-align: left"><%= user.user_city %></span>
+</div>
+ 
+<a href= '<%=reset_user_path(user)%>' class="btn btn-info btn-xs" role="button">
+      <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+      Reset
+</a>
+   
+  <br>
+
+<hr/>
+<%end%>

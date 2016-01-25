@@ -1,5 +1,11 @@
 <%if isLoggedIn? and session[:current_user_id] == @user.id%>
 
+<% if userLocked  %>
+<div class="alert alert-warning alert-dismissible" role="alert">
+           Hi, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account.
+</div>
+<%end%>   
+
 <h1 style="font-family: 'Pacifico', cursive;">Your account</h1>
 <p>
   <strong>User name:</strong>
@@ -28,7 +34,7 @@
   
   <a href= '<%=report_user_path(@user)%>' class="btn btn-default btn-xs" role="button">
       <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-      Report abuse
+      Report this user
   </a>
   
 <%end%>

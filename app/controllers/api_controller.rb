@@ -132,7 +132,11 @@ class ApiController < ApplicationController
 			if params[:user_id] != nil
 			 	if User.exists?(:user_name => params[:user_id])
 				 	user = User.find_by(:user_name => params[:user_id])
-			 		render :json => "{\"message\":\"#{user.id}\"}"
+				 	if user.reported == '1'
+		      			render :json => '{\"message\":\"#{user.id}\","info":"Hi, someone has reported that you have some Review that don\'t respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."}'
+		      		else
+				 		render :json => "{\"message\":\"#{user.id}\"}"
+				 	end
 			 	else
 			   		user = User.new
 		   	   		user.user_name = params[:user_id]
@@ -153,7 +157,11 @@ class ApiController < ApplicationController
 			if params[:user_id] != nil											# if we pass user_name params we have a new version of iOS app
 				if User.exists?(:uid => params[:user_id])
 				 	user = User.find_by(:uid => params[:user_id])
-			 		render :json => "{\"message\":\"#{user.id}\"}"
+				 	if user.reported == '1'
+		      			render :json => '{\"message\":\"#{user.id}\","info":"Hi, someone has reported that you have some Review that don\'t respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."}'
+		      		else
+			 			render :json => "{\"message\":\"#{user.id}\"}"
+			 		end
 			 	else
 			   		user = User.new
 		   	   		user.user_name = params[:user_name]
@@ -183,7 +191,10 @@ class ApiController < ApplicationController
 		    if authorized_user
 		      session[:current_user_id] = authorized_user.id
 		      session[:current_user_name] = authorized_user.user_name
-		      render :json => "{\"user\":\"#{authorized_user.id}\"}"
+		      if authorized_user.reported == '1'
+		      	render :json => '{"info":"Hi, someone has reported that you have some Review that don\'t respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."}'
+		      else	
+		      	render :json => "{\"user\":\"#{authorized_user.id}\"}"
 		    else
 		     render :json => '{"message":"Invalid Username or Password"}'
 		   end
