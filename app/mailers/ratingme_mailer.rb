@@ -18,14 +18,16 @@ class RatingmeMailer < ApplicationMailer
    def reported_review(user,review)
      @user = user
      @review = review
-     mail( :to => @user.user_email,
-    :subject => 'Your review was reported' )    
+     if !@user.user_email.include? "@ratingme.eu"
+       mail( :to => @user.user_email, :subject => 'Your review was reported' )    
+     end
    end
    
     def reported_user(user)
      @user = user
-     mail( :to => @user.user_email,
-    :subject => 'Your account was reported' )    
+     if !@user.user_email.include? "@ratingme.eu"
+      mail( :to => @user.user_email, :subject => 'Your account was reported' )    
+     end
    end
   
 end
