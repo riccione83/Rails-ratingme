@@ -4,7 +4,7 @@
 
 <script type="text/javascript" src="assets/prototype.js"></script>
 
-<% if userLocked  %>
+<% if session[:user_reported] == "1"  %>
 <div class="alert alert-warning alert-dismissible" role="alert">
            Hi, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account.
 </div>
@@ -14,7 +14,7 @@
   <h1 style="font-family: 'Pacifico', cursive;">What's near you?</h1>
 </div>
 
-<% if isLoggedIn? && !userLocked %>
+<% if isLoggedIn? &&  session[:user_reported] == "0" %>
     <%= link_to 'I have something to ask!', new_review_path, class: "btn btn-lg btn-primary btn-block" %>
     <br>
 <% end %>

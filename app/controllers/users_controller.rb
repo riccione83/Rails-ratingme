@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   def login_from_social
     #puts "ENVIRONMENT: "
     #puts env["omniauth.auth"]
-    session[:user_reported] = 0	
+    session[:user_reported] = "0"	
     user = User.from_omniauth(env["omniauth.auth"])
     if user.is_a? String
       flash[:alert] = user
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     else
       if user.reported == '1'
         flash[:alert] = "Hi #{authorized_user.user_name}, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."
-        session[:user_reported] = 1 
+        session[:user_reported] = "1"
       end
       session[:current_user_id] = user.id
       session[:current_user_name] = user.user_name
@@ -56,6 +56,7 @@ class UsersController < ApplicationController
     session.delete(:current_user_id)
     session.delete(:current_user_lat)
     session.delete(:current_user_lon)
+    session.delete(:user_reported)
     redirect_to login_path
   end
 
@@ -88,10 +89,10 @@ class UsersController < ApplicationController
     if authorized_user
       if authorized_user.reported == '1'
         flash[:alert] = "Hi #{authorized_user.user_name}, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."
-        session[:user_reported] = 1         
+        session[:user_reported] = "1"        
       else
         flash[:success] = "Welcome, you logged in as #{authorized_user.user_name}"
-        session[:user_reported] = 0
+        session[:user_reported] = "0"
       end
       session[:current_user_id] = authorized_user.id
       session[:current_user_name] = authorized_user.user_name

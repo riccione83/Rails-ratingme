@@ -49,7 +49,8 @@ class ApiController < ApplicationController
     			 render :json => '{"error":"There is another Review at this point. Please try again in another location. Thankyou."}'
     	   else
 			  if User.exists?(:id => params[:user_id])
-			  	if User.userLocked(User.find(params[:user_id]))
+			  	user = User.find(params[:user_id])
+			  	if user.reported == "1"
 			  		render :json => '{"error":"Sorry, your account is locked because someone has report you. You cannot create new Review. Please contact us to unlock."}'
 			  	else
 			  	  @review = Review.new 						#Review.find(params[:id])
@@ -96,9 +97,11 @@ class ApiController < ApplicationController
     
     
     def report_user
-	  if params[:user_id] != nil    	
-    	@user = User.find(params[user_id])
+	  if params[:review_id] != nil
+	  	@review = Review.find(params[:review_id])
+        @user = User.find(@review.user_id)
     	@user.update_attribute('reported', '1')
+    	RatingmeMailer.reported_user(@user).deliver_now
     	render :json => '{"message":"Thankyou. Your help is greatly appreciated. A moderator will check this User and will ban it if will be necessary."}'
 	  else
      	render :json => '{"error":"Error in params"}'    	
@@ -137,7 +140,7 @@ class ApiController < ApplicationController
 			 	if User.exists?(:user_name => params[:user_id])
 				 	user = User.find_by(:user_name => params[:user_id])
 				 	if user.reported == '1'
-		      			render :json => '{\"message\":\"#{user.id}\","info":"Hi, someone has reported that you have some Review that don\'t respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."}'
+		      			render :json => "{\"message\":\"#{user.id}\",\"info\":\"Hi, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account.\"}"
 		      		else
 				 		render :json => "{\"message\":\"#{user.id}\"}"
 				 	end
@@ -196,7 +199,7 @@ class ApiController < ApplicationController
 		      session[:current_user_id] = authorized_user.id
 		      session[:current_user_name] = authorized_user.user_name
 		      if authorized_user.reported == '1'
-		      	render :json => '{\"user\":\"#{authorized_user.id}\","info":"Hi, someone has reported that you have some Review that don\'t respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."}'
+		      	render :json => "{\"user\":\"#{authorized_user.id}\",\"info\":\"Hi, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account.\"}"
 		      else	
 		      	render :json => "{\"user\":\"#{authorized_user.id}\"}"
 		      end
@@ -253,8 +256,8 @@ class ApiController < ApplicationController
 	    else
 	    	if User.exists?(:id => params[:user_id])
 	    		@user = User.find(params[:user_id])
-	    		if User.userLocked(User.find(params[:user_id]))
-			  		render :json => '{"error":"Sorry, your account is locked because someone has report you. You cannot create new Review. Please contact us to unlock."}'
+	    		if @user.reported == "1"
+			  		render :json => '{"error":"Sorry, your account is locked because someone has report you. You cannot Rating. Please contact us to unlock."}'
 			  	else
 	    			if Review.exists?(:id => params[:review_id])
 		        		@review = Review.find(params[:review_id])

@@ -60,9 +60,9 @@
 
 <% if @review.user_id == session[:current_user_id] %>
   <%= link_to 'Edit', edit_review_path(@review), class: "btn btn-default btn-sm" %> |
+  <%= link_to 'Destroy',  { action: :destroy, id: @review.id }, method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-default btn-sm" %> |
 <% end %>
 <%= link_to 'Back', reviews_path, class: "btn btn-default btn-sm" %>
-
 <hr>
 <div class="fb-like" data-href=<%=review_path(@review)%> data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
 <hr>
@@ -124,7 +124,7 @@
 </div>
 <% end %>
 
-<% if isLoggedIn? && !userLocked %>
+<% if isLoggedIn? && session[:user_reported] == "0" %>
 
 <hr>
 

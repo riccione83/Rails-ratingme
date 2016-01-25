@@ -21,5 +21,11 @@ class RatingmeMailer < ApplicationMailer
      mail( :to => @user.user_email,
     :subject => 'Your review was reported' )    
    end
+   
+    def reported_user(user)
+     @user = user
+     mail( :to => @user.user_email,
+    :subject => 'Your account was reported' )    
+   end
   
 end

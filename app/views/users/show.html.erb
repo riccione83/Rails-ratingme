@@ -1,6 +1,6 @@
 <%if isLoggedIn? and session[:current_user_id] == @user.id%>
 
-<% if userLocked  %>
+<% if session[:user_reported] == "1"  %>
 <div class="alert alert-warning alert-dismissible" role="alert">
            Hi, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account.
 </div>

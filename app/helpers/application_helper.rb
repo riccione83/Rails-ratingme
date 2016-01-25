@@ -22,7 +22,7 @@ def get_user_city
 end
 
 def userLocked
-    if session[:user_reported] == 1
+    if session[:user_reported] = 1
        return true
     else
         return false
