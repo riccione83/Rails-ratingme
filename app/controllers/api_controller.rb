@@ -199,9 +199,10 @@ class ApiController < ApplicationController
 		      	render :json => '{\"user\":\"#{authorized_user.id}\","info":"Hi, someone has reported that you have some Review that don\'t respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."}'
 		      else	
 		      	render :json => "{\"user\":\"#{authorized_user.id}\"}"
+		      end
 		    else
 		     render :json => '{"message":"Invalid Username or Password"}'
-		   end
+		    end
 		else
 			render :json => '{"message":"Error on login"}'
 		end
