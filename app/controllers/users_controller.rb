@@ -59,7 +59,7 @@ class UsersController < ApplicationController
     session.delete(:user_reported)
     redirect_to login_path
   end
-
+  
   def login
     #Login Form
   end

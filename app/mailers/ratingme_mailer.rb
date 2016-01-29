@@ -26,7 +26,7 @@ class RatingmeMailer < ApplicationMailer
     def reported_user(user)
      @user = user
      if !@user.user_email.include? "@ratingme.eu"
-      mail( :to => @user.user_email, :subject => 'Your account was reported' )    
+      mail( :to => @user.user_email, :subject => 'Your account was suspended' )    
      end
    end
   
