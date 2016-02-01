@@ -50,6 +50,7 @@ class UsersController < ApplicationController
   end
   
   def logout
+    forget_user
     @_curr_user_id =  session[:current_user_id] = nil
     session[:current_user_name] = nil
     session.delete(:current_user_name)
@@ -62,7 +63,29 @@ class UsersController < ApplicationController
   
   def login
     #Login Form
+  #Login Form
+    if(cookies.signed[:current_user_id])
+       authorized_user = User.find(cookies.signed[:current_user_id])
+      if authorized_user
+        flash[:success] = "Welcome, you logged in as #{authorized_user.user_name}"
+        session[:current_user_id] = authorized_user.id
+        session[:current_user_name] = authorized_user.user_name
+        redirect_to start_path 
+      end
+    end    
   end
+  
+  
+  def forget_user
+    cookies.delete(:current_user_id)
+    cookies.delete(:current_user_name)
+  end
+  
+  def remember(user)
+    cookies.permanent.signed[:current_user_id] = user.id
+    cookies.permanent[:current_user_name] = user.user_name
+  end
+  
   
   def update_user_radius
     if params[:rad] != nil
@@ -97,6 +120,11 @@ class UsersController < ApplicationController
       session[:current_user_id] = authorized_user.id
       session[:current_user_name] = authorized_user.user_name
      # RatingmeMailer.register_email(authorized_user).deliver_now   #disable this
+      if(params[:remember_me] == '1')
+        remember(authorized_user)
+      else
+        forget_user
+      end
       redirect_to start_path 
     else
       flash[:error] = "Invalid Username or Password"
@@ -190,6 +218,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:id, :user_name, :user_password_hash, :user_email, :user_city, :user_password_hash_confirmation)
+      params.require(:user).permit(:id, :user_name, :user_password_hash, :user_email, :user_city, :user_password_hash_confirmation, :remember_me)
     end
 end

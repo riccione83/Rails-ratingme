@@ -5,6 +5,8 @@
   <%= form_tag(:action => 'login_attempt') do %>
     <%= text_field_tag :username_or_email,"", class: 'form-control',placeholder:'Username or Email' %>
     <%= password_field_tag :login_password,"",class: 'form-control',placeholder:'Password' %>
+    <%= check_box_tag :remember_me %> <span style="font-family: 'Pacifico', cursive;">Remember me on this computer</span>    
+    <br><br>
     <%= submit_tag("Log In", class:"btn btn-lg btn-primary btn-block") %>
   <% end %>
   <%= link_to "Forgot password?", forgot_password_path %>

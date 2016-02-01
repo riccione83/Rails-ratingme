@@ -7,18 +7,22 @@ class ReviewsController < ApplicationController
   # GET /reviews
   # GET /reviews.json
   def index
-    if params[:search] and params[:search] != ""
-        @reviews = Review.search(params[:search]).paginate(page: params[:page], per_page: 10).order("created_at DESC").where.not(reported: "1")
-    else
-      if session[:current_user_lat] != nil
-         city = [session[:current_user_lat],session[:current_user_lon]]
-         @reviews = Review.near(city, 200, :units => :km).paginate(page: params[:page], per_page: 10).order("created_at DESC").where.not(reported: "1")
-         @near_you = Review.near(city, 2, :units => :km).limit(5).order("created_at DESC").where.not(reported: "1")
+    if( session[:current_user_id] == nil)
+      redirect_to login_path
+    else    
+      if params[:search] and params[:search] != ""
+          @reviews = Review.search(params[:search]).paginate(page: params[:page], per_page: 10).order("created_at DESC").where.not(reported: "1")
       else
-         @reviews = Review.all.paginate(page: params[:page], per_page: 10).order("created_at DESC").where.not(reported: "1")
+        if session[:current_user_lat] != nil
+          city = [session[:current_user_lat],session[:current_user_lon]]
+          @reviews = Review.near(city, 200, :units => :km).paginate(page: params[:page], per_page: 10).order("created_at DESC").where.not(reported: "1")
+          @near_you = Review.near(city, 2, :units => :km).limit(5).order("created_at DESC").where.not(reported: "1")
+        else
+          @reviews = Review.all.paginate(page: params[:page], per_page: 10).order("created_at DESC").where.not(reported: "1")
+        end
       end
+      buildMaker(@reviews)
     end
-   buildMaker(@reviews)
   end
   
   def show_reported_review
