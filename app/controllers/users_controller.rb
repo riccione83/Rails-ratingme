@@ -107,9 +107,25 @@ class UsersController < ApplicationController
     end
   end
 
+  def send_test_message
+    device_token = '1eefd403a33fa66e4aa119444c14be92ec87372a0a46b38508c95cfc640fe916'
+    puts "Device token: " + device_token
+    
+    #APNS.send_notification(device_token, 'Hello iPhone!' )
+    APNS.send_notification(device_token, :alert => 'New login from website!', :badge => 1, :sound => 'default')
+
+    #n1 = APNS::Notification.new(device_token, 'Hello iPhone!' )
+    #n2 = APNS::Notification.new(device_token, :alert => 'Hello iPhone!', :badge => 1, :sound => 'default')
+    #APNS.send_notifications([n1, n2])
+    
+    puts "Message sent!"
+  end
+  
   def login_attempt
     authorized_user = User.authenticate(params[:username_or_email],params[:login_password])
     if authorized_user
+      
+      self.send_test_message
       if authorized_user.reported == '1'
         flash[:alert] = "Hi #{authorized_user.user_name}, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."
         session[:user_reported] = "1"        
