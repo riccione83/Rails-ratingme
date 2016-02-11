@@ -67,6 +67,8 @@ class UsersController < ApplicationController
     if(cookies.signed[:current_user_id])
        authorized_user = User.find(cookies.signed[:current_user_id])
       if authorized_user
+        self.send_test_message
+        
         flash[:success] = "Welcome, you logged in as #{authorized_user.user_name}"
         session[:current_user_id] = authorized_user.id
         session[:current_user_name] = authorized_user.user_name
