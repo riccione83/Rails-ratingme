@@ -31,6 +31,7 @@
 class ApiController < ApplicationController
 	require 'json'
 	include ReviewsHelper
+	include ApplicationHelper
 	skip_before_filter  :verify_authenticity_token
 	
 	#:user_id, :latitude, :longitude, :title, :description, :question1, :question2, :question3, :isAdvertisement, :adImageLink, :file, :picture
@@ -122,6 +123,9 @@ class ApiController < ApplicationController
 		   		user.user_password_hash_confirmation = params[:user_password_hash]
 		   		user.user_email = params[:user_email]
 		   		user.user_city = params[:user_city]
+		   		if params[:device_token] != nil
+		   			user.device_token = params[:device_token]
+		   		end
 		   		if user.save
 		   			RatingmeMailer.register_email(user).deliver_now
 		   			render :json => "{\"user\":\"#{user.id}\"}"
@@ -139,6 +143,11 @@ class ApiController < ApplicationController
 			if params[:user_id] != nil
 			 	if User.exists?(:user_name => params[:user_id])
 				 	user = User.find_by(:user_name => params[:user_id])
+				 	
+				 	if params[:device_token] != nil
+		   				user.update_attribute('device_token', params[:device_token])
+		   			end
+		   		
 				 	if user.reported == '1'
 		      			render :json => "{\"message\":\"#{user.id}\",\"info\":\"Hi, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account.\"}"
 		      		else
@@ -151,6 +160,9 @@ class ApiController < ApplicationController
 		       		user.user_password_hash_confirmation = "changeme"
 		       		user.user_email = params[:user_id] + "@ratingme.eu"
 		       		user.user_city = ""
+		       		if params[:device_token] != nil
+			   			user.device_token = params[:device_token]
+			   		end
 		   			if user.save	
 			   			render :json => "{\"message\":\"#{user.id}\"}"
 		   			else
@@ -164,6 +176,9 @@ class ApiController < ApplicationController
 			if params[:user_id] != nil											# if we pass user_name params we have a new version of iOS app
 				if User.exists?(:uid => params[:user_id])
 				 	user = User.find_by(:uid => params[:user_id])
+				 	if params[:device_token] != nil
+		   				user.update_attribute('device_token', params[:device_token])
+		   			end				 	
 				 	if user.reported == '1'
 		      			render :json => '{\"message\":\"#{user.id}\","info":"Hi, someone has reported that you have some Review that don\'t respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."}'
 		      		else
@@ -178,6 +193,9 @@ class ApiController < ApplicationController
 		       		user.user_password_hash_confirmation = "changeme"
 		       		user.user_email =  params[:user_id] + "@ratingme.eu"
 		       		user.user_city = ""
+		       		if params[:device_token] != nil
+			   			user.device_token = params[:device_token]
+			   		end		       		
 		   			if user.save	
 		   				render :json => "{\"message\":\"#{user.id}\"}"
 		   			else
@@ -198,6 +216,9 @@ class ApiController < ApplicationController
 		    if authorized_user
 		      session[:current_user_id] = authorized_user.id
 		      session[:current_user_name] = authorized_user.user_name
+			  if params[:device_token] != nil
+		   		authorized_user.update_attribute('device_token', params[:device_token])
+		   	  end		      
 		      if authorized_user.reported == '1'
 		      	render :json => "{\"user\":\"#{authorized_user.id}\",\"info\":\"Hi, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account.\"}"
 		      else	
@@ -262,6 +283,8 @@ class ApiController < ApplicationController
 	    			if Review.exists?(:id => params[:review_id])
 		        		@review = Review.find(params[:review_id])
 	        			if !@review.ratings.exists?(:user_id => params[:user_id])
+	        				usr = User.find(@review.user_id)
+	        				send_message_to_user(usr,"Wow! Someone has written a new Rating at your Review!") if usr != nil
 	       					@rating = @review.ratings.new
        						@rating.description = params[:description]
        						@rating.rate_question1 = params[:rate_question1]

@@ -1,4 +1,5 @@
 class RatingsController < ApplicationController
+  include ApplicationHelper  
   before_action :set_rating, only: [:show, :edit, :update, :destroy]
 
   # GET /ratings
@@ -49,6 +50,8 @@ class RatingsController < ApplicationController
         @rating = @review.ratings.create(rating_params)
         @rating.user = @user
         @rating.save
+        rating_user = User.find(@review.user_id)
+ 			  send_message_to_user(rating_user,"Wow! You have a new comment to your Review","show_review",@review.id)
         redirect_to review_path(@review)
       else
         #no user was loaded

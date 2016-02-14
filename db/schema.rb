@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114095406) do
+ActiveRecord::Schema.define(version: 20160212085915) do
 
   create_table "average_caches", force: :cascade do |t|
     t.integer  "rater_id"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20160114095406) do
     t.string   "provider"
     t.string   "uid"
     t.string   "reported",           default: "0"
+    t.string   "device_token"
   end
 
   add_index "users", ["rating_id"], name: "index_users_on_rating_id"

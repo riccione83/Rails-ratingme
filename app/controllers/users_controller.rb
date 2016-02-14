@@ -114,7 +114,9 @@ class UsersController < ApplicationController
     puts "Device token: " + device_token
     
     #APNS.send_notification(device_token, 'Hello iPhone!' )
-    APNS.send_notification(device_token, :alert => 'New login from website!', :badge => 1, :sound => 'default')
+    #APNS.send_notification(device_token, :alert => 'New login from website!', :badge => 1, :sound => 'default')
+    APNS.send_notification(device_token, :alert => 'New login from website!', :badge => 1, :sound => 'default',
+                                            :other => {:sent => 'new_login', :custom_param => "custom_id"})
 
     #n1 = APNS::Notification.new(device_token, 'Hello iPhone!' )
     #n2 = APNS::Notification.new(device_token, :alert => 'Hello iPhone!', :badge => 1, :sound => 'default')
