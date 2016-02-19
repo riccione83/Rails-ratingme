@@ -27,7 +27,7 @@
   <%= @user.user_city %>
 </p>
 <p>
-  <a href='<%= get_user_message_path %>'>Inbox <span class="badge"><%= get_number_of_unread_message %></span> new messages</a>
+  <a href='<%= get_user_message_path %>'>You have <span class="badge"><%= get_number_of_unread_message %></span> new messages</a>
 </p>
  
 <%= link_to 'Back', users_path, class: "btn btn-default btn-sm" %> | 
