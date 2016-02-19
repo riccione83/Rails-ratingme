@@ -1,9 +1,12 @@
 class ReviewsController < ApplicationController
   include ApplicationHelper
   include ReviewsHelper
+  include MessagesHelper
+  
   skip_before_filter  :verify_authenticity_token
   before_action :set_review, only: [:show, :edit, :update, :destroy]
-
+  before_action :check_login, only: [:index]
+  
   # GET /reviews
   # GET /reviews.json
   def index
@@ -34,6 +37,7 @@ class ReviewsController < ApplicationController
     @review.update_attribute('reported', '1')
     @user = User.find(@review.user_id)
     RatingmeMailer.reported_review(@user,@review).deliver_now
+    new_message_for_user(@user,"Someone has reported your Review. Please login and modify it.","Someone has reported that your Review contain inappropriate material.<br>The Review is titled: " + @review.title + "<br>Please modify it.",true)
     flash[:notice] = "Review reported. Thankyou."
     redirect_to(review_path(params[:id]))
   end
@@ -178,6 +182,18 @@ class ReviewsController < ApplicationController
       @review = Review.find(params[:id])
     end
 
+    def check_login
+      if session[:current_user_id] == nil
+        if(cookies.signed[:current_user_id])
+          authorized_user = User.find(cookies.signed[:current_user_id])
+          if authorized_user
+            session[:current_user_id] = authorized_user.id
+            session[:current_user_name] = authorized_user.user_name
+          end
+        end
+      end
+    end
+    
     # Never trust parameters from the scary internet, only allow the white list through.
     def review_params
       params.require(:review).permit(:user_id, :latitude, :longitude, :title, :description, :question1, :question2, :question3, :isAdvertisement, :adImageLink, :file, :picture)

@@ -1,15 +1,6 @@
 module ApplicationHelper
 
 public
-
-def send_message_to_user(user, message, type, id)
-    device_token = user.device_token
-    if device_token != nil
-       APNS.send_notification(device_token, :alert => message, :badge => 1, :sound => 'default',
-                                            :other => {:sent => 'new_rating', :custom_param => id})
-       puts "Message sent: " + message + " - to: " + user.user_name
-    end
-end
   
 def get_lat_for_user_city
      @user = User.find(session[:current_user_id])

@@ -6,23 +6,23 @@
 <h2><%= @review.title %></h2>
 <h3><%= @review.description %></h3>
 
-<table>
-
-
+<div class="table-responsive">
+<table class="table">
   <% @ratings.each do |rating| %>
     <tr>
       <td><%= rating.description %></td>
     </tr>
   <% end %>
 </table>
+</div>
 <%= link_to 'New vote', new_rating_path %>
 
 
 
 
 <h1>Listing Ratings</h1>
-
-<table>
+<div class="table-responsive">
+<table class="table">
   <thead>
     <tr>
       <th>Review</th>
@@ -55,7 +55,7 @@
     <% end %>
   </tbody>
 </table>
-
+</div>
 <br>
 
 <%= link_to 'New Rating', new_rating_path %>

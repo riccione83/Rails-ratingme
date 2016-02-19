@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<h1>My Messages</h1>
+
+<div class="table-responsive">
+<table class="table">
+  <thead>
+    <tr>
+      <th>Message</th>
+      <th>Arrived at</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+     <% @messages.each do |message| %>
+      <tr>
+          <% if message.status == 0 %>
+                <td><b><%= message.long_text.html_safe %></b></td>
+          <% else %>
+                <td><%= message.long_text.html_safe %></td>
+          <% end %>
+        <td><%= message.created_at %></td>
+        <td><%= link_to 'Set as Readed', " /messages/set_read/" + message.id.to_s %></td>
+        <td><%= link_to 'Destroy', " /messages/delete/" + message.id.to_s %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>

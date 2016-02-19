@@ -26,7 +26,10 @@
   <strong>User city:</strong>
   <%= @user.user_city %>
 </p>
-
+<p>
+  <a href='<%= get_user_message_path %>'>Inbox <span class="badge"><%= get_number_of_unread_message %></span> new messages</a>
+</p>
+ 
 <%= link_to 'Back', users_path, class: "btn btn-default btn-sm" %> | 
 <%= link_to 'Edit', edit_user_path(@user), class: "btn btn-default btn-sm" %>
 <%else%>
@@ -44,7 +47,9 @@
 <%else%>
   <h3>Rates</h3>
 <%end%>
-<table>
+
+<div class="table-responsive">
+<table class="table">
   <% @ratings.each do |rating| %>
     <tr>
       <td><%= link_to rating.description, review_path(rating.review) %> &nbsp; &nbsp; </td>
@@ -55,6 +60,7 @@
     </tr>
   <% end %>
 </table>
+</div>
 
 <hr>
 <%if session[:current_user_id] == params[:id]%>
@@ -62,7 +68,9 @@
 <%else%>
   <h3>Reviews</h3>
 <%end%>
-<table>
+
+<div class="table-responsive">
+<table class="table">
   <% @reviews.each do |review| %>
     <tr>
       <td><%= link_to review.title, review_path(review) %> &nbsp; &nbsp; </td>
@@ -73,6 +81,7 @@
     </tr>
   <% end %>
 </table>
+</div>
 
 <%if session[:current_user_id] == params[:id]%>
 <br><br>

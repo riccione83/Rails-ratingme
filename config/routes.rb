@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   resources :users do
     resources :ratings
+    resources :messages
   end
   
   get 'report_user/:id', :to => "users#report_user", :as => 'report_user'
@@ -43,6 +44,9 @@ Rails.application.routes.draw do
   
   get 'update_user_location', :to => 'users#update_user_location'
   get 'update_user_radius', :to => 'users#update_user_radius'
+  
+  get 'messages/delete/:id', :to => 'messages#destroy'
+  get 'messages/set_read/:id', :to => 'messages#set_read'
 
   get 'api/show_reviews'
   post 'api/new_review'
@@ -55,6 +59,11 @@ Rails.application.routes.draw do
   get 'api/login_with_social'
   get 'api/report_review'
   get 'api/report_user'
+  get 'api/get_messages'
+  get 'api/set_message_read'
+  get 'api/set_message_unread'
+  get 'api/delete_message'
+  get 'api/delete_all_messages'
 
   get 'eula', :to => 'welcome#eula'
   get 'start', :to => 'application#start'

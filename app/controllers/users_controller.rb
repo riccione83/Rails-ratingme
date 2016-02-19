@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   
+ include MessagesHelper
+ 
  http_basic_authenticate_with name: "r", password: "r", except: [:new,:edit, :update, :login, :login_attempt,:report_user, :login_from_social, :logout, :set_user, :index, :create, :update_user_location, :update_user_radius, :show]
 
   # GET /users
@@ -19,7 +21,8 @@ class UsersController < ApplicationController
   def report_user
     @user = User.find(params[:id])
     @user.update_attribute('reported', '1')
-    flash[:notice] = "Utente segnalato. Grazie."
+    new_message_for_user(@user,"Someone has reported your account. Please login and modify your Reviews or Ratings.","Someone has reported that your account has published inappropriate material. Please modify your Reviews or Ratings.",true)
+    flash[:notice] = "User reported. Thankyou."
     redirect_to(user_path(params[:id]))
   end
   
@@ -63,12 +66,10 @@ class UsersController < ApplicationController
   
   def login
     #Login Form
-  #Login Form
     if(cookies.signed[:current_user_id])
-       authorized_user = User.find(cookies.signed[:current_user_id])
+      authorized_user = User.find(cookies.signed[:current_user_id])
       if authorized_user
         self.send_test_message
-        
         flash[:success] = "Welcome, you logged in as #{authorized_user.user_name}"
         session[:current_user_id] = authorized_user.id
         session[:current_user_name] = authorized_user.user_name
@@ -108,28 +109,15 @@ class UsersController < ApplicationController
       render :text => "No params"
     end
   end
-
-  def send_test_message
-    device_token = '1eefd403a33fa66e4aa119444c14be92ec87372a0a46b38508c95cfc640fe916'
-    puts "Device token: " + device_token
-    
-    #APNS.send_notification(device_token, 'Hello iPhone!' )
-    #APNS.send_notification(device_token, :alert => 'New login from website!', :badge => 1, :sound => 'default')
-    APNS.send_notification(device_token, :alert => 'New login from website!', :badge => 1, :sound => 'default',
-                                            :other => {:sent => 'new_login', :custom_param => "custom_id"})
-
-    #n1 = APNS::Notification.new(device_token, 'Hello iPhone!' )
-    #n2 = APNS::Notification.new(device_token, :alert => 'Hello iPhone!', :badge => 1, :sound => 'default')
-    #APNS.send_notifications([n1, n2])
-    
-    puts "Message sent!"
-  end
   
   def login_attempt
     authorized_user = User.authenticate(params[:username_or_email],params[:login_password])
     if authorized_user
       
-      self.send_test_message
+      main_user = User.find(1)
+      new_message_for_user(main_user,"New login from developer website","Wow! new user has logged in: <br><b> " + authorized_user.user_name + "</b>", true)
+      #send_test_message
+      
       if authorized_user.reported == '1'
         flash[:alert] = "Hi #{authorized_user.user_name}, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."
         session[:user_reported] = "1"        

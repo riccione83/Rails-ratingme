@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
 	validates :user_email, :presence => true, :uniqueness => true , :format => EMAIL_REGEX, :on => [ :create ]
 
 	has_many :ratings
+	has_many :messages
 	
 	def self.from_omniauth(auth)
 	 		where(provider: auth.provider, uid: auth.uid).first_or_create.tap do |user|

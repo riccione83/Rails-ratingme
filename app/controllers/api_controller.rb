@@ -34,7 +34,69 @@ class ApiController < ApplicationController
 	include ApplicationHelper
 	skip_before_filter  :verify_authenticity_token
 	
-	#:user_id, :latitude, :longitude, :title, :description, :question1, :question2, :question3, :isAdvertisement, :adImageLink, :file, :picture
+	def get_messages
+		if params[:user_id] != nil
+			user = User.find(params[:user_id])
+			render :json => user.messages.as_json
+		else
+			render :json => '{"message":"error in params"}'
+		end	
+	end
+	
+	def delete_all_messages
+		if params[:user_id] != nil
+		   user = User.find(params[:user_id])
+		   user.messages.all.destroy_all
+		   user = User.find(params[:user_id])
+		   render :json => user.messages.to_json
+		else
+			render :json => '{"message":"error in params"}'
+		end   
+	end
+	
+	def delete_message
+		if params[:user_id] != nil and
+		   params[:message_id] != nil
+		   user = User.find(params[:user_id])
+		   message = Message.find(params[:message_id])
+		   if message
+		   		message.destroy
+		   		render :json => user.messages.to_json
+		   end	
+		else
+			render :json => '{"message":"error in params"}'
+		end   
+	end
+	
+	def set_message_unread
+		if params[:user_id] != nil and
+		   params[:message_id] != nil
+		   user = User.find(params[:user_id])
+		   message = Message.find(params[:message_id])
+		   if message
+		   		message.status = 0
+		   		message.save
+		   		render :json => user.messages.to_json
+		   end	
+		else
+			render :json => '{"message":"error in params"}'
+		end   
+	end
+	
+	def set_message_read
+		if params[:user_id] != nil and
+		   params[:message_id] != nil
+		   user = User.find(params[:user_id])
+		   message = Message.find(params[:message_id])
+		   if message
+		   		message.status = 1
+		   		message.save
+		   		render :json => user.messages.to_json
+		   end	
+		else
+			render :json => '{"message":"error in params"}'
+		end   
+	end
 	
 	def new_review
 		if params[:user_id] != nil or
@@ -90,6 +152,7 @@ class ApiController < ApplicationController
        @review.update_attribute('reported', '1')
        @user = User.find(@review.user_id)
        RatingmeMailer.reported_review(@user,@review).deliver_now
+       new_message_for_user(@user,"Someone has reported your Review.","Someone has reported that your Review contain inappropriate material.<br>The Review is titled: " + @review.title + "<br>Please modify it.",true)
        render :json => '{"message":"Thankyou. Your help is greatly appreciated. A moderator will check this Review and will delete it if will be necessary."}'
      else
      	render :json => '{"error":"Error in params"}'
@@ -103,6 +166,7 @@ class ApiController < ApplicationController
         @user = User.find(@review.user_id)
     	@user.update_attribute('reported', '1')
     	RatingmeMailer.reported_user(@user).deliver_now
+    	new_message_for_user(@user,"Someone has reported your account. Please login and modify your Reviews or Ratings.","Someone has reported that your account has published inappropriate material. Please modify your Reviews or Ratings.",true)
     	render :json => '{"message":"Thankyou. Your help is greatly appreciated. A moderator will check this User and will ban it if will be necessary."}'
 	  else
      	render :json => '{"error":"Error in params"}'    	

@@ -3,6 +3,7 @@
       <%= link_to "RatingMe", reviews_path, class: "btn btn-success", id: "logo"%>
       <% if isLoggedIn? %>
           <p class="navbar-text">Hi <%=link_to session[:current_user_name], user_path(session[:current_user_id]) %> |  
+          <a href='<%= get_user_message_path %>'>Inbox <span class="badge"><%= get_number_of_unread_message %></span></a> |
           <%= link_to 'Logout', logout_path %></p>
        <% else %>
           <p class="navbar-text">Your are not logged in, please

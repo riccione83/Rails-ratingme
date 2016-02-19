@@ -1,5 +1,7 @@
 class RatingsController < ApplicationController
   include ApplicationHelper  
+  include MessagesHelper
+  
   before_action :set_rating, only: [:show, :edit, :update, :destroy]
 
   # GET /ratings
@@ -17,6 +19,7 @@ class RatingsController < ApplicationController
   def report_rating
     @rating = Rating.find(params[:id])
     @rating.update_attribute('reported', '1')
+    new_message_for_user(@user,"Someone has reported your Rating. Please login and modify it.","Someone has reported that your Rating contain inappropriate material.<br>The Rating is titled: " + @rating.description + "<br>Please modify it.",true)
     flash[:notice] = "Rating reported. Thankyou."
     redirect_to(rating_path(params[:id]))
   end
@@ -26,6 +29,12 @@ class RatingsController < ApplicationController
     @rating.update_attribute('reported', '0')
     flash[:notice] = "Rating resetted."
     redirect_to(show_reported_rating_path(params[:id]))
+  end
+  
+  def delete_rating
+    @rating = Rating.find(params[:id])
+    @rating.destroy
+    
   end
   
   # GET /ratings/1
@@ -51,7 +60,8 @@ class RatingsController < ApplicationController
         @rating.user = @user
         @rating.save
         rating_user = User.find(@review.user_id)
- 			  send_message_to_user(rating_user,"Wow! You have a new comment to your Review","show_review",@review.id)
+        str = "You have a new Rating for your Review '" + @review.title + "'.<br>The Rating is: " + @rating.description + "<br>Please modify it."
+        new_message_for_user(rating_user,"Wow! You have a new comment to your Review.",str,true)
         redirect_to review_path(@review)
       else
         #no user was loaded
