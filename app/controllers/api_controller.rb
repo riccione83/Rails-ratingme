@@ -207,16 +207,18 @@ class ApiController < ApplicationController
 			if params[:user_id] != nil
 			 	if User.exists?(:user_name => params[:user_id])
 				 	user = User.find_by(:user_name => params[:user_id])
-				 	
 				 	if params[:device_token] != nil
 		   				user.update_attribute('device_token', params[:device_token])
 		   			end
-		   		
 				 	if user.reported == '1'
 		      			render :json => "{\"message\":\"#{user.id}\",\"info\":\"Hi, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account.\"}"
 		      		else
 				 		render :json => "{\"message\":\"#{user.id}\"}"
 				 	end
+				 	
+				 	main_user = User.find(1)
+    				new_message_for_user(main_user,"New login from social via APP","Wow! new user has logged in: <br><b> " + user.user_name + "</b>", true)
+      
 			 	else
 			   		user = User.new
 		   	   		user.user_name = params[:user_id]
@@ -243,6 +245,10 @@ class ApiController < ApplicationController
 				 	if params[:device_token] != nil
 		   				user.update_attribute('device_token', params[:device_token])
 		   			end				 	
+
+				 	main_user = User.find(1)
+    				new_message_for_user(main_user,"New login from social via APP","Wow! new user has logged in: <br><b> " + user.user_name + "</b>", true)
+
 				 	if user.reported == '1'
 		      			render :json => '{\"message\":\"#{user.id}\","info":"Hi, someone has reported that you have some Review that don\'t respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account."}'
 		      		else
@@ -283,6 +289,10 @@ class ApiController < ApplicationController
 			  if params[:device_token] != nil
 		   		authorized_user.update_attribute('device_token', params[:device_token])
 		   	  end		      
+	
+	     	  main_user = User.find(1)
+    		  new_message_for_user(main_user,"New login via APP","Wow! new user has logged in: <br><b> " + authorized_user.user_name + "</b>", true)
+		   	  
 		      if authorized_user.reported == '1'
 		      	render :json => "{\"user\":\"#{authorized_user.id}\",\"info\":\"Hi, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account.\"}"
 		      else	
