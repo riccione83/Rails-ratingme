@@ -32,6 +32,7 @@ class ApiController < ApplicationController
 	require 'json'
 	include ReviewsHelper
 	include ApplicationHelper
+	include MessagesHelper
 	skip_before_filter  :verify_authenticity_token
 	
 	def get_messages
