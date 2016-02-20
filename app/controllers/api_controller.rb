@@ -292,7 +292,7 @@ class ApiController < ApplicationController
 		   	  end		      
 	
 	     	  main_user = User.find(1)
-    		  new_message_for_user(main_user,"New login via APP","Wow! new user has logged in: <br><b> " + authorized_user.user_name + "</b>", true)
+    		  new_message_for_user(main_user,"New login via APP","Wow! new user has logged in via App: <br><b> " + authorized_user.user_name + "</b>", true)
 		   	  
 		      if authorized_user.reported == '1'
 		      	render :json => "{\"user\":\"#{authorized_user.id}\",\"info\":\"Hi, someone has reported that you have some Review that don't respect our user agreement. Your account is blocked and you cannot create new Review or Rating. Please contact us to unlock your account.\"}"

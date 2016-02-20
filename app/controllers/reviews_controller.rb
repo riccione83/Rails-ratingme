@@ -37,7 +37,7 @@ class ReviewsController < ApplicationController
     @review.update_attribute('reported', '1')
     @user = User.find(@review.user_id)
     RatingmeMailer.reported_review(@user,@review).deliver_now
-    new_message_for_user(@user,"Someone has reported your Review. Please login and modify it.","Someone has reported that your Review contain inappropriate material.<br>The Review is titled: " + @review.title + "<br>Please modify it.",true)
+    new_message_for_user(@user,"Someone has reported your Review. Please login and modify it.","Someone has reported that your Review contain inappropriate material.<br>The Review is titled: " + @review.title + "<br>Please modify it <a href='#{review_path(params[:id])}'>here </a>",true)
     flash[:notice] = "Review reported. Thankyou."
     redirect_to(review_path(params[:id]))
   end

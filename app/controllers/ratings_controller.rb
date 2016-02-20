@@ -19,7 +19,7 @@ class RatingsController < ApplicationController
   def report_rating
     @rating = Rating.find(params[:id])
     @rating.update_attribute('reported', '1')
-    new_message_for_user(@user,"Someone has reported your Rating. Please login and modify it.","Someone has reported that your Rating contain inappropriate material.<br>The Rating is titled: " + @rating.description + "<br>Please modify it.",true)
+    new_message_for_user(@user,"Someone has reported your Rating. Please login and modify it.","Someone has reported that your Rating contain inappropriate material.<br>The Rating is titled: " + @rating.description + "<br>Please modify it <a href='#{rating_path(params[:id])}'>here </a>",true)
     flash[:notice] = "Rating reported. Thankyou."
     redirect_to(rating_path(params[:id]))
   end
