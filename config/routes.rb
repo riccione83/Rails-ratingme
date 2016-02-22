@@ -64,6 +64,7 @@ Rails.application.routes.draw do
   get 'api/set_message_unread'
   get 'api/delete_message'
   get 'api/delete_all_messages'
+  get 'api/get_num_of_messages'
 
   get 'eula', :to => 'welcome#eula'
   get 'start', :to => 'application#start'
