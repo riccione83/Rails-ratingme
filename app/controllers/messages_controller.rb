@@ -30,7 +30,7 @@ class MessagesController < ApplicationController
     def set_message
         if params[:user_id] != nil
             @user = User.find(params[:user_id])
-            @messages = @user.messages
+            @messages = @user.messages.order(:created_at)
         end
     end  
 end

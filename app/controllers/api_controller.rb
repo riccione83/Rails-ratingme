@@ -38,7 +38,7 @@ class ApiController < ApplicationController
 	def get_messages
 		if params[:user_id] != nil
 			user = User.find(params[:user_id])
-			render :json => user.messages.as_json
+			render :json => user.messages.order(:created_at).as_json
 		else
 			render :json => '{"message":"error in params"}'
 		end	
@@ -49,7 +49,7 @@ class ApiController < ApplicationController
 		   user = User.find(params[:user_id])
 		   user.messages.all.destroy_all
 		   user = User.find(params[:user_id])
-		   render :json => user.messages.to_json
+		   render :json => user.messages.order(:created_at).to_json
 		else
 			render :json => '{"message":"error in params"}'
 		end   
@@ -62,7 +62,7 @@ class ApiController < ApplicationController
 		   message = Message.find(params[:message_id])
 		   if message
 		   		message.destroy
-		   		render :json => user.messages.to_json
+		   		render :json => user.messages.order(:created_at).to_json
 		   end	
 		else
 			render :json => '{"message":"error in params"}'
@@ -77,7 +77,7 @@ class ApiController < ApplicationController
 		   if message
 		   		message.status = 0
 		   		message.save
-		   		render :json => user.messages.to_json
+		   		render :json => user.messages.order(:created_at).to_json
 		   end	
 		else
 			render :json => '{"message":"error in params"}'
@@ -92,7 +92,7 @@ class ApiController < ApplicationController
 		   if message
 		   		message.status = 1
 		   		message.save
-		   		render :json => user.messages.to_json
+		   		render :json => user.messages.order(:created_at).to_json
 		   end	
 		else
 			render :json => '{"message":"error in params"}'
