@@ -78,8 +78,9 @@
         Please <%= link_to 'Login', login_path %> to post a rate <br>
       <%end%>
     </div>
+    
+<div class="table-responsive">
 <table class="table">
-  
   <thead>
     <tr>
       <th>Note</th>
@@ -120,6 +121,8 @@
   <% end %>
   </tbody>
 </table>
+</div>
+
 <div class="panel-body">
       <%= will_paginate @ratings %>
 </div>
@@ -133,7 +136,8 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading"><strong>Add a rate</strong></div>
-  <table class="table">
+<div class="table-responsive">
+<table class="table">
    <thead>
     <tr>
       <th>Description</th>
@@ -176,6 +180,7 @@
     <% end %>
   </tbody>
 </table>
+</div>
 </div>
 
 <% end %>
