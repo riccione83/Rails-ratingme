@@ -14,12 +14,14 @@
    <p>
     Posted by: <%=link_to User.find(@review.user_id).user_name, user_path(@review.user_id) %>
    </p>
+  <% if userIsLoggedIn %>
   <p>
    <a href= '<%=report_review_path(@review)%>' class="btn btn-default btn-xs" role="button">
       <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
       Report abuse
    </a>
   </p>   
+  <% end %>
 </div>
 
 <p>

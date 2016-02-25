@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
 	has_many :messages
 	
 	def self.from_omniauth(auth)
+			print auth
+
 	 		where(provider: auth.provider, uid: auth.uid).first_or_create.tap do |user|
       			if user.new_record?
       				c_user = User.all.where(:user_name => auth.info.name)
@@ -36,7 +38,7 @@ class User < ActiveRecord::Base
     					user.user_password_hash_confirmation = "changeme"
     					user.user_city = auth.info.location
       					user.save!
-      				end
+      			    end
       			end
      		end
     end

@@ -34,12 +34,12 @@
 <%= link_to 'Edit', edit_user_path(@user), class: "btn btn-default btn-sm" %>
 <%else%>
   <h1 style="font-family: 'Pacifico', cursive;"><%= @user.user_name %></h1>
-  
+<% if userIsLoggedIn %>  
   <a href= '<%=report_user_path(@user)%>' class="btn btn-default btn-xs" role="button">
       <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
       Report this user
   </a>
-  
+<% end %>  
 <%end%>
 <hr>
 <%if session[:current_user_id] == params[:id]%>

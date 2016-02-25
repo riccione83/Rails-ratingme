@@ -21,6 +21,15 @@ def get_user_city
     end
 end
 
+def userIsLoggedIn
+   
+   if session[:current_user_id] == nil
+       return false
+   end
+   return true
+
+end
+
 def userLocked
     if session[:user_reported] = 1
        return true

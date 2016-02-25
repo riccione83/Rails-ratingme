@@ -10,9 +10,9 @@ class ReviewsController < ApplicationController
   # GET /reviews
   # GET /reviews.json
   def index
-    if( session[:current_user_id] == nil)
-      redirect_to login_path
-    else    
+  #  if( session[:current_user_id] == nil)
+  #    redirect_to login_path
+  #  else    
       if params[:search] and params[:search] != ""
           @reviews = Review.search(params[:search]).paginate(page: params[:page], per_page: 10).order("created_at DESC").where.not(reported: "1")
       else
@@ -25,7 +25,7 @@ class ReviewsController < ApplicationController
         end
       end
       buildMaker(@reviews)
-    end
+  #  end
   end
   
   def show_reported_review
