@@ -13,8 +13,8 @@ class MessagesController < ApplicationController
     
     def post_message_to_user
         @user = User.find(params[:user_id])
-        @to_user = User.find(params[:to_user_id])
-        new_message_for_user(@to_user,"Message from" + @user.user_name,params[:message],true)
+        @to_user = User.where(:user_name => params[:to_user_id])
+        new_message_for_user(@to_user,"Message from: " + @user.user_name,params[:message],true)
         redirect_to reviews_path, notice: 'Message sent.'
     end
     
