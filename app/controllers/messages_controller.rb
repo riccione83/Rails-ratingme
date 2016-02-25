@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+    include MessagesHelper
+    
     before_action :set_message, only: [:index, :destroy]
      
     def index
@@ -7,6 +9,13 @@ class MessagesController < ApplicationController
     
     def new
         @message = Message.new
+    end
+    
+    def post_message_to_user
+        @user = User.find(params[:user_id])
+        @to_user = User.find(params[:to_user_id])
+        new_message_for_user(@to_user,"Message from" + @user.user_name,params[:message],true)
+        redirect_to reviews_path, notice: 'Message sent.'
     end
     
     def set_read

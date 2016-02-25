@@ -48,6 +48,8 @@ Rails.application.routes.draw do
   get 'messages/delete/:id', :to => 'messages#destroy'
   get 'messages/set_read/:id', :to => 'messages#set_read'
 
+  get 'api/post_message_to_user', :to => 'messages#post_message_to_user'
+
   get 'api/show_reviews'
   post 'api/new_review'
   get 'api/show_ratings'
