@@ -1,11 +1,10 @@
-<p id="notice"><%= notice %></p>
-
 <h1>My Messages</h1>
 
 <div class="table-responsive">
 <table class="table">
   <thead>
     <tr>
+      <th>Subject</th>
       <th>Message</th>
       <th>Arrived at</th>
       <th colspan="2"></th>
@@ -16,8 +15,10 @@
      <% @messages.each do |message| %>
       <tr>
           <% if message.status == 0 %>
+                <td><b><%= message.message.html_safe %></b></td>
                 <td><b><%= message.long_text.html_safe %></b></td>
           <% else %>
+                <td><%= message.message.html_safe %></td>
                 <td><%= message.long_text.html_safe %></td>
           <% end %>
         <td><%= message.created_at %></td>

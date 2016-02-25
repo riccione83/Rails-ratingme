@@ -35,10 +35,45 @@
 <%else%>
   <h1 style="font-family: 'Pacifico', cursive;"><%= @user.user_name %></h1>
 <% if userIsLoggedIn %>  
-  <a href= '<%=report_user_path(@user)%>' class="btn btn-default btn-xs" role="button">
-      <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-      Report this user
-  </a>
+
+  <p>
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+      <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+    </button>
+  </p>
+  
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Option for the user:</h4>
+      </div>
+      <div class="modal-body">
+        
+        <div class= "form-signin">
+          <h2 class="form-signin-heading" style="font-family: 'Pacifico', cursive;">Send a message to: </h2>
+          <%= form_tag('/api/post_message_to_user', method: 'GET') do %>
+            <%= text_field_tag :to_user_id, "#{@user.user_name}", class: 'form-control', placeholder:'User Name' %>
+            <%= text_area_tag :message,"", class: 'form-control', placeholder:'Message' %>
+            <br><br>
+            <%= submit_tag("Send message", class:"btn btn-lg btn-primary btn-block") %>
+          <% end %>
+        </div>
+        <hr>
+        <div class= "form-signin">
+          <a href= '<%=report_user_path(@user)%>' class="btn btn-lg btn-warning btn-block" role="button">
+            <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+            Report this user
+          </a>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
 <% end %>  
 <%end%>
 <hr>

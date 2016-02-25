@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RatingMe</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+	<!-- font awesome css -->
+	<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Indie+Flower|Josefin+Sans|Lobster|Pacifico' rel='stylesheet' type='text/css'>
+    <%= csrf_meta_tags %>
+</head>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-72112953-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+<body class="bg_color">
+
+<div class="container">
+  <div class= "form-signin">
+      <h2 class="form-signin-heading" style="font-family: 'Pacifico', cursive;">Send a message to: </h2>
+      <%= form_tag('/api/post_message_to_user', method: 'GET') do %>
+        <%= text_field_tag :to_user_id, params[:user_name], disabled: true, class: 'form-control', placeholder:'User Name' %>
+        <%= text_area_tag :message,"", class: 'form-control', placeholder:'Message' %>
+        <br><br>
+        <%= submit_tag("Send message", class:"btn btn-lg btn-primary btn-block") %>
+      <% end %>
+  </div>
+</div>
+
+</body>
+</html>
