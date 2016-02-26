@@ -35,6 +35,16 @@ class ApiController < ApplicationController
 	include MessagesHelper
 	skip_before_filter  :verify_authenticity_token
 	
+	def get_category_image
+		if params[:id] != nil
+			category = Category.find(params[:id])
+			image_link = 'public/categories/' + category.image
+			send_file image_link, type: 'image/png', disposition: 'inline'
+		else
+			render :json => '{"message":"error in params"}'
+		end
+	end
+	
 	def get_num_of_messages
 		if params[:user_id] != nil
 			user = User.find(params[:user_id])
