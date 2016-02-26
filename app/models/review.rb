@@ -8,7 +8,7 @@ class Review < ActiveRecord::Base
 	validates :question2, obscenity: { sanitize: true, replacement: :stars }
 	validates :question3, obscenity: { sanitize: true, replacement: :stars }	
 	has_many :ratings
-	
+	belongs_to :category
 	
 	def self.search(search)
 			where("lower(description) LIKE '%#{search.downcase}%' OR lower(title) LIKE '%#{search.downcase}%'")

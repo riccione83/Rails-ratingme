@@ -120,19 +120,7 @@
     
     if(navigator.geolocation)
           navigator.geolocation.getCurrentPosition(displayOnMap);
-          
-    /*google.maps.event.addListener(handler.getMap(), 'bounds_changed', function(e){
-        var maxX = handler.getMap().getBounds().getNorthEast().lng();
-        var maxY = handler.getMap().getBounds().getNorthEast().lat();
-        var minX = handler.getMap().getBounds().getSouthWest().lng();
-        var minY = handler.getMap().getBounds().getSouthWest().lat();
-        getRadius(maxY,minY,maxX,minX);
-        
-    });*/
-    
   });
-
-//init();
 
 function getRadius(lat1,lat2,lon1,lon2) {
     var R = 6371000; // metres

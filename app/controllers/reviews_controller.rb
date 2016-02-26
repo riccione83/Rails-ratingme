@@ -66,6 +66,7 @@ class ReviewsController < ApplicationController
       
       point =  self.get_avg_for_review(review)
       
+      if review.category == nil
         marker.picture({
             :url     => '/assets/baloon_no_star.png',
             :width   => 32,
@@ -96,6 +97,13 @@ class ReviewsController < ApplicationController
             :width   => 32,
             :height  => 32
             }) if point == 5
+        else
+          marker.picture({
+            :url     => '/assets/png/' + review.category.image,
+            :width   => 32,
+            :height  => 32
+            })
+      end
       
       marker.infowindow render_to_string(partial: "/layouts/partial", locals: {info: review})
       marker.json({ :id => review.id, :foo => "bar" })
@@ -159,6 +167,7 @@ class ReviewsController < ApplicationController
   def update
     respond_to do |format|
       @review.picture = params[:picture]
+      #@revies.category = Category.find(review_params[:category_id])
       if @review.update(review_params)
         format.html { 
                         flash[:success] = "Review successfully updated!"
@@ -205,6 +214,6 @@ class ReviewsController < ApplicationController
     
     # Never trust parameters from the scary internet, only allow the white list through.
     def review_params
-      params.require(:review).permit(:user_id, :latitude, :longitude, :title, :description, :question1, :question2, :question3, :isAdvertisement, :adImageLink, :file, :picture)
+      params.require(:review).permit(:user_id, :latitude, :longitude, :title, :description, :question1, :question2, :question3, :isAdvertisement, :adImageLink, :file, :picture, :category_id)
     end
 end

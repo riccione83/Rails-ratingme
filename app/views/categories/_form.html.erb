@@ -1,0 +1,27 @@
+<%= form_for(@category) do |f| %>
+
+<div class= "form-signin">
+  <% if @category.new_record? %>
+    <h2 class="form-signin-heading" style="font-family: 'Pacifico', cursive;">New category</h2>
+  <%else%>
+    <h2 class="form-signin-heading" style="font-family: 'Pacifico', cursive;">Edit category</h2>
+  <%end%>
+  
+  <div class="field">
+    <%= f.text_field :description, class: 'form-control',placeholder:'Description' %>
+  </div>
+  <div class="field">
+    <%= f.text_field :image, class: 'form-control', placeholder:'Image' %>
+  </div>
+  <br>
+  <div class="actions">
+    <%= f.submit 'Send', :class=> "btn btn-lg btn-primary btn-block" %>
+  </div>
+</div>  
+<% end %>
+<% if !@category.new_record? %>
+<%= link_to 'Show', @category %> |
+<%= link_to 'Back', categories_path %>
+<%end%>
+
+

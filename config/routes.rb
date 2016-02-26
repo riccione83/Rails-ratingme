@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post '/rate' => 'rater#create', :as => 'rate'
   resources :users
   resources :ratings
+  resources :categories
   
   resources :reviews do
     resources :ratings
