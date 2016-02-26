@@ -33,13 +33,22 @@ class ReviewsController < ApplicationController
   end
   
   def report_review
-    @review = Review.find(params[:id])
-    @review.update_attribute('reported', '1')
-    @user = User.find(@review.user_id)
-    RatingmeMailer.reported_review(@user,@review).deliver_now
-    new_message_for_user(@user,"Someone has reported your Review. Please login and modify it.","Someone has reported that your Review contain inappropriate material.<br>The Review is titled: " + @review.title + "<br>Please modify it <a href='#{review_path(params[:id])}'>here </a>",true)
-    flash[:notice] = "Review reported. Thankyou."
-    redirect_to(review_path(params[:id]))
+    
+    code = params[:generated_code]
+    confirmation_code = params[:user_code]
+    if code != nil && confirmation_code != nil && code.upcase == confirmation_code.upcase
+      @review = Review.find(params[:id])
+      @review.update_attribute('reported', '1')
+      @user = User.find(@review.user_id)
+      RatingmeMailer.reported_review(@user,@review).deliver_now
+      new_message_for_user(@user,"Someone has reported your Review. Please login and modify it.","Someone has reported that your Review contain inappropriate material.<br>The Review is titled: " + @review.title + "<br>Please modify it <a href='#{review_path(params[:id])}'>here </a>",true)
+      flash[:notice] = "Review reported. Thankyou."
+      redirect_to(review_path(params[:id]))
+    else
+      print "**** DEBUG: Code and confirmation code doesn't match ****"
+      flash[:error] = "Code and confirmation code doesn't match"
+      redirect_to :back
+    end
   end
   
   def reset_review

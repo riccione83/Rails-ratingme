@@ -30,6 +30,10 @@ def userIsLoggedIn
 
 end
 
+def getRandomCode
+  return (0...8).map { (65 + rand(26)).chr }.join
+end
+
 def userLocked
     if session[:user_reported] = 1
        return true

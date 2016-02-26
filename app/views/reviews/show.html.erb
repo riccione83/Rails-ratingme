@@ -16,13 +16,40 @@
    </p>
   <% if userIsLoggedIn %>
   <p>
-   <a href= '<%=report_review_path(@review)%>' class="btn btn-default btn-xs" role="button">
+   <a href= '' class="btn btn-default btn-xs" role="button" data-toggle="modal" data-target="#myModal">
       <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
       Report abuse
    </a>
   </p>   
   <% end %>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Report a Review</h4>
+      </div>
+      <div class="modal-body">
+        <h4 class="modal-title" id="myModalLabel">Please confirm the code below:</h4>
+        <div class= "form-signin">
+          <%= form_tag( report_review_path, method: 'GET') do %>
+            <% code = getRandomCode %>
+            <%= label_tag '', code , class: 'form-control' %>
+             <%= hidden_field_tag :id, @review.id %>
+            <%= hidden_field_tag :generated_code, code %>
+            <%= text_field_tag :user_code,"", class: 'form-control', placeholder:'Confirm Code' %>
+            <br><br>
+            <%= submit_tag("Report", class:"btn btn-lg btn-primary btn-block") %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <p>
   This user has some question for you. Can you reply?
