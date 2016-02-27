@@ -159,6 +159,12 @@ class ApiController < ApplicationController
 		  		  	@uploader.store!(params[:picture])
 		  		  	@review.picture = "#{@uploader.url}"
 		  		  end
+		  		  
+		  		  if params[:category] != nil
+		  		  	cat = Category.find(params[:category])
+		  		  	@review.category = cat
+		  		  end
+		  		  
 	  		  	  @review.save
 	  		  	  render :json => '{"message":"success"}'
 	  		  	end
