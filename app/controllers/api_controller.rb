@@ -35,6 +35,11 @@ class ApiController < ApplicationController
 	include MessagesHelper
 	skip_before_filter  :verify_authenticity_token
 	
+	def get_categories
+		categories = Category.all
+		render :json => categories.order(:created_at).as_json
+	end
+	
 	def get_category_image
 		if params[:id] != nil
 			category = Category.find(params[:id])
