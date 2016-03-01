@@ -52,12 +52,12 @@ class ApiController < ApplicationController
 	
 	#Please check post_message_to_user to message_controller.
     def new_message_to_user
-        if params[:user_id] != nil &&
-           params[:to_user] != nil &&
+        if params[:user_id] != nil and
+           params[:to_user] != nil and
            params[:message] != nil
 
         		@user = User.find(params[:user_id])
-        		@to_user = User.find_by_user_name(params[:to_user_id])
+        		@to_user = User.find_by_user_name(params[:to_user])
         		if @to_user != nil
             		new_message_for_user(@to_user,"Message from: " + @user.user_name,params[:message],true)
             		render :json => '{"result":"OK"}'
