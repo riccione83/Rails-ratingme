@@ -50,7 +50,7 @@ Rails.application.routes.draw do
   get 'messages/set_read/:id', :to => 'messages#set_read'
   get 'messages/new_message', :to => 'messages#new_message'
 
-  get 'api/post_message_to_user', :to => 'messages#post_message_to_user'
+  get 'messages/post_message_to_user', :to => 'messages#post_message_to_user'
 
   get 'api/show_reviews'
   post 'api/new_review'
@@ -71,6 +71,7 @@ Rails.application.routes.draw do
   get 'api/get_num_of_messages'
   get 'api/get_category_image'
   get 'api/get_categories'
+  get 'api/new_message_to_user'
 
   get 'eula', :to => 'welcome#eula'
   get 'start', :to => 'application#start'
