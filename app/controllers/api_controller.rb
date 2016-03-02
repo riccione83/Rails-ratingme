@@ -363,7 +363,7 @@ class ApiController < ApplicationController
 		   params[:lon] == nil
 		   render :json => '{"error":"No params"}'
 	    else
-			@reviews = Review.near([ params[:lat],  params[:lon]], params[:radius], :units => :km).where.not(reported: "1")
+			@reviews = Review.order(:created_at).near([ params[:lat],  params[:lon]], params[:radius], :units => :km).where.not(reported: "1")
 		#	render :json => @reviews.order(:created_at).as_json
 			
 			@reviews.each do |review|
