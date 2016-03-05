@@ -1,11 +1,11 @@
-APNS.host = 'gateway.sandbox.push.apple.com' 
+APNS.host = 'gateway.push.apple.com' 
 # gateway.sandbox.push.apple.com is default and only for development
 # gateway.push.apple.com is only for production
 
 APNS.port = 2195 
 # this is also the default. Shouldn't ever have to set this, but just in case Apple goes crazy, you can.
 
-APNS.pem  = 'config/cert.pem'
+APNS.pem  = 'config/cert_production.pem'
 # this is the file you just created
 
 APNS.pass = ''
