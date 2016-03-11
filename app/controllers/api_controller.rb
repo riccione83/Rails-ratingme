@@ -409,8 +409,10 @@ class ApiController < ApplicationController
 		        		@review = Review.find(params[:review_id])
 	        			if !@review.ratings.exists?(:user_id => params[:user_id])
 	        				usr = User.find(@review.user_id)
-	        				send_message_to_user(usr,"Wow! Someone has written a new Rating at your Review!") if usr != nil
-	       					@rating = @review.ratings.new
+	        				#send_message_to_user(usr,"Wow! Someone has written a new Rating at your Review!") if usr != nil
+	       				new_message_for_user(usr,"New rate for your review","Wow! Someone has wiritten a new Rate at your Review",true)
+	       				
+	       				@rating = @review.ratings.new
        						@rating.description = params[:description]
        						@rating.rate_question1 = params[:rate_question1]
        						@rating.rate_question2 = params[:rate_question2]
