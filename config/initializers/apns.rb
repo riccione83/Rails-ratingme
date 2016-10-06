@@ -16,4 +16,6 @@ if !File.exist?(APNS.pem)
     puts "***********************"
     puts "WARNING - APNS Initialization error..."
     puts "My pem: " + APNS.pem
+else
+    puts '***** APNS Started successfully *****'
 end
