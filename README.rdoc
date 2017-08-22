@@ -22,5 +22,5 @@ This library is distributed under the terms of the MIT/X11.
 
 While not required, I greatly encourage and appreciate any improvements that you make to this library be contributed back for the benefit of all who use RateMe.
 
-https://cloud.githubusercontent.com/assets/7590117/9406794/e387c43e-4803-11e5-9441-7a3367ae3fd5.png
+----------------------
 https://www.riccardorizzo.eu/img/ratingmeweb.png
