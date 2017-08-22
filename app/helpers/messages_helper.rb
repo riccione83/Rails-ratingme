@@ -21,7 +21,7 @@ public
     def send_message_to_user(user, message, unreaded_messages)
         device_token = user.device_token
         if device_token != nil
-            APNS.send_notification(device_token, :alert => message, :badge => unreaded_messages, :sound => 'default')
+           # APNS.send_notification(device_token, :alert => message, :badge => unreaded_messages, :sound => 'default')
             # =>,:other => {:sent => 'new_rating', :custom_param => id})
             puts "Message sent: " + message + " - to: " + user.user_name
         end
@@ -35,7 +35,7 @@ public
         msg.save
         #send notification to user
         if notify == true
-            send_message_to_user(user,message,user.messages.where(:status => 0).count)
+         #   send_message_to_user(user,message,user.messages.where(:status => 0).count)
         end
     end
 end
