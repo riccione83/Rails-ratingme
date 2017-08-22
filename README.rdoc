@@ -1,9 +1,26 @@
-== README
+# RatingMe
 
-This is the backend and frontend for RatingMe Web and iOS App.
+![alt tag](https://cloud.githubusercontent.com/assets/7590117/9406794/e387c43e-4803-11e5-9441-7a3367ae3fd5.png)
+![alt tag](https://www.riccardorizzo.eu/img/ratingmeweb.png)
+
+Introduction
+------------
+RatingMe is a app for Web, iPhone for leave reviews for wathever you want.
 Is written in Ruby on Rails and available (like the iOS App) for free. 
 You are free to partecipate and to add functionalities and new thinks.
-Please tell me if you want to use it for professional use (I don't want money, only my name in the contributors :) )
+You can read it, including sources, but please give me feedback if you want use it for commercial use. I don't want money, only my name in the contributors :)
 
-https://www.riccardorizzo.eu/img/ratingmeweb.png
-https://www.riccardorizzo.eu/img/ratingme.png
+Getting Started
+---------------
+Download the sources and use the command 'bundle install' to install all the dipendence. After start the web server with command 'rails s'. This Application save the images locally when you are in development environment and want an S3 access and secret key to save file in production environments.
+
+Help and Support Group
+----------------------
+Requests for help, questions about usage, suggestions and other relevant topics should be posted at my email address. 
+
+License
+-------
+Copyright (c) Riccardo Rizzo.
+This library is distributed under the terms of the MIT/X11.
+
+While not required, I greatly encourage and appreciate any improvements that you make to this library be contributed back for the benefit of all who use RateMe.
