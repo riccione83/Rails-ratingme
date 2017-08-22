@@ -4,3 +4,5 @@ This is the backend and frontend for RatingMe Web and iOS App.
 Is written in Ruby on Rails and available (like the iOS App) for free. 
 You are free to partecipate and to add functionalities and new thinks.
 Please tell me if you want to use it for professional use (I don't want money, only my name in the contributors :) )
+
+![Alt text](http://www.riccardorizzo.eu/img/ratingmeweb.png "Rating Me WebApp")
