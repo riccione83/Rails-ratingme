@@ -6,4 +6,4 @@ You are free to partecipate and to add functionalities and new thinks.
 Please tell me if you want to use it for professional use (I don't want money, only my name in the contributors :) )
 
 https://www.riccardorizzo.eu/img/ratingmeweb.png
-![ScreenShot](https://www.riccardorizzo.eu/img/ratingme.png)
+https://www.riccardorizzo.eu/img/ratingme.png
