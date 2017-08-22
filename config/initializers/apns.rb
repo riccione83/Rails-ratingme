@@ -11,9 +11,6 @@ APNS.pem  = 'config/production.pem'
 APNS.pass = ''
 # Just in case your pem need a password
 
-
-
-
 if !File.exist?(APNS.pem)
     puts "***********************"
     puts "WARNING - APNS Initialization error..."
